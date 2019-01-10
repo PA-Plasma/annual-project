@@ -11,9 +11,11 @@ services:
       volumes:
         - .:/application
       environment:
-        - POSTGRES_USER=user
-        - POSTGRES_PASSWORD=password
-        - POSTGRES_DB=database
+        - POSTGRES_USER=plasuser
+        - POSTGRES_PASSWORD=plassword
+        - POSTGRES_DB=plasma
+      ports:
+        - "5432:5432"
 
     webserver:
       image: nginx:alpine
