@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
-use App\Entity\Traits\TimestampableTrait;
+use App\Entity\Traits\TimestampableUserTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -16,7 +16,7 @@ class User implements UserInterface
 {
     use ActiveTrait;
     use SoftDeletedTrait;
-    use TimestampableTrait;
+    use TimestampableUserTrait;
 
     /**
      * @ORM\Id()
