@@ -20,7 +20,16 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('back/user/index.html.twig', ['users' => $userRepository->findAll()]);
+        $users = $userRepository->findBy([
+            'deleted' => false
+        ]);
+
+        return $this->render(
+            'back/user/index.html.twig',
+            [
+                "users"     => $users,
+            ]
+        );
     }
 
     /**
@@ -81,7 +90,7 @@ class UserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
+            $user->setDeleted(1);
             $entityManager->flush();
         }
 
