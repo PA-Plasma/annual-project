@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Event
 {
+    CONST REGISTRATION_TYPE_FREE = 1;
+    CONST REGISTRATION_TYPE_PAYING = 2;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -44,14 +47,18 @@ class Event
     private $entrants;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Address", inversedBy="events")
+     * @ORM\Column(type="boolean")
      */
-    private $address;
+    private $invitation;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="event", cascade={"persist", "remove"})
+     */
+    private $Address;
 
     public function __construct()
     {
         $this->entrants = new ArrayCollection();
-        $this->address = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,28 +145,26 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|Address[]
-     */
-    public function getAddress(): Collection
+    public function getInvitation(): ?bool
     {
-        return $this->address;
+        return $this->invitation;
     }
 
-    public function addAddress(Address $address): self
+    public function setInvitation(bool $invitation): self
     {
-        if (!$this->address->contains($address)) {
-            $this->address[] = $address;
-        }
+        $this->invitation = $invitation;
 
         return $this;
     }
 
-    public function removeAddress(Address $address): self
+    public function getAddress(): ?Address
     {
-        if ($this->address->contains($address)) {
-            $this->address->removeElement($address);
-        }
+        return $this->Address;
+    }
+
+    public function setAddress(?Address $Address): self
+    {
+        $this->Address = $Address;
 
         return $this;
     }

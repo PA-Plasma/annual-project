@@ -49,14 +49,10 @@ class Address
     private $complement;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Event", mappedBy="address")
+     * @ORM\OneToOne(targetEntity="App\Entity\Event", mappedBy="Address", cascade={"persist", "remove"})
      */
-    private $events;
+    private $event;
 
-    public function __construct()
-    {
-        $this->events = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -135,29 +131,19 @@ class Address
         return $this;
     }
 
-    /**
-     * @return Collection|Event[]
-     */
-    public function getEvents(): Collection
+    public function getEvent(): ?Event
     {
-        return $this->events;
+        return $this->event;
     }
 
-    public function addEvent(Event $event): self
+    public function setEvent(?Event $event): self
     {
-        if (!$this->events->contains($event)) {
-            $this->events[] = $event;
-            $event->addAddress($this);
-        }
+        $this->event = $event;
 
-        return $this;
-    }
-
-    public function removeEvent(Event $event): self
-    {
-        if ($this->events->contains($event)) {
-            $this->events->removeElement($event);
-            $event->removeAddress($this);
+        // set (or unset) the owning side of the relation if necessary
+        $newAddress = $event === null ? null : $this;
+        if ($newAddress !== $event->getAddress()) {
+            $event->setAddress($newAddress);
         }
 
         return $this;
