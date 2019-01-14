@@ -12,6 +12,10 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
+                <th>Nickname</th>
+                <td>{{ user.nickname }}</td>
+            </tr>
+            <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
             </tr>
@@ -22,6 +26,18 @@
             <tr>
                 <th>Password</th>
                 <td>{{ user.password }}</td>
+            </tr>
+            <tr>
+                <th>Created at</th>
+                <td>{{ user.createdAt | date('d/m/Y H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Updated at</th>
+                <td>{{ user.updatedAt | date('d/m/Y H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ user.active}}</td>
             </tr>
         </tbody>
     </table>
