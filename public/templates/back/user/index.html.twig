@@ -23,8 +23,8 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.password }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('user_show', {'slug': user.slug}) }}">show</a>
+                    <a href="{{ path('user_edit', {'slug': user.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
