@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
@@ -26,6 +27,11 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nickname;
+
+    /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -41,9 +47,28 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"nickname"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getNickname(): ?string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(string $nickname): self
+    {
+        $this->nickname = $nickname;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -117,5 +142,23 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+    /**
+     * @param string $slug
+     *
+     * @return User
+     */
+    public function setSlug(string $slug):? self
+    {
+        $this->slug = $slug;
+        return $this;
     }
 }
