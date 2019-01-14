@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Address index{% endblock %}
+
+{% block body %}
+    <h1>Address index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number</th>
+                <th>Road</th>
+                <th>City</th>
+                <th>City_code</th>
+                <th>Country</th>
+                <th>Complement</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for address in addresses %}
+            <tr>
+                <td>{{ address.id }}</td>
+                <td>{{ address.number }}</td>
+                <td>{{ address.road }}</td>
+                <td>{{ address.city }}</td>
+                <td>{{ address.cityCode }}</td>
+                <td>{{ address.country }}</td>
+                <td>{{ address.complement }}</td>
+                <td>
+                    <a href="{{ path('address_show', {'id': address.id}) }}">show</a>
+                    <a href="{{ path('address_edit', {'id': address.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('address_new') }}">Create new</a>
+{% endblock %}
