@@ -15,7 +15,7 @@ trait ActiveTrait
      *
      * @ORM\Column(type="boolean", options={"default": false})
      */
-    private $active = false;
+    private $active = true;
 
     /**
      * @return bool
