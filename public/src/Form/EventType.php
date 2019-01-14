@@ -46,12 +46,21 @@ class EventType extends AbstractType
             ])
             ->add('address', CollectionType::class, [
                     // each entry in the array will be an "address" field
-                    'entry_type' => TextType::class,
+                    'entry_type' => AddressType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
+                    'entry_options' => array('label' => false),
                 ]
-            );
+            )
+//            ->add('entrants', TextType::class, [
+//                'label' => 'Saisissez les joueurs que vous souhaitez inscrire'
+//            ])
+//            ->add('add_entrant', ButtonType::class, [
+//                'attr' => ['id' => 'add_entrant'],
+//                'label' => 'Inscrire un joueur'
+//            ])
+    ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
