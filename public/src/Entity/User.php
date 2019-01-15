@@ -29,7 +29,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nickname;
+    private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -49,7 +49,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @Gedmo\Slug(fields={"nickname"})
+     * @Gedmo\Slug(fields={"pseudo"})
      * @ORM\Column(type="string", nullable=true)
      */
     private $slug = null;
@@ -59,14 +59,14 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getNickname(): ?string
+    public function getPseudo(): ?string
     {
-        return $this->nickname;
+        return $this->pseudo;
     }
 
-    public function setNickname(string $nickname): self
+    public function setPseudo(string $pseudo): self
     {
-        $this->nickname = $nickname;
+        $this->pseudo = $pseudo;
 
         return $this;
     }
@@ -83,24 +83,18 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUsername(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
 
         return array_unique($roles);
     }
@@ -108,6 +102,17 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): self
+    {
+        $role = strtoupper($role);
+
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
 
         return $this;
     }
@@ -127,35 +132,22 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug(): string
     {
         return $this->slug;
     }
-    /**
-     * @param string $slug
-     *
-     * @return User
-     */
+
     public function setSlug(string $slug):? self
     {
         $this->slug = $slug;
