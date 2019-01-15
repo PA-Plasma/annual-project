@@ -1,11 +1,18 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <div>
-        <label for="entrant_add">Inscrire des joueurs</label>
-        <input type="text" id="entrant_add"><button id="entrant_add_button">Inscrire</button>
-        <input type="hidden" id="entrant_add_store_id">
-        <div id="liste_entrant"></div>
-    </div>
+    {{ form_row(form.name) }}
+    {{ form_row(form.beginnig_date) }}
+    {{ form_row(form.end_date) }}
+    {{ form_row(form.registration_type) }}
+    {{ form_row(form.invitation) }}
+    {{ form_row(form.address) }}
+    <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
+        {% for entrant in form.entrants %}
+            <li>
+                {{ form_row(entrant.name) }}
+                {{ form_row(entrant.state) }}
+            </li>
+        {% endfor %}
+    </ul>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 

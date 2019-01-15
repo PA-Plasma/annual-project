@@ -44,13 +44,13 @@ class EventType extends AbstractType
                 ],
                 'label' => 'Invitation'
             ])
-            ->add('address', CollectionType::class, [
+            ->add('address', AddressType::class)
+            ->add('entrants', CollectionType::class, [
                     // each entry in the array will be an "address" field
-                    'entry_type' => AddressType::class,
+                    'entry_type' => EntrantType::class,
+                    'entry_options' => ['label' => false],
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'prototype' => true,
-                    'entry_options' => array('label' => false),
                 ]
             )
 //            ->add('entrants', TextType::class, [
