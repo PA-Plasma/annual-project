@@ -1,0 +1,21 @@
+<div class="container mb-4">
+    <ul class="nav justify-content-center">
+        <li class="nav-item"><a href="{{ url('front_index') }}" class="nav-link">Acceuil</a></li>
+        {% if app.user %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                   aria-expanded="false">{{ app.user.username }}</a>
+                <div class="dropdown-menu">
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                        <a class="dropdown-item" href="{{ url('back_index') }}">Admin</a>
+                        <div class="dropdown-divider"></div>
+                    {% endif %}
+                    <a class="dropdown-item" href="{{ url('security_logout') }}">Déconnexion</a>
+                </div>
+            </li>
+        {% else %}
+            <li class="nav-item"><a class="nav-link" href="{{ url('security_login') }}">Connexion</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url('security_register') }}">Inscription</a></li>
+        {% endif %}
+    </ul>
+</div>
