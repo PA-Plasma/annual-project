@@ -4,6 +4,7 @@ namespace App\Controller\Ajax;
 
 
 use App\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,5 +40,16 @@ class UserController extends AbstractController
         $response = new JsonResponse();
         $response->setData($outDatas);
         return $response;
+    }
+
+    /***
+     * @param Request $request
+     * @param User $user
+     * @Route("/infos/")
+     * @Method({"POST"})
+     */
+    public function getInfosUser(Request $request)
+    {
+
     }
 }
