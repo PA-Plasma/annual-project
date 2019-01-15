@@ -7,10 +7,10 @@
     {{ form_row(form.address) }}
     <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
         {% for entrant in form.entrants %}
-            <li>
-                {{ form_row(entrant.name) }}
-                {{ form_row(entrant.state) }}
-            </li>
+            {#<li>#}
+                {#{{ form_row(entrant.name) }}#}
+                {#{{ form_row(entrant.state) }}#}
+            {#</li>#}
         {% endfor %}
     </ul>
     <button class="btn">{{ button_label|default('Save') }}</button>

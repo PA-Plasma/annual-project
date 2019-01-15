@@ -60,7 +60,18 @@ function initAutoCompleteOnPseudo(elem) {
         serviceUrl: '/ajax/user/search',
         dataType: 'json',
         onSelect: function (suggestion) {
-            elem.closest('li').find('.id_user_related').val(suggestion.data);
+            //Récupération de la liste des utilisateurs déjà ajouté
+            let user_already_selected = [];
+            $('.entrants').find('.id_user_related').each(function() {
+                user_already_selected.push($(this).val());
+            });
+            //si on ne trouve pas l'id dans le tableau
+            if (user_already_selected.includes(suggestion.data.toString()) === false) {
+                elem.closest('li').find('.id_user_related').val(suggestion.data);
+            } else {
+                //message d'erreur
+                elem.val('');
+            }
         }
     })
 }

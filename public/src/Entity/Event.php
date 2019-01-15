@@ -42,7 +42,7 @@ class Event
     private $registration_type;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="event", cascade={"persist"})
      */
     private $entrants;
 
