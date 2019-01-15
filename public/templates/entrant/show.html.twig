@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entrant{% endblock %}
+
+{% block body %}
+    <h1>Entrant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entrant.id }}</td>
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ entrant.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>{{ entrant.state }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('entrant_index') }}">back to list</a>
+
+    <a href="{{ path('entrant_edit', {'id': entrant.id}) }}">edit</a>
+
+    {{ include('entrant/_delete_form.html.twig') }}
+{% endblock %}

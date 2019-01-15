@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -53,6 +55,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", nullable=true)
      */
     private $slug = null;
+  
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="user_related")
+     */
+    private $entrants;
+
+    public function __construct()
+    {
+        $this->entrants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -143,6 +155,7 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+
     public function getSlug(): string
     {
         return $this->slug;
@@ -151,6 +164,37 @@ class User implements UserInterface
     public function setSlug(string $slug):? self
     {
         $this->slug = $slug;
+        
+        return $this;
+    }
+
+    /**
+     * @return Collection|Entrant[]
+     */
+    public function getEntrants(): Collection
+    {
+        return $this->entrants;
+    }
+
+    public function addEntrant(Entrant $entrant): self
+    {
+        if (!$this->entrants->contains($entrant)) {
+            $this->entrants[] = $entrant;
+            $entrant->setUserRelated($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEntrant(Entrant $entrant): self
+    {
+        if ($this->entrants->contains($entrant)) {
+            $this->entrants->removeElement($entrant);
+            // set the owning side to null (unless already changed)
+            if ($entrant->getUserRelated() === $this) {
+                $entrant->setUserRelated(null);
+            }
+        }
         return $this;
     }
 }
