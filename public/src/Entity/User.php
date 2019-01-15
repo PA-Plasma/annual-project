@@ -5,7 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Traits\ActiveTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\TimestampableUserTrait;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -13,12 +17,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    use ActiveTrait;
+    use SoftDeletedTrait;
+    use TimestampableUserTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -37,6 +50,13 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var string
+     * @Gedmo\Slug(fields={"pseudo"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug = null;
+  
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="user_related")
      */
     private $entrants;
@@ -51,6 +71,18 @@ class User implements UserInterface
         return $this->id;
     }
 
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -63,24 +95,18 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUsername(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
 
         return array_unique($roles);
     }
@@ -88,6 +114,17 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): self
+    {
+        $role = strtoupper($role);
+
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
 
         return $this;
     }
@@ -107,21 +144,28 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug):? self
+    {
+        $this->slug = $slug;
+        
+        return $this;
     }
 
     /**
@@ -151,7 +195,6 @@ class User implements UserInterface
                 $entrant->setUserRelated(null);
             }
         }
-
         return $this;
     }
 }

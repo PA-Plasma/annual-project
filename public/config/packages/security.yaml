@@ -15,7 +15,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
+            pattern:   ^/
+            http_basic: ~
+            provider: app_user_provider
+            anonymous: ~
+            form_login:
+                login_path: security_login
+                check_path: security_login
+            logout:
+                path:  /logout
+                target: /
     role_hierarchy:
         ROLE_VIP:         ROLE_VIP
         ROLE_ADMIN:       ROLE_ADMIN
@@ -33,5 +42,4 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/back, roles: ROLE_ADMIN }
