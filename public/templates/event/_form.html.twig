@@ -2,8 +2,12 @@
     {{ form_widget(form) }}
     <div>
         <label for="entrant_add">Inscrire des joueurs</label>
-        <input type="text" id="entrant_add"><button id="entrant_add_button">Inscrire</button>
+        <input type="text" id="entrant_add" data-id=""><button id="entrant_add_button">Inscrire</button>
         <div id="liste_entrant"></div>
     </div>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+{% block javascripts %}
+    <script src="{{ asset('build/formEvent.js') }}"></script>
+{% endblock %}
