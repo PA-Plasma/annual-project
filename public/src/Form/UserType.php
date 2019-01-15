@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -47,10 +49,10 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'nickname',
+            'pseudo',
             TextType::class,
             [
-                'label' => 'Choose a cute nickname: '
+                'label' => 'Choose a cute pseudo: '
             ]
         )
         ->add(
@@ -69,9 +71,24 @@ class UserType extends AbstractType
             ]
         )->add(
             'password',
-            PasswordType::class,
+            RepeatedType::class,
             [
-                'label' => 'Choise a strong password',
+                'type' => PasswordType::class,
+                'first_options' => [
+                    'label' => 'Password'
+                ],
+                'second_options' => [
+                    'label' => 'Confirm password'
+                ],
+            ]
+        )->add(
+            'submit',
+            SubmitType::class,
+            [
+                'label' => 'Send',
+                'attr'  => [
+                    'class' => 'btn-primary btn-block',
+                ],
             ]
         );
     }
