@@ -25,6 +25,9 @@ security:
             logout:
                 path:  /logout
                 target: /
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
     role_hierarchy:
         ROLE_VIP:         ROLE_VIP
         ROLE_ADMIN:       ROLE_ADMIN
