@@ -29,8 +29,8 @@
                 <td>{{ address.country }}</td>
                 <td>{{ address.complement }}</td>
                 <td>
-                    <a href="{{ path('address_show', {'id': address.id}) }}">show</a>
-                    <a href="{{ path('address_edit', {'id': address.id}) }}">edit</a>
+                    <a href="{{ path('back_address_show', {'id': address.id}) }}">show</a>
+                    <a href="{{ path('back_address_edit', {'id': address.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('address_new') }}">Create new</a>
+    <a href="{{ path('back_address_new') }}">Create new</a>
 {% endblock %}
