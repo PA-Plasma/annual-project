@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @category  Class
  * @package   App\Controller\Back
- * @Route("/back/address" name="back_address_")
+ * @Route("/back/address", name="back_address_")
  */
 class AddressController extends AbstractController
 {
