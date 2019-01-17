@@ -1,0 +1,76 @@
+<?php
+
+namespace App\Controller\Front;
+
+use App\Entity\Event;
+use App\Form\EventType;
+use App\Repository\EventRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * Class EventController
+ * @package App\Controller\Front
+ * @Route("/event", name="front_event_")
+ */
+class EventController extends AbstractController
+{
+    /**
+     * @Route("/", name="index", methods={"GET"})
+     */
+    public function index(EventRepository $eventRepository): Response
+    {
+        return $this->render('front/event/index.html.twig', ['events' => $eventRepository->findAll()]);
+    }
+
+    /**
+     * @Route("/new", name="new", methods={"GET","POST"})
+     */
+    public function newStep1(Request $request): Response
+    {
+        $event = new Event();
+        $form = $this->createForm(EventType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('front_event_inscription_entrants', ['id' => $event->getId()]);
+        }
+
+        return $this->render('front/event/new.html.twig', [
+            'event' => $event,
+            'form' => $form->createView(),
+            'step' => 1
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Event $event
+     * @Route("/new/inscription/{id}", name="inscription_entrants")
+     */
+    public function newStep2(Request $request, Event $event)
+    {
+        dump($event);
+        $form = $this->createForm(EventType::class, $event, ['entrants' => true]);
+        $form->handleRequest($request);
+        dump($form);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('front_event_inscription_entrants', ['id' => $event->getId()]);
+        }
+        return $this->render('front/event/new.html.twig', [
+            'event' => $event,
+            'form' => $form->createView(),
+            'step' => 2
+        ]);
+    }
+}
