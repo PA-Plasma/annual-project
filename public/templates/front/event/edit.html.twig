@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Event</h1>
 
-    {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('front/event/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('event_index') }}">back to list</a>
 
-    {{ include('event/_delete_form.html.twig') }}
+    {{ include('front/event/_delete_form.html.twig') }}
 {% endblock %}
