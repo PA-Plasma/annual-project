@@ -42,7 +42,7 @@ class Event
     private $registration_type;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="event", cascade={"persist"})
      */
     private $entrants;
 
@@ -125,7 +125,7 @@ class Event
     public function addEntrant(Entrant $entrant): self
     {
         if (!$this->entrants->contains($entrant)) {
-            $this->entrants[] = $entrant;
+            $this->entrants->add($entrant);
             $entrant->setEvent($this);
         }
 

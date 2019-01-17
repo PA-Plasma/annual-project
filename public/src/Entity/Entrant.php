@@ -33,11 +33,6 @@ class Entrant
      */
     private $pseudo;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $state;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -55,12 +50,12 @@ class Entrant
         return $this;
     }
 
-    public function getEvent(): ?Event
+    public function getEvent(): Event
     {
         return $this->event;
     }
 
-    public function setEvent(?Event $event): self
+    public function setEvent(Event $event): self
     {
         $this->event = $event;
 
@@ -75,18 +70,6 @@ class Entrant
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    public function getState(): ?string
-    {
-        return $this->state;
-    }
-
-    public function setState(string $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }

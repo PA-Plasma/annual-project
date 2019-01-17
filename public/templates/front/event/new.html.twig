@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Create new Event</h1>
 
-    {{ include('event/_form.html.twig') }}
+    {{ include('front/event/_form.html.twig') }}
 
-    <a href="{{ path('event_index') }}">back to list</a>
+    <a href="{{ path('front_event_index') }}">back to list</a>
 {% endblock %}
