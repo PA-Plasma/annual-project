@@ -1,5 +1,3 @@
-require('./jQuery-Autocomplete/dist/jquery.autocomplete.min');
-
 function addTagForm($collectionHolder, $newLinkLi) {
     // Get the data-prototype explained earlier
     var prototype = $collectionHolder.data('prototype');
@@ -23,10 +21,6 @@ function addTagForm($collectionHolder, $newLinkLi) {
     // Display the form in the page in an li, before the "Add a tag" link li
     var $newFormLi = $('<li></li>').append(newForm);
     $newLinkLi.before($newFormLi);
-    let liste = $('.entrants').find('li');
-    let lastElem = liste[liste.length -2];
-    let pseudo = $(lastElem).find('.pseudo_input');
-    initAutoCompleteOnPseudo(pseudo);
 }
 
 function entrantType() {
@@ -54,27 +48,27 @@ function entrantType() {
     });
 }
 
-function initAutoCompleteOnPseudo(elem) {
-    //https://www.devbridge.com/sourcery/components/jquery-autocomplete/#
-    elem.autocomplete({
-        serviceUrl: '/ajax/user/search',
-        dataType: 'json',
-        onSelect: function (suggestion) {
-            //Récupération de la liste des utilisateurs déjà ajouté
-            let user_already_selected = [];
-            $('.entrants').find('.id_user_related').each(function() {
-                user_already_selected.push($(this).val());
-            });
-            //si on ne trouve pas l'id dans le tableau
-            if (user_already_selected.includes(suggestion.data.toString()) === false) {
-                elem.closest('li').find('.id_user_related').val(suggestion.data);
-            } else {
-                //message d'erreur
-                elem.val('');
-            }
-        }
-    })
-}
+// function initAutoCompleteOnPseudo(elem) {
+//     //https://www.devbridge.com/sourcery/components/jquery-autocomplete/#
+//     elem.autocomplete({
+//         serviceUrl: '/ajax/user/search',
+//         dataType: 'json',
+//         onSelect: function (suggestion) {
+//             //Récupération de la liste des utilisateurs déjà ajouté
+//             let user_already_selected = [];
+//             $('.entrants').find('.id_user_related').each(function() {
+//                 user_already_selected.push($(this).val());
+//             });
+//             //si on ne trouve pas l'id dans le tableau
+//             if (user_already_selected.includes(suggestion.data.toString()) === false) {
+//                 elem.closest('li').find('.id_user_related').val(suggestion.data);
+//             } else {
+//                 //message d'erreur
+//                 elem.val('');
+//             }
+//         }
+//     })
+// }
 
 function watch() {
     function addUserWatcher() {
@@ -96,13 +90,13 @@ function watch() {
     addUserWatcher();
 
 
-    $('#entrant_add').autocomplete({
-        serviceUrl: '/ajax/user/search',
-        dataType: 'json',
-        onSelect: function (suggestion) {
-            $('#entrant_add_store_id').val(suggestion.data);
-        }
-    });
+    // $('#entrant_add').autocomplete({
+    //     serviceUrl: '/ajax/user/search',
+    //     dataType: 'json',
+    //     onSelect: function (suggestion) {
+    //         $('#entrant_add_store_id').val(suggestion.data);
+    //     }
+    // });
 }
 
 $(document).ready(function () {

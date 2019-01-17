@@ -24,6 +24,7 @@
                 <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ event.registrationType }}</td>
+                {% dump(event.entrants) %}
                 <td>
                     <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
                     <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
@@ -37,5 +38,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('event_new') }}">Create new</a>
+    <a href="{{ path('front_event_new') }}">Create new</a>
 {% endblock %}

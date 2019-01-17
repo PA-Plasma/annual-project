@@ -4,6 +4,7 @@ namespace App\Controller\Ajax;
 
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,11 +21,10 @@ class UserController extends AbstractController
     /**
      * @Route("/search/", name="search", methods={"GET"})
      */
-    public function searchUser(Request $request)
+    public function searchUser(Request $request, UserRepository $userRepository)
     {
         $slug = $request->get('query');
-        $em = $this->getDoctrine()->getRepository(User::class);
-        $datas = $em->findLikeSlug($slug);
+        $datas = $userRepository->findLikeSlug($slug);
         $outDatas = [
             "query" => "Unit",
             "suggestions" => [],
