@@ -33,7 +33,7 @@ class SecurityController extends AbstractController
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['back' => false]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class SecurityController extends AbstractController
 
         return $this->render(
             'front/security/register.html.twig',
-            ['form' => $form->createView()]
+            ['securityForm' => $form->createView()]
         );
     }
 
@@ -67,20 +67,9 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-        //
-        $form = $this->get('form.factory')->createNamedBuilder(null)->add('_username', null, ['label' => 'Email'])->add(
-            '_password',
-            \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
-            ['label' => 'Mot de passe']
-        )->add(
-            'ok',
-            \Symfony\Component\Form\Extension\Core\Type\SubmitType::class,
-            ['label' => 'Ok', 'attr' => ['class' => 'btn-primary btn-block']]
-        )->getForm();
+        $form = $this->get('form.factory')->createNamedBuilder(null)->getForm();
 
         return $this->render(
             'front/security/login.html.twig',

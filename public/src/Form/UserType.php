@@ -52,33 +52,62 @@ class UserType extends AbstractType
             'pseudo',
             TextType::class,
             [
-                'label' => 'Choose a cute pseudo: '
+                'label' => false,
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Pseudo'
+                ],
             ]
         )
         ->add(
             'email',
             EmailType::class,
             [
-                'label' => 'User email: ',
+                'label' => false,
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Email'
+                ],
             ]
-        )->add(
-            'roles',
-            ChoiceType::class,
-            [
-                'label'    => 'User roles: ',
-                'multiple' => true,
-                'choices'  => $this->rolesRanking,
-            ]
-        )->add(
+        );
+
+        if ($options['back'] === true) {
+            $builder->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'label'    => false,
+                    'multiple' => true,
+                    'choices'  => $this->rolesRanking,
+                    'required' => false,
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                ]);
+        }
+
+        $builder->add(
             'password',
             RepeatedType::class,
             [
                 'type' => PasswordType::class,
                 'first_options' => [
-                    'label' => 'Password'
+                    'label' => false,
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Password'
+                    ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirm password'
+                    'label' => false,
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Confirm password'
+                    ],
                 ],
             ]
         )->add(
@@ -87,7 +116,7 @@ class UserType extends AbstractType
             [
                 'label' => 'Send',
                 'attr'  => [
-                    'class' => 'btn-primary btn-block',
+                    'class' => 'btn btn-lg btn-primary',
                 ],
             ]
         );
@@ -104,6 +133,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'back' => false,
         ]);
     }
 }
