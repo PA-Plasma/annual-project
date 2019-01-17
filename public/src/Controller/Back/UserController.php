@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("back/user")
+ * @Route("back/user", name="back_user_")
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -33,7 +33,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -46,7 +46,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('back_user_index');
         }
 
         return $this->render('back/user/new.html.twig', [
@@ -56,7 +56,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="user_show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(User $user): Response
     {
@@ -64,7 +64,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user): Response
     {
@@ -74,7 +74,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index', ['id' => $user->getId()]);
+            return $this->redirectToRoute('back_user_index', ['id' => $user->getId()]);
         }
 
         return $this->render('back/user/edit.html.twig', [
@@ -84,7 +84,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="user_delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, User $user): Response
     {
@@ -94,6 +94,6 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('back_user_index');
     }
 }

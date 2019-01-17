@@ -11,20 +11,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/back/address")
+ * Class AddressController
+ *
+ * @category  Class
+ * @package   App\Controller\Back
+ * @Route("/back/address", name="back_address_")
  */
 class AddressController extends AbstractController
 {
     /**
-     * @Route("/", name="address_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(AddressRepository $addressRepository): Response
     {
-        return $this->render('address/index.html.twig', ['addresses' => $addressRepository->findAll()]);
+        return $this->render('back/address/index.html.twig', ['addresses' => $addressRepository->findAll()]);
     }
 
     /**
-     * @Route("/new", name="address_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -37,25 +41,25 @@ class AddressController extends AbstractController
             $entityManager->persist($address);
             $entityManager->flush();
 
-            return $this->redirectToRoute('address_index');
+            return $this->redirectToRoute('back_address_index');
         }
 
-        return $this->render('address/new.html.twig', [
+        return $this->render('back/address/new.html.twig', [
             'address' => $address,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="address_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Address $address): Response
     {
-        return $this->render('address/show.html.twig', ['address' => $address]);
+        return $this->render('back/address/show.html.twig', ['address' => $address]);
     }
 
     /**
-     * @Route("/{id}/edit", name="address_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Address $address): Response
     {
@@ -65,17 +69,17 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('address_index', ['id' => $address->getId()]);
+            return $this->redirectToRoute('back_address_index', ['id' => $address->getId()]);
         }
 
-        return $this->render('address/edit.html.twig', [
+        return $this->render('back/address/edit.html.twig', [
             'address' => $address,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="address_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Address $address): Response
     {
@@ -85,6 +89,6 @@ class AddressController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('address_index');
+        return $this->redirectToRoute('back_address_index');
     }
 }

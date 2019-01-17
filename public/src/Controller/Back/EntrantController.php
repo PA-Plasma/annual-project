@@ -11,20 +11,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/back/entrant")
+ * Class EntrantController
+ *
+ * @category  Class
+ * @package   App\Controller\Back
+ * @Route("/back/entrant", name="back_entrant_")
  */
 class EntrantController extends AbstractController
 {
     /**
-     * @Route("/", name="entrant_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(EntrantRepository $entrantRepository): Response
     {
-        return $this->render('entrant/index.html.twig', ['entrants' => $entrantRepository->findAll()]);
+        return $this->render('back/entrant/index.html.twig', ['entrants' => $entrantRepository->findAll()]);
     }
 
     /**
-     * @Route("/new", name="entrant_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -37,25 +41,25 @@ class EntrantController extends AbstractController
             $entityManager->persist($entrant);
             $entityManager->flush();
 
-            return $this->redirectToRoute('entrant_index');
+            return $this->redirectToRoute('back_entrant_index');
         }
 
-        return $this->render('entrant/new.html.twig', [
+        return $this->render('back/entrant/new.html.twig', [
             'entrant' => $entrant,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="entrant_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Entrant $entrant): Response
     {
-        return $this->render('entrant/show.html.twig', ['entrant' => $entrant]);
+        return $this->render('back/entrant/show.html.twig', ['entrant' => $entrant]);
     }
 
     /**
-     * @Route("/{id}/edit", name="entrant_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Entrant $entrant): Response
     {
@@ -65,17 +69,17 @@ class EntrantController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('entrant_index', ['id' => $entrant->getId()]);
+            return $this->redirectToRoute('back_entrant_index', ['id' => $entrant->getId()]);
         }
 
-        return $this->render('entrant/edit.html.twig', [
+        return $this->render('back/entrant/edit.html.twig', [
             'entrant' => $entrant,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="entrant_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Entrant $entrant): Response
     {
@@ -85,6 +89,6 @@ class EntrantController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('entrant_index');
+        return $this->redirectToRoute('back_entrant_index');
     }
 }
