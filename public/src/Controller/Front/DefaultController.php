@@ -22,4 +22,16 @@ class DefaultController extends AbstractController
             'controller_name' => 'DefaultController',
         ]);
     }
+
+    /**
+     * Get header action
+     *
+     * @param $route
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getHeaderAction($route)
+    {
+        return $this->render('front/default/header.html.twig', ['route' => $route]);
+    }
 }
