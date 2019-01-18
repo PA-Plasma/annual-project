@@ -7,5 +7,5 @@
 
     {{ include('back/address/_form.html.twig') }}
 
-    <a href="{{ path('back_address_index') }}">back to list</a>
+    {% include 'page/return.html.twig' with {'backPageName': 'back_address_index'} %}
 {% endblock %}

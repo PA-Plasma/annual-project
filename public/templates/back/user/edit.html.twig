@@ -7,7 +7,7 @@
 
     {{ include('back/user/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    {% include 'page/return.html.twig' with {'backPageName': 'back_user_index'} %}
 
     {{ include('back/user/_delete_form.html.twig') }}
 {% endblock %}
