@@ -3,9 +3,11 @@
 {% block title %}New Entrant{% endblock %}
 
 {% block body %}
-    <h1>Create new Entrant</h1>
-
-    {{ include('back/entrant/_form.html.twig') }}
-
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <h1 class="m-3 text-center">Create new Entrant</h1>
+            {{ include('back/entrant/_form.html.twig') }}
+        </div>
+    </div>
     {% include 'page/return.html.twig' with {'backPageName': 'back_entrant_index'} %}
 {% endblock %}
