@@ -26,8 +26,8 @@
                 <td>{{ event.registrationType }}</td>
                 {% dump(event.entrants) %}
                 <td>
-                    {#<a href="{{ path('event_show', {'id': event.id}) }}">show</a>#}
-                    {#<a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>#}
+                    {#<a href="{{ path('front_event_show', {'id': event.id}) }}"><i class="fas fa-eye text-dark"></i></a>#}
+                    {#<a href="{{ path('front_event_edit', {'id': event.id}) }}">yarn encore dev</a>#}
                 </td>
             </tr>
         {% else %}

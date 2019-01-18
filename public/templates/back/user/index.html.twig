@@ -25,8 +25,8 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.active }}</td>
                 <td>
-                    <a href="{{ path('back_user_show', {'slug': user.slug}) }}">show</a>
-                    <a href="{{ path('back_user_edit', {'slug': user.slug}) }}">edit</a>
+                    <a href="{{ path('back_user_show', {'slug': user.slug}) }}"><i class="fas fa-eye text-dark"></i></a>
+                    <a href="{{ path('back_user_edit', {'slug': user.slug}) }}"><i class="fas fa-pen text-dark"></i></a>
                 </td>
             </tr>
         {% else %}
