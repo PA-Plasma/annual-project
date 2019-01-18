@@ -10,7 +10,7 @@
     <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
     </ul>
 {% endif %}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 
 {% block javascripts %}

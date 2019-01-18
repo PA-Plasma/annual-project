@@ -590,6 +590,11 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@fortawesome/fontawesome-free@^5.6.3":
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.6.3.tgz#61c122c420d7a91613f393d6a06e5a4c6ae6abf3"
+  integrity sha512-s5PLdI9NYgjBvfrv6rhirPHlAHWx+Sfo/IjsAeiXYfmemC/GSjwsyz1wLnGPazbLPXWfk62ks980o9AmsxYUEQ==
+
 "@symfony/webpack-encore@^0.22.0":
   version "0.22.2"
   resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-0.22.2.tgz#036cffc86e2f4da2a194b5eabc2409c4ffe0d31b"

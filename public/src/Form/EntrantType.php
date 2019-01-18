@@ -17,13 +17,22 @@ class EntrantType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, [
-                'attr' => ['class' => 'pseudo_input'],
-                'label' => 'Pseudo'
+                'label' => 'Pseudo:',
+                'required' => true,
+                'attr' => [
+                    'class' => 'pseudo_input form-control mt-1 mb-1',
+                    'placeholder' => 'Email'
+                ],
             ])
             ->add('user_related', EntityType::class, [
                 'choice_label' => 'email',
                 'class' => User::class,
-                'attr' => ['class' => 'id_user_related']
+                 'label' => 'Email:',
+                'required' => true,
+                'attr' => [
+                    'class' => 'id_user_related form-control mt-1 mb-1',
+                    'placeholder' => 'Email'
+                ],
             ])
         ;
     }

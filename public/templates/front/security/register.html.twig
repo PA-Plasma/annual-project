@@ -1,5 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Register!{% endblock %}
+
 {% block body %}
-    {{form(form)}}
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <h1 class="m-3 text-center">Please register</h1>
+            {{form(securityForm)}}
+        </div>
+    </div>
 {% endblock %}

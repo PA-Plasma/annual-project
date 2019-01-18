@@ -6,7 +6,7 @@ use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,34 +18,54 @@ class EventType extends AbstractType
         if (!$options['entrants']) {
             $builder
                 ->add('name', TextType::class, [
+                    'label' => 'Event name:',
                     'required' => true,
-                    'label' => 'Nom de l\'événement'
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => 'Capcom Cup...'
+                    ],
                 ])
-                ->add('beginnig_date', DateType::class, [
+                ->add('beginnig_date', DateTimeType::class, [
                     'widget' => 'single_text',
+                    'label' => 'Start date:',
                     'required' => true,
-                    'label' => 'Date de début'
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ],
                 ])
-                ->add('end_date', DateType::class, [
+                ->add('end_date', DateTimeType::class, [
                     'widget' => 'single_text',
+                    'label' => 'End date:',
                     'required' => true,
-                    'label' => 'Date de fin'
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ],
                 ])
                 ->add('registration_type', ChoiceType::class, [
                     'choices' => [
                         'Gratuit' => Event::REGISTRATION_TYPE_FREE,
                         'Payant' => Event::REGISTRATION_TYPE_PAYING,
                     ],
-                    'label' => 'Type d\'inscription'
+                    'required' => true,
+                    'label' => 'Registration type:',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ],
                 ])
                 ->add('invitation', ChoiceType::class, [
                     'choices' => [
                         'Oui' => true,
                         'Non' => false
                     ],
-                    'label' => 'Invitation'
+                    'required' => true,
+                    'label' => 'Invitation',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ],
                 ])
-                ->add('address', AddressType::class)
+                ->add('address', AddressType::class, [
+                    'label' => 'Address:',
+                ])
             ;
         } else {
             $builder->add('entrants', CollectionType::class, [

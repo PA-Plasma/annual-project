@@ -3,13 +3,13 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1 class="m-3">User index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Nickname</th>
+                <th>Pseudo</th>
                 <th>Email</th>
                 <th>Roles</th>
                 <th>Active</th>
@@ -20,13 +20,12 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
-                <td>{{ user.nickname }}</td>
+                <td>{{ user.pseudo }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.active }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'slug': user.slug}) }}">show</a>
-                    <a href="{{ path('user_edit', {'slug': user.slug}) }}">edit</a>
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': user})) }}
                 </td>
             </tr>
         {% else %}
@@ -37,5 +36,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_new') }}">Create new</a>
+    <a href="{{ path('back_user_new') }}"><button class="btn btn-md btn-primary mt-1">Create new</button></a>
 {% endblock %}

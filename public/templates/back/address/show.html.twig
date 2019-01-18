@@ -3,7 +3,8 @@
 {% block title %}Address{% endblock %}
 
 {% block body %}
-    <h1>Address</h1>
+    <h1 class="m-3">Address</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': address})) }}
 
     <table class="table">
         <tbody>
@@ -38,9 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('back_address_index') }}">back to list</a>
-
-    <a href="{{ path('back_address_edit', {'id': address.id}) }}">edit</a>
-
-    {{ include('back/address/_delete_form.html.twig') }}
+    {% include 'page/return.html.twig' with {'backPageName': 'back_address_index'} %}
 {% endblock %}

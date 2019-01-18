@@ -3,7 +3,7 @@
 {% block title %}Entrant index{% endblock %}
 
 {% block body %}
-    <h1>Entrant index</h1>
+    <h1 class="m-3">Entrant index</h1>
 
     <table class="table">
         <thead>
@@ -21,8 +21,7 @@
                 <td>{{ entrant.pseudo }}</td>
                 <td>{{ entrant.state }}</td>
                 <td>
-                    <a href="{{ path('back_entrant_show', {'id': entrant.id}) }}">show</a>
-                    <a href="{{ path('back_entrant_edit', {'id': entrant.id}) }}">edit</a>
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': entrant})) }}
                 </td>
             </tr>
         {% else %}
@@ -33,5 +32,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('back_entrant_new') }}">Create new</a>
+    <a href="{{ path('back_entrant_new') }}"><button class="btn btn-md btn-primary mt-1">Create new</button></a>
 {% endblock %}

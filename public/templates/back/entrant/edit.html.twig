@@ -3,11 +3,10 @@
 {% block title %}Edit Entrant{% endblock %}
 
 {% block body %}
-    <h1>Edit Entrant</h1>
+    <h1 class="m-3">Edit Entrant</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': entrant})) }}
 
     {{ include('back/entrant/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('back_entrant_index') }}">back to list</a>
-
-    {{ include('back/entrant/_delete_form.html.twig') }}
+    {% include 'page/return.html.twig' with {'backPageName': 'back_entrant_index'} %}
 {% endblock %}

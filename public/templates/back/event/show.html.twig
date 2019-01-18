@@ -3,7 +3,8 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
-    <h1>Event</h1>
+    <h1 class="m-3">Event</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
 
     <table class="table">
         <tbody>
@@ -30,9 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('back_event_index') }}">back to list</a>
-
-    <a href="{{ path('back_event_edit', {'id': event.id}) }}">edit</a>
-
-    {{ include('back/event/_delete_form.html.twig') }}
+    {% include 'page/return.html.twig' with {'backPageName': 'back_event_index'} %}
 {% endblock %}

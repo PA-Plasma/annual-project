@@ -3,7 +3,7 @@
 {% block title %}Event index{% endblock %}
 
 {% block body %}
-    <h1>Event index</h1>
+    <h1 class="m-3">Event index</h1>
 
     <table class="table">
         <thead>
@@ -26,8 +26,7 @@
                 <td>{{ event.registrationType }}</td>
                 {% dump(event.entrants) %}
                 <td>
-                    {#<a href="{{ path('event_show', {'id': event.id}) }}">show</a>#}
-                    {#<a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>#}
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
                 </td>
             </tr>
         {% else %}
@@ -38,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('front_event_new') }}">Create new</a>
+    <a href="{{ path('front_event_new') }}"><button class="btn btn-md btn-primary mt-1">Create new</button></a>
 {% endblock %}

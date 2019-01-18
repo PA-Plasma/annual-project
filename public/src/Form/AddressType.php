@@ -15,25 +15,52 @@ class AddressType extends AbstractType
     {
         $builder
             ->add('number', TextType::class, [
-                'label' => 'Numéro'
+                'label' => 'Number:',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mb-2',
+                    'placeholder' => '99'
+                ],
             ])
             ->add('road', TextType::class, [
-                'label' => 'Rue'
+                'label' => 'Street:',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mb-2',
+                    'placeholder' => 'Rue de Rivoli'
+                ],
             ])
             ->add('city', TextType::class, [
+                'label' => 'City:',
                 'required' => true,
-                'label' => 'Ville'
+                'attr' => [
+                    'class' => 'form-control mb-2',
+                    'placeholder' => 'Paris'
+                ],
             ])
             ->add('city_code', TextType::class,[
+                'label' => 'Zipcode:',
                 'required' => true,
-                'label' => 'Code postal'
+                'attr' => [
+                    'class' => 'form-control mb-2',
+                    'placeholder' => '75004'
+                ],
             ])
             ->add('country', TextType::class,[
+                'label' => 'Country:',
                 'required' => true,
-                'label' => 'Pays'
+                'attr' => [
+                    'class' => 'form-control mb-2',
+                    'placeholder' => 'France'
+                ],
             ])
             ->add('complement', TextareaType::class, [
-                'label' => 'Complément d\'adresse'
+                'label' => 'Address supplement:',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mb-4',
+                    'placeholder' => 'Some stuff...'
+                ],
             ]);
     }
 
