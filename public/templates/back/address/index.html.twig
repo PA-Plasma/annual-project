@@ -3,7 +3,7 @@
 {% block title %}Address index{% endblock %}
 
 {% block body %}
-    <h1>Address index</h1>
+    <h1 class="m-3">Address index</h1>
 
     <table class="table">
         <thead>
@@ -29,8 +29,7 @@
                 <td>{{ address.country }}</td>
                 <td>{{ address.complement }}</td>
                 <td>
-                    <a href="{{ path('back_address_show', {'id': address.id}) }}"><i class="fas fa-eye text-dark"></i></a>
-                    <a href="{{ path('back_address_edit', {'id': address.id}) }}"><i class="fas fa-pen text-dark"></i></a>
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': address})) }}
                 </td>
             </tr>
         {% else %}

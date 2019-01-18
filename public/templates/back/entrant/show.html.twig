@@ -3,7 +3,9 @@
 {% block title %}Entrant{% endblock %}
 
 {% block body %}
-    <h1>Entrant</h1>
+    <h1 class="m-3">Entrant</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': entrant})) }}
+
 
     <table class="table">
         <tbody>
@@ -23,8 +25,4 @@
     </table>
 
     {% include 'page/return.html.twig' with {'backPageName': 'back_entrant_index'} %}
-
-    <a href="{{ path('back_entrant_edit', {'id': entrant.id}) }}">edit</a>
-
-    {{ include('back/entrant/_delete_form.html.twig') }}
 {% endblock %}

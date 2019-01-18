@@ -3,7 +3,7 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h1 class="m-3">User index</h1>
 
     <table class="table">
         <thead>
@@ -25,8 +25,7 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.active }}</td>
                 <td>
-                    <a href="{{ path('back_user_show', {'slug': user.slug}) }}"><i class="fas fa-eye text-dark"></i></a>
-                    <a href="{{ path('back_user_edit', {'slug': user.slug}) }}"><i class="fas fa-pen text-dark"></i></a>
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': user})) }}
                 </td>
             </tr>
         {% else %}
