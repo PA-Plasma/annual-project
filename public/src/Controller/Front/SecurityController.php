@@ -33,7 +33,7 @@ class SecurityController extends AbstractController
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user, ['back' => false]);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
