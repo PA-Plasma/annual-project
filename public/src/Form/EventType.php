@@ -63,7 +63,9 @@ class EventType extends AbstractType
                         'class' => 'form-control mb-2',
                     ],
                 ])
-                ->add('address', AddressType::class)
+                ->add('address', AddressType::class, [
+                    'label' => 'Address:',
+                ])
             ;
         } else {
             $builder->add('entrants', CollectionType::class, [
