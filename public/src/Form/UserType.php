@@ -97,7 +97,7 @@ class UserType extends AbstractType
                     'label' => false,
                     'required' => true,
                     'attr' => [
-                        'class' => 'form-control mb-2',
+                        'class' => 'form-control mb-1',
                         'placeholder' => 'Password'
                     ],
                 ],

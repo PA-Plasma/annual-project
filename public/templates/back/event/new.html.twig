@@ -3,12 +3,10 @@
 {% block title %}New Event{% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Create new Event</h1>
-                {{ include('back/event/_form.html.twig') }}
-            </div>
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <h1 class="m-3">Create new Event</h1>
+            {{ include('back/event/_form.html.twig') }}
         </div>
     </div>
     {% include 'page/return.html.twig' with {'backPageName': 'back_event_index'} %}
