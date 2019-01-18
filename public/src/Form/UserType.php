@@ -83,7 +83,7 @@ class UserType extends AbstractType
                     'choices'  => $this->rolesRanking,
                     'required' => false,
                     'attr' => [
-                        'class' => 'form-control mt-1 mb-1',
+                        'class' => 'form-control mb-2',
                     ],
                 ]);
         }
@@ -97,7 +97,7 @@ class UserType extends AbstractType
                     'label' => false,
                     'required' => true,
                     'attr' => [
-                        'class' => 'form-control mt-1 mb-1',
+                        'class' => 'form-control mb-2',
                         'placeholder' => 'Password'
                     ],
                 ],
@@ -105,7 +105,7 @@ class UserType extends AbstractType
                     'label' => false,
                     'required' => true,
                     'attr' => [
-                        'class' => 'form-control mt-1 mb-1',
+                        'class' => 'form-control mb-2',
                         'placeholder' => 'Confirm password'
                     ],
                 ],

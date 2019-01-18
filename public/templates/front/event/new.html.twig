@@ -3,9 +3,12 @@
 {% block title %}New Event{% endblock %}
 
 {% block body %}
-    <h1>Create new Event</h1>
-
-    {{ include('front/event/_form.html.twig') }}
-
-    <a href="{{ path('front_event_index') }}">back to list</a>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="m-3">Create new Event</h1>
+                {{ include('front/event/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
