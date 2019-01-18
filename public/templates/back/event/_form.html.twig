@@ -1,13 +1,13 @@
 {{ form_start(form) }}
     {{ form_row(form.name) }}
-        {{ form_row(form.beginnig_date) }}
-        {{ form_row(form.end_date) }}
-        {{ form_row(form.registration_type) }}
-        {{ form_row(form.invitation) }}
-        {{ form_row(form.address) }}
-<ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
-</ul>
-<button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.beginnig_date) }}
+    {{ form_row(form.end_date) }}
+    {{ form_row(form.registration_type) }}
+    {{ form_row(form.invitation) }}
+    {{ form_row(form.address) }}
+    <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
+    </ul>
+    <button class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
 
 {% block javascripts %}
