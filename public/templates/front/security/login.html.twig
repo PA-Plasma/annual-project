@@ -3,31 +3,34 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-               placeholder="Email" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <h1 class="m-3">Please sign in</h1>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mt-1 mb-1" placeholder="Email" required autofocus>
+                    <input type="password" name="password" id="inputPassword" class="form-control mt-1 mb-1" placeholder="Password" required>
 
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+                    <div class="checkbox mb-2">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+
+
+                    <button class="btn btn-md btn-primary" type="submit">
+                        Sign in
+                    </button>
+                </form>
+            </div>
         </div>
-
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+    </div>
 {% endblock %}

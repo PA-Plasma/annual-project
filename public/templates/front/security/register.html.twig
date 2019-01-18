@@ -3,6 +3,12 @@
 {% block title %}Register!{% endblock %}
 
 {% block body %}
-    <h1 class="h3 mb-3 font-weight-normal">Please register</h1>
-    {{form(securityForm)}}
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="m-3">Please register</h1>
+                {{form(securityForm)}}
+            </div>
+        </div>
+    </div>
 {% endblock %}

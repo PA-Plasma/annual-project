@@ -55,7 +55,7 @@ class UserType extends AbstractType
                 'label' => false,
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control mt-1 mb-1',
                     'placeholder' => 'Pseudo'
                 ],
             ]
@@ -67,7 +67,7 @@ class UserType extends AbstractType
                 'label' => false,
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control mt-1 mb-1',
                     'placeholder' => 'Email'
                 ],
             ]
@@ -83,7 +83,7 @@ class UserType extends AbstractType
                     'choices'  => $this->rolesRanking,
                     'required' => false,
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control mt-1 mb-1',
                     ],
                 ]);
         }
@@ -97,7 +97,7 @@ class UserType extends AbstractType
                     'label' => false,
                     'required' => true,
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control mt-1 mb-1',
                         'placeholder' => 'Password'
                     ],
                 ],
@@ -105,7 +105,7 @@ class UserType extends AbstractType
                     'label' => false,
                     'required' => true,
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'form-control mt-1 mb-1',
                         'placeholder' => 'Confirm password'
                     ],
                 ],
@@ -114,9 +114,9 @@ class UserType extends AbstractType
             'submit',
             SubmitType::class,
             [
-                'label' => 'Send',
+                'label' => 'Register',
                 'attr'  => [
-                    'class' => 'btn btn-lg btn-primary',
+                    'class' => 'btn btn-md btn-primary mt-1',
                 ],
             ]
         );
