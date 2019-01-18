@@ -32,6 +32,6 @@ class DefaultController extends AbstractController
      */
     public function getHeaderAction($route)
     {
-        return $this->render('front/default/header.html.twig', ['route' => $route]);
+        return $this->render('page/header.html.twig', ['route' => $route]);
     }
 }
