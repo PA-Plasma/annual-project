@@ -8,6 +8,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,6 +24,10 @@ class EntrantType extends AbstractType
                     'class' => 'pseudo_input form-control mt-1 mb-1',
                     'placeholder' => 'Email'
                 ],
+            ])
+            ->add('show_user_related', CheckboxType::class, [
+                'label' => 'Sur ce site ?',
+                'required' => false,
             ])
             ->add('user_related', EntityType::class, [
                 'choice_label' => 'email',
