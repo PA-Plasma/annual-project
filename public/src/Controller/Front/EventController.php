@@ -24,7 +24,8 @@ class EventController extends AbstractController
     {
         $events = $eventRepository->findBy(
             [
-                'deleted' => false
+                'deleted' => false,
+                'active'  => true
             ]
         );
 
