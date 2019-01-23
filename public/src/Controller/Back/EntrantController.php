@@ -51,7 +51,7 @@ class EntrantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(Entrant $entrant): Response
     {
@@ -59,7 +59,7 @@ class EntrantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Entrant $entrant): Response
     {
@@ -69,7 +69,7 @@ class EntrantController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back_entrant_index', ['id' => $entrant->getId()]);
+            return $this->redirectToRoute('back_entrant_index', ['slug' => $entrant->getSlug()]);
         }
 
         return $this->render('back/entrant/edit.html.twig', [
@@ -79,7 +79,7 @@ class EntrantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Entrant $entrant): Response
     {

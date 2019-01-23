@@ -39,7 +39,7 @@ class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
-            return $this->redirectToRoute('front_event_inscription_entrants', ['id' => $event->getId()]);
+            return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
         }
 
         return $this->render('front/event/new.html.twig', [
@@ -52,7 +52,7 @@ class EventController extends AbstractController
     /**
      * @param Request $request
      * @param Event $event
-     * @Route("/new/inscription/{id}", name="inscription_entrants")
+     * @Route("/new/inscription/{slug}", name="inscription_entrants")
      */
     public function newStep2(Request $request, Event $event)
     {
@@ -65,7 +65,7 @@ class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
-            return $this->redirectToRoute('front_event_inscription_entrants', ['id' => $event->getId()]);
+            return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
         }
         return $this->render('front/event/new.html.twig', [
             'event' => $event,
@@ -75,14 +75,14 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(Event $event): Response
     {
         return $this->render('front/event/show.html.twig', ['event' => $event]);
     }
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Event $event): Response
     {
@@ -90,7 +90,7 @@ class EventController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('front_event_index', ['id' => $event->getId()]);
+            return $this->redirectToRoute('front_event_index', ['slug' => $event->getSlug()]);
         }
         return $this->render('front/event/edit.html.twig', [
             'event' => $event,
@@ -99,7 +99,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Event $event): Response
     {

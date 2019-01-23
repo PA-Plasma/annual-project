@@ -51,7 +51,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(Address $address): Response
     {
@@ -59,7 +59,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Address $address): Response
     {
@@ -69,7 +69,7 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back_address_index', ['id' => $address->getId()]);
+            return $this->redirectToRoute('back_address_index', ['slug' => $address->getSlug()]);
         }
 
         return $this->render('back/address/edit.html.twig', [
@@ -79,7 +79,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Address $address): Response
     {

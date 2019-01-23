@@ -52,7 +52,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(Event $event): Response
     {
@@ -60,7 +60,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Event $event): Response
     {
@@ -70,7 +70,7 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back_event_index', ['id' => $event->getId()]);
+            return $this->redirectToRoute('back_event_index', ['slug' => $event->getSlug()]);
         }
 
         return $this->render('back/event/edit.html.twig', [
@@ -80,7 +80,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Event $event): Response
     {
