@@ -22,7 +22,18 @@ class EventController extends AbstractController
      */
     public function index(EventRepository $eventRepository): Response
     {
-        return $this->render('front/event/index.html.twig', ['events' => $eventRepository->findAll()]);
+        $events = $eventRepository->findBy(
+            [
+                'deleted' => false
+            ]
+        );
+
+        return $this->render(
+            'front/event/index.html.twig',
+            [
+                'events' => $events
+            ]
+        );
     }
 
     /**

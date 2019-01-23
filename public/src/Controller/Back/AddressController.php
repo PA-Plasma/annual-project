@@ -24,7 +24,18 @@ class AddressController extends AbstractController
      */
     public function index(AddressRepository $addressRepository): Response
     {
-        return $this->render('back/address/index.html.twig', ['addresses' => $addressRepository->findAll()]);
+        $addresses = $addressRepository->findBy(
+            [
+                'deleted' => false
+            ]
+        );
+
+        return $this->render(
+            'back/address/index.html.twig',
+            [
+                'addresses' => $addresses,
+            ]
+        );
     }
 
     /**

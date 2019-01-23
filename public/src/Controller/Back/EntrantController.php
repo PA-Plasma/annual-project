@@ -24,7 +24,18 @@ class EntrantController extends AbstractController
      */
     public function index(EntrantRepository $entrantRepository): Response
     {
-        return $this->render('back/entrant/index.html.twig', ['entrants' => $entrantRepository->findAll()]);
+        $entrnants = $entrantRepository->findBy(
+            [
+                'deleted' => false
+            ]
+        );
+
+        return $this->render(
+            'back/entrant/index.html.twig',
+            [
+                'entrants' => $entrnants
+            ]
+        );
     }
 
     /**
