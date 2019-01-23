@@ -168,9 +168,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Entrant[]
-     */
     public function getEntrants(): Collection
     {
         return $this->entrants;
