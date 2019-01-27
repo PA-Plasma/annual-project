@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\ActiveTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -13,6 +17,10 @@ class Event
 {
     CONST REGISTRATION_TYPE_FREE = 1;
     CONST REGISTRATION_TYPE_PAYING = 2;
+
+    use ActiveTrait;
+    use SoftDeletedTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id()
@@ -55,6 +63,13 @@ class Event
      * @ORM\OneToOne(targetEntity="App\Entity\Address", inversedBy="event", cascade={"persist", "remove"})
      */
     private $Address;
+
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug = null;
 
     public function __construct()
     {
@@ -114,9 +129,6 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|Entrant[]
-     */
     public function getEntrants(): Collection
     {
         return $this->entrants;
@@ -167,5 +179,15 @@ class Event
         $this->Address = $Address;
 
         return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 }

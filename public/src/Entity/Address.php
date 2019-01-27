@@ -2,15 +2,23 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\ActiveTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
  */
 class Address
 {
+    use ActiveTrait;
+    use SoftDeletedTrait;
+    use TimestampableTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -53,6 +61,12 @@ class Address
      */
     private $event;
 
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"id"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug = null;
 
     public function getId(): ?int
     {
@@ -147,5 +161,15 @@ class Address
         }
 
         return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 }

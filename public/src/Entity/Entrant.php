@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\ActiveTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EntrantRepository")
  */
 class Entrant
 {
+    use ActiveTrait;
+    use SoftDeletedTrait;
+    use TimestampableTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -32,6 +40,13 @@ class Entrant
      * @ORM\Column(type="string", length=255)
      */
     private $pseudo;
+
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"pseudo"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug = null;
 
     public function getId(): ?int
     {
@@ -72,5 +87,15 @@ class Entrant
         $this->pseudo = $pseudo;
 
         return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 }
