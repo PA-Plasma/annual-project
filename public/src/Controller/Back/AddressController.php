@@ -94,7 +94,7 @@ class AddressController extends AbstractController
      */
     public function delete(Request $request, Address $address): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$address->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$address->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $address->setDeleted(1);
             $entityManager->flush();

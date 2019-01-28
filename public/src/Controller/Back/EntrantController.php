@@ -94,7 +94,7 @@ class EntrantController extends AbstractController
      */
     public function delete(Request $request, Entrant $entrant): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$entrant->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$entrant->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entrant->setDeleted(1);
             $entityManager->flush();
