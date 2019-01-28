@@ -24,7 +24,18 @@ class ModulesController extends AbstractController
      */
     public function index(ModulesRepository $modulesRepository): Response
     {
-        return $this->render('back/modules/index.html.twig', ['modules' => $modulesRepository->findAll()]);
+        $modules = $modulesRepository->findBy(
+            [
+                'deleted' => false
+            ]
+        );
+
+        return $this->render(
+            'back/modules/index.html.twig',
+            [
+                'modules' => $modules,
+            ]
+        );
     }
 
     /**
@@ -83,9 +94,9 @@ class ModulesController extends AbstractController
      */
     public function delete(Request $request, Modules $module): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$module->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$module->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($module);
+            $module->setDeleted(1);
             $entityManager->flush();
         }
 
