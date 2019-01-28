@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\ActiveTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -10,6 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Modules
 {
+    use ActiveTrait;
+    use SoftDeletedTrait;
+    use TimestampableTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
