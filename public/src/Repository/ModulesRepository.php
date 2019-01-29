@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Modules;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,6 +18,17 @@ class ModulesRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Modules::class);
+    }
+
+    function getActiveModules()
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->where('m.deleted = ?1')
+            ->andWhere('m.active = ?2')
+            ->setParameter(1, false)
+            ->setParameter(2, true)
+            ->orderBy('m.name', 'ASC');
     }
 
     // /**
