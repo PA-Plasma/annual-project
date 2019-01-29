@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\Modules;
+use App\Repository\ModulesRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -13,6 +16,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventType extends AbstractType
 {
+    /**
+     * @var array $activeModules
+     */
+    private $activeModules;
+
+    /**
+     * UserType constructor
+     *
+     * @param ModulesRepository $modulesRepository
+     */
+    public function __construct(ModulesRepository $modulesRepository)
+    {
+        $this->activeModules = $modulesRepository->getActiveModules();
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$options['entrants']) {
@@ -66,7 +84,16 @@ class EventType extends AbstractType
                 ->add('address', AddressType::class, [
                     'label' => 'Address:',
                 ])
-            ;
+                ->add('modules', EntityType::class, array(
+                    'class' => Modules::class,
+                    'query_builder' => $this->activeModules,
+                    'label'    => 'Select which modules you want to enable: ',
+                    'choice_label' => 'name',
+                    'multiple' => true,
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ],
+                ));
         } else {
             $builder->add('entrants', CollectionType::class, [
                     'entry_type' => EntrantType::class,
