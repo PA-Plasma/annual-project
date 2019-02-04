@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Service\ModulesHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,11 +29,10 @@ class EventController extends AbstractController
                 'active'  => true
             ]
         );
-
         return $this->render(
             'front/event/index.html.twig',
             [
-                'events' => $events
+                'events' => $events,
             ]
         );
     }
@@ -68,10 +68,8 @@ class EventController extends AbstractController
      */
     public function newStep2(Request $request, Event $event)
     {
-        dump($event);
         $form = $this->createForm(EventType::class, $event, ['entrants' => true]);
         $form->handleRequest($request);
-        dump($form);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
@@ -107,6 +105,7 @@ class EventController extends AbstractController
         return $this->render('front/event/edit.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
+            'step' => 1
         ]);
     }
 
