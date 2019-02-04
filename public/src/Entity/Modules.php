@@ -32,6 +32,11 @@ class Modules
     private $name;
 
     /**
+     * @ORM\Column(type="text", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
      * @var string
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", nullable=true)
@@ -63,6 +68,28 @@ class Modules
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * Description getDescription function
+     *
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Description setDescription function
+     *
+     * @param mixed $description
+     *
+     * @return void
+     */
+    public function setDescription($description): void
+    {
+        $this->description = $description;
     }
 
     public function getSlug(): string
