@@ -4,6 +4,8 @@ namespace App\Service;
 
 
 
+use App\Entity\Event;
+
 /**
  * Class RolesHelper
  *
@@ -12,8 +14,16 @@ namespace App\Service;
  */
 class ModulesHelper
 {
-    public function getModuleService($event)
-    {
+    const moduleNameSpace = 'App\\Service\\Modules\\';
+    const suffixModuleName = 'ModuleHelper';
 
+    public static function FactoryModuleService(Event $event)
+    {
+        $modulesHelpers = [];
+        foreach ($event->getModules() as $module) {
+            $helperName = static::moduleNameSpace.ucfirst($module->getName()).static::suffixModuleName;
+            $modulesHelpers[] = new $helperName();
+        }
+        return $modulesHelpers;
     }
 }
