@@ -71,9 +71,15 @@ class Event
      */
     private $slug = null;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Modules", inversedBy="events")
+     */
+    private $modules;
+
     public function __construct()
     {
         $this->entrants = new ArrayCollection();
+        $this->modules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,5 +195,31 @@ class Event
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    /**
+     * @return Collection|Modules[]
+     */
+    public function getModules(): Collection
+    {
+        return $this->modules;
+    }
+
+    public function addModule(Modules $module): self
+    {
+        if (!$this->modules->contains($module)) {
+            $this->modules[] = $module;
+        }
+
+        return $this;
+    }
+
+    public function removeModule(Modules $module): self
+    {
+        if ($this->modules->contains($module)) {
+            $this->modules->removeElement($module);
+        }
+
+        return $this;
     }
 }

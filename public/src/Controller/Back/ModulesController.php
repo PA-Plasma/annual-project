@@ -2,38 +2,38 @@
 
 namespace App\Controller\Back;
 
-use App\Entity\Address;
-use App\Form\AddressType;
-use App\Repository\AddressRepository;
+use App\Entity\Modules;
+use App\Form\ModulesType;
+use App\Repository\ModulesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class AddressController
+ * Class EventController
  *
  * @category  Class
  * @package   App\Controller\Back
- * @Route("/back/address", name="back_address_")
+ * @Route("/back/modules", name="back_modules_")
  */
-class AddressController extends AbstractController
+class ModulesController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(AddressRepository $addressRepository): Response
+    public function index(ModulesRepository $modulesRepository): Response
     {
-        $addresses = $addressRepository->findBy(
+        $modules = $modulesRepository->findBy(
             [
                 'deleted' => false
             ]
         );
 
         return $this->render(
-            'back/address/index.html.twig',
+            'back/modules/index.html.twig',
             [
-                'addresses' => $addresses,
+                'modules' => $modules,
             ]
         );
     }
@@ -43,20 +43,20 @@ class AddressController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $address = new Address();
-        $form = $this->createForm(AddressType::class, $address);
+        $module = new Modules();
+        $form = $this->createForm(ModulesType::class, $module);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($address);
+            $entityManager->persist($module);
             $entityManager->flush();
 
-            return $this->redirectToRoute('back_address_index');
+            return $this->redirectToRoute('back_modules_index');
         }
 
-        return $this->render('back/address/new.html.twig', [
-            'address' => $address,
+        return $this->render('back/modules/new.html.twig', [
+            'module' => $module,
             'form' => $form->createView(),
         ]);
     }
@@ -64,27 +64,27 @@ class AddressController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET"})
      */
-    public function show(Address $address): Response
+    public function show(Modules $module): Response
     {
-        return $this->render('back/address/show.html.twig', ['address' => $address]);
+        return $this->render('back/modules/show.html.twig', ['module' => $module]);
     }
 
     /**
      * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Address $address): Response
+    public function edit(Request $request, Modules $module): Response
     {
-        $form = $this->createForm(AddressType::class, $address);
+        $form = $this->createForm(ModulesType::class, $module);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back_address_index', ['slug' => $address->getSlug()]);
+            return $this->redirectToRoute('back_modules_index', ['slug' => $module->getSlug()]);
         }
 
-        return $this->render('back/address/edit.html.twig', [
-            'address' => $address,
+        return $this->render('back/modules/edit.html.twig', [
+            'module' => $module,
             'form' => $form->createView(),
         ]);
     }
@@ -92,14 +92,14 @@ class AddressController extends AbstractController
     /**
      * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Address $address): Response
+    public function delete(Request $request, Modules $module): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$address->getSlug(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$module->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $address->setDeleted(1);
+            $module->setDeleted(1);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('back_address_index');
+        return $this->redirectToRoute('back_modules_index');
     }
 }

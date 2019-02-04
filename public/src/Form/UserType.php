@@ -34,8 +34,7 @@ class UserType extends AbstractType
      */
     public function __construct(RolesHelper $rolesHelper)
     {
-        $roles              = $rolesHelper->getRoles();
-        $this->rolesRanking = $roles;
+        $this->rolesRanking = $rolesHelper->getRoles();;
     }
 
     /**

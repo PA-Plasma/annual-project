@@ -13,6 +13,7 @@
                 <th>Beginnig_date</th>
                 <th>End_date</th>
                 <th>Registration_type</th>
+                <th>Modules</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,6 +25,14 @@
                 <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ event.registrationType }}</td>
+                <td>
+                    <ul>
+
+                        {% for module in event.modules %}
+                            <li> {{ module.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 {% dump(event.entrants) %}
                 <td>
                     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
