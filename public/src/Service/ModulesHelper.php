@@ -20,7 +20,7 @@ class ModulesHelper
     const moduleEntityNameSpace = 'App\\Entity\\Modules\\';
     const prefixModuleEntityName = 'Module';
 
-    public static function FactoryModule(Event $event, EntityManagerInterface $em)
+    public static function FactoryModule(Event $event, EntityManagerInterface $entityMaganer)
     {
         $modules = [];
         foreach ($event->getModules() as $module) {
@@ -29,7 +29,7 @@ class ModulesHelper
 
             //on va chercher l'entité lié à l'event de manière dynamique
             $entityName = static::moduleEntityNameSpace.static::prefixModuleEntityName.ucfirst($module->getName());
-            $entity = $em->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
+            $entity = $entityMaganer->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
 
             $modules[] = [
                 'moduleName' => ucfirst($module->getName()), //module name
