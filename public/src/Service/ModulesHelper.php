@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Event;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 /**
  * Class RolesHelper
@@ -28,9 +29,8 @@ class ModulesHelper
             $controllerModule = static::moduleControllerNameSpace.ucfirst($module->getName()).static::suffixModuleControllerName;
 
             //on va chercher l'entité lié à l'event de manière dynamique
-            $entityName = static::moduleEntityNameSpace.static::prefixModuleEntityName.ucfirst($module->getName());
+            $entityName = static::getEntityName($module->getName());
             $entity = $em->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
-
             $modules[] = [
                 'moduleName' => ucfirst($module->getName()), //module name
                 'controller' => $controllerModule, //string qui contient le nom du controller
@@ -38,5 +38,20 @@ class ModulesHelper
             ];
         }
         return $modules;
+    }
+
+    public static function generateModulesParameters(string $name, Event $event, EntityManagerInterface $em)
+    {
+        $entityName = static::getEntityName($name);
+        $module = new $entityName();
+        $module->setEvent($event);
+        dump($module);
+        $em->persist($module);
+        $em->flush();
+        //tester sans le flush
+    }
+
+    protected static function getEntityName($name) {
+        return static::moduleEntityNameSpace.static::prefixModuleEntityName.ucfirst($name);
     }
 }

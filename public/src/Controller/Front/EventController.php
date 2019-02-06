@@ -26,7 +26,7 @@ class EventController extends AbstractController
         $events = $eventRepository->findBy(
             [
                 'deleted' => false,
-                'active'  => true
+                'active' => true
             ]
         );
         return $this->render(
@@ -49,6 +49,14 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
+            dump($event);
+            //génération des paramètres des modules
+            if (!empty($event->getModules())) {
+                foreach ($event->getModules() as $moduleName) {
+                    ModulesHelper::generateModulesParameters($moduleName->getName(), $event, $entityManager);
+                }
+            }
+            dump($event->getModuleTournament());
             $entityManager->flush();
 
             return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
@@ -68,13 +76,13 @@ class EventController extends AbstractController
      */
     public function newStep2(Request $request, Event $event)
     {
+        dump($event->getModuleTournament());
         $form = $this->createForm(EventType::class, $event, ['entrants' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
-
             return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
         }
         return $this->render('front/event/new.html.twig', [
@@ -89,8 +97,10 @@ class EventController extends AbstractController
      */
     public function show(Event $event): Response
     {
-        return $this->render('front/event/show.html.twig', ['event' => $event]);
+        $modules = ModulesHelper::FactoryModule($event, $this->getDoctrine()->getManager());
+        return $this->render('front/event/show.html.twig', ['event' => $event, 'modules' => $modules]);
     }
+
     /**
      * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
@@ -114,7 +124,7 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $event->setDeleted(1);
             $entityManager->flush();
