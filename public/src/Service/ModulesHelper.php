@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\Entity\Event;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use \Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class RolesHelper
@@ -21,7 +21,17 @@ class ModulesHelper
     const moduleEntityNameSpace = 'App\\Entity\\Modules\\';
     const prefixModuleEntityName = 'Module';
 
-    public static function FactoryModule(Event $event, EntityManagerInterface $em)
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectManager
+     */
+    public $em;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->em = $doctrine->getManager();
+    }
+
+    public function FactoryModule(Event $event)
     {
         $modules = [];
         foreach ($event->getModules() as $module) {
@@ -30,7 +40,7 @@ class ModulesHelper
 
             //on va chercher l'entité lié à l'event de manière dynamique
             $entityName = static::getEntityName($module->getName());
-            $entity = $em->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
+            $entity = $this->em->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
             $modules[] = [
                 'moduleName' => ucfirst($module->getName()), //module name
                 'controller' => $controllerModule, //string qui contient le nom du controller
@@ -40,14 +50,14 @@ class ModulesHelper
         return $modules;
     }
 
-    public static function generateModulesParameters(string $name, Event $event, EntityManagerInterface $em)
+    public function generateModulesParameters(string $name, Event $event)
     {
         $entityName = static::getEntityName($name);
         $module = new $entityName();
         $module->setEvent($event);
         dump($module);
-        $em->persist($module);
-        $em->flush();
+        $this->em->persist($module);
+        $this->em->flush();
         //tester sans le flush
     }
 

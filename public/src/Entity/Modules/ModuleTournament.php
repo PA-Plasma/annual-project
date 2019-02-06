@@ -28,6 +28,11 @@ class ModuleTournament
      */
     private $event;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTournamentParameters", mappedBy="moduleTournament", cascade={"persist", "remove"})
+     */
+    private $moduleTournamentParameters;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -41,6 +46,23 @@ class ModuleTournament
     public function setEvent(Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getModuleTournamentParameters(): ?ModuleTournamentParameters
+    {
+        return $this->moduleTournamentParameters;
+    }
+
+    public function setModuleTournamentParameters(ModuleTournamentParameters $moduleTournamentParameters): self
+    {
+        $this->moduleTournamentParameters = $moduleTournamentParameters;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $moduleTournamentParameters->getModuleTournament()) {
+            $moduleTournamentParameters->setModuleTournament($this);
+        }
 
         return $this;
     }

@@ -2,8 +2,11 @@
 
 namespace App\Controller\Interfaces;
 
+use App\Entity\Event;
+use Symfony\Component\HttpFoundation\Request;
+
 interface ModuleInterface {
-    public function new();
-    public function edit();
-    public function display();
+    public function new(Event $event, Request $request);
+    public function edit(Event $event, Request $request);
+    public function display($module, Request $request);
 }

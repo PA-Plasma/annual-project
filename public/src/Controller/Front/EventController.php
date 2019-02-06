@@ -40,7 +40,7 @@ class EventController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function newStep1(Request $request): Response
+    public function newStep1(Request $request, ModulesHelper $modulesHelper): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -53,7 +53,7 @@ class EventController extends AbstractController
             //génération des paramètres des modules
             if (!empty($event->getModules())) {
                 foreach ($event->getModules() as $moduleName) {
-                    ModulesHelper::generateModulesParameters($moduleName->getName(), $event, $entityManager);
+                    $modulesHelper->generateModulesParameters($moduleName->getName(), $event, $entityManager);
                 }
             }
             dump($event->getModuleTournament());
@@ -76,7 +76,6 @@ class EventController extends AbstractController
      */
     public function newStep2(Request $request, Event $event)
     {
-        dump($event->getModuleTournament());
         $form = $this->createForm(EventType::class, $event, ['entrants' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -95,9 +94,9 @@ class EventController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET"})
      */
-    public function show(Event $event): Response
+    public function show(Event $event, ModulesHelper $modulesHelper): Response
     {
-        $modules = ModulesHelper::FactoryModule($event, $this->getDoctrine()->getManager());
+        $modules = $modulesHelper->FactoryModule($event);
         return $this->render('front/event/show.html.twig', ['event' => $event, 'modules' => $modules]);
     }
 
