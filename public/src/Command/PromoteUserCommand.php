@@ -26,7 +26,7 @@ class PromoteUserCommand extends Command
             ->setDescription('Promote the specified user.')
             ->setHelp('This command allow you to promote an user.')
             ->setDefinition(array(
-                new InputArgument('username', InputArgument::REQUIRED, 'The username'),
+                new InputArgument('email', InputArgument::REQUIRED, 'The email'),
                 new InputArgument('role', InputArgument::REQUIRED, 'The role'),
             ))
         ;
@@ -41,8 +41,8 @@ class PromoteUserCommand extends Command
             '',
         ]);
 
-        $username = $input->getArgument('username');
-        if (!$user = $this->objectManager->getRepository(User::class)->findOneBy(["email" => $username])) {
+        $email = $input->getArgument('email');
+        if (!$user = $this->objectManager->getRepository(User::class)->findOneBy(["email" => $email])) {
             throw new \Exception('User not found.');
         }
 
@@ -58,6 +58,6 @@ class PromoteUserCommand extends Command
         $this->objectManager->persist($user);
         $this->objectManager->flush();
 
-        $output->writeln("<comment>User " . $username . " granted role " . $role . ".</comment> \n");
+        $output->writeln("<comment>User " . $email . " granted role " . $role . ".</comment> \n");
     }
 }
