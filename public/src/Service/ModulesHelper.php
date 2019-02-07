@@ -54,8 +54,8 @@ class ModulesHelper
     {
         $entityName = static::getEntityName($name);
         $module = new $entityName();
+        $module->setName($name);
         $module->setEvent($event);
-        dump($module);
         $this->em->persist($module);
         $this->em->flush();
         //tester sans le flush

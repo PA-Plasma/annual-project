@@ -1,47 +1,14 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Event{% endblock %}
-
-{% block body %}
-    <h1 class="m-3">Event</h1>
-    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ event.name }}</td>
-            </tr>
-            <tr>
-                <th>Beginnig_date</th>
-                <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End_date</th>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Registration_type</th>
-                <td>{{ event.registrationType }}</td>
-            </tr>
-            <tr>
-                <th>Modules</th>
-                <td>
-                    <ul>
-
-                        {% for module in event.modules %}
-                            <li> {{ module.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-
-    {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
+{% extends "Modules/base.html.twig" %}
+{% block module_title %}module {{ event.moduleTournament.name }}{% endblock %}
+{% block module_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <a href="">
+                <button class="btn btn-md btn-primary mt-1">Edit</button>
+            </a>
+        </div>
+    </div>
+    <p>{{ event.moduleTournament.moduleTournamentParameters.playerFormatDefault }}</p>
 {% endblock %}
+
+{% block module_js %}{% endblock %}

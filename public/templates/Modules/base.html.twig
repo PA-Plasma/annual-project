@@ -1,0 +1,9 @@
+{% block module_body %}
+    <div class="module-block container">
+        <div class="col-md-6 col-sm-12">
+            <h3 class="module-title">{% block module_title %}{% endblock %}</h3>
+            {% block module_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+{% block module_js %}{% endblock %}

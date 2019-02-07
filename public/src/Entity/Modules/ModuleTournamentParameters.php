@@ -13,6 +13,9 @@ class ModuleTournamentParameters
     const BRACKET_TYPE_2 = 2;
     const STAGE_TYPE_1 = 1;
     const STAGE_TYPE_2 = 2;
+    const BO3 = 1;
+    const BO5 = 2;
+    const BO7 = 3;
 
     /**
      * @ORM\Id()

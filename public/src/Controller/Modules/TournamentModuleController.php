@@ -8,6 +8,7 @@ use App\Entity\Modules\ModuleTournamentParameters;
 use App\Form\ModuleTournamentParametersType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class TournoiModuleController
@@ -15,23 +16,35 @@ use Symfony\Component\HttpFoundation\Request;
  */
 Class TournamentModuleController extends AbstractController implements ModuleInterface
 {
+    /**
+     * @param Event $event
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route(name="module_tournament_new", path="/event/{slug}/tounament-parameters")
+     */
     public function new(Event $event, Request $request)
     {
         $moduleTournoi = $event->getModuleTournament();
-        $moduleTournoiParameters = new ModuleTournamentParameters();
-        $moduleTournoiParameters->setModuleTournament($moduleTournoi);
+        if ($moduleTournoi->getModuleTournamentParameters() !== null) {
+            $moduleTournoiParameters = $moduleTournoi->getModuleTournamentParameters();
+        } else {
+            $moduleTournoiParameters = new ModuleTournamentParameters();
+            $moduleTournoiParameters->setModuleTournament($moduleTournoi);
+        }
 
-        $form = $this->createForm(ModuleTournamentParametersType::class, $moduleTournoiParameters);
+        $form = $this->createForm(ModuleTournamentParametersType::class, $moduleTournoiParameters, [
+            'action' => $this->generateUrl('module_tournament_new', ['slug' => $event->getSlug()])
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($moduleTournoiParameters);
             $entityManager->flush();
-//            return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
+            return $this->redirectToRoute('front_event_show', ['slug' => $event->getSlug()]);
         }
 
-        return $this->render('Modules/ModuleTournament/index.html.twig', [
+        return $this->render('Modules/ModuleTournament/new.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
             'moduleTournoi' => $moduleTournoi,
@@ -44,9 +57,14 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
         // TODO: Implement edit() method.
     }
 
-    public function display($module, Request $request)
+    /**
+     * @param Event $event
+     * @param Request $request
+     * @Route(name="module_tournament_show", path="/event/{slug}/tournament-show")
+     */
+    public function display(Event $event, Request $request)
     {
-        // TODO: Implement display() method.
+        return $this->render("Modules/ModuleTournament/show.html.twig", ['event' => $event]);
     }
 
 

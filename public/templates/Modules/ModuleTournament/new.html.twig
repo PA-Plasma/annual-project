@@ -1,13 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'Modules/base.html.twig' %}
 
-{% block title %}New Event{% endblock %}
+{% block module_title %}Module {{ event.moduleTournament.name }}{% endblock %}
 
-{% block body %}
+{% block module_content %}
     <div class="row">
         <div class="col-sm-6 offset-sm-3">
-            <h1 class="m-3">Create new Event</h1>
-            {{ include('front/event/_form.html.twig') }}
+            {{ form(form) }}
         </div>
     </div>
-    {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
 {% endblock %}

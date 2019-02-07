@@ -45,7 +45,11 @@
 
     <div id="modules">
         {% for module in modules %}
-            {{ render(controller(module.controller~"::new", {'event': event})) }}
+            {% if (not module.entity.isParameted()) %}
+                {{ render(controller(module.controller~"::new", {'event': event})) }}
+            {%  else %}
+                {{ render(controller(module.controller~"::display", {'event': event})) }}
+            {%  endif %}
         {% endfor %}
     </div>
     {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
