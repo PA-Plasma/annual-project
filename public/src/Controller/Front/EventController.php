@@ -96,6 +96,9 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event): Response
     {
+        // check for "edit" access
+        $this->denyAccessUnlessGranted('edit', $event);
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
