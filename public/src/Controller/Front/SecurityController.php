@@ -45,13 +45,18 @@ class SecurityController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Inscription Réussie');
+            
             return $this->redirectToRoute('security_login');
         }
-
+        elseif ($form->isSubmitted()) {
+            $this->addFlash('error', 'Formulaire incorrect');
+        }
         return $this->render(
             'front/security/register.html.twig',
-            ['securityForm' => $form->createView()]
+            [
+                'securityForm' => $form->createView()
+            ]
         );
     }
 
@@ -70,6 +75,9 @@ class SecurityController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
         $form = $this->get('form.factory')->createNamedBuilder(null)->getForm();
+        if($error){
+            $this->addFlash('error', 'Identifiants incorrect');
+        }
 
         return $this->render(
             'front/security/login.html.twig',
