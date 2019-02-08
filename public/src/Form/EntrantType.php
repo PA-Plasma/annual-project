@@ -26,8 +26,11 @@ class EntrantType extends AbstractType
                 ],
             ])
             ->add('show_user_related', CheckboxType::class, [
-                'label' => 'Sur ce site ?',
+                'label' => 'Externe ?',
                 'required' => false,
+                'attr' => [
+                    'class' => 'checkbox_input'
+                ],
             ])
             ->add('user_related', EntityType::class, [
                 'choice_label' => 'email',
@@ -36,7 +39,8 @@ class EntrantType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'class' => 'id_user_related form-control mt-1 mb-1',
-                    'placeholder' => 'Email'
+                    'placeholder' => 'Email',
+
                 ],
             ])
         ;

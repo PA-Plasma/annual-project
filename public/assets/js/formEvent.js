@@ -23,6 +23,30 @@ function addTagForm($collectionHolder, $newLinkLi) {
     $newLinkLi.before($newFormLi);
 }
 
+$('#event_entrants_1_show_user_related').on('click', function (e) {
+    console.log("2");
+});
+
+function hideEntrant(){
+    $(document).ready(function () {
+
+        $(document).on('click', '.checkbox_input', function (e) {
+            var checkboxId = $(this).attr('id');
+            var split = checkboxId.split("_");
+            console.log(split[2]);
+            var numberCheckbox = parseInt(split[2]);
+            var entrantId = "event_entrants_" + numberCheckbox + "_user_related";
+            console.log($(entrantId));
+            //console.log($(".event_entrants_69_user_related"))
+            document.getElementById(entrantId).style.display = 'none'
+            //$('input').('').hide();
+        });
+        //#event_entrants_1_user_related
+        //#event_entrants_1_show_user_related
+
+    });
+}
+
 function entrantType() {
     var $collectionHolder;
 
@@ -86,7 +110,7 @@ function watch() {
     }
 
     entrantType();
-
+    hideEntrant();
     addUserWatcher();
 
 
