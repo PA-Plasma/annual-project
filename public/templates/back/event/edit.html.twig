@@ -3,7 +3,7 @@
 {% block title %}Edit Event{% endblock %}
 
 {% block body %}
-    <h1 class="m_3">Edit Event</h1>
+    <h1 class="m-3">Edit Event</h1>
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
 
     {{ include('back/event/_form.html.twig', {'button_label': 'Update'}) }}

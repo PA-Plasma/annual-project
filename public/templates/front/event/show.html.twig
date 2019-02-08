@@ -28,6 +28,18 @@
                 <th>Registration_type</th>
                 <td>{{ event.registrationType }}</td>
             </tr>
+            <tr>
+                <th>Modules</th>
+                <td>
+                    <ul>
+
+                        {% for module in event.modules %}
+                            <li> {{ module.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+
         </tbody>
     </table>
 

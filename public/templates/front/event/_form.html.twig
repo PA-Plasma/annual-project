@@ -6,6 +6,7 @@
         {{ form_row(form.registration_type) }}
         {{ form_row(form.invitation) }}
         {{ form_row(form.address) }}
+        {{ form_row(form.modules) }}
 {% else %}
     <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
     </ul>
