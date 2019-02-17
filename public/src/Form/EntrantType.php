@@ -18,11 +18,12 @@ class EntrantType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo:',
+                'label' => "Pseudo",
                 'required' => true,
                 'attr' => [
                     'class' => 'pseudo_input form-control mt-1 mb-1',
-                    'placeholder' => 'Email'
+                    'placeholder' => 'Pseudo',
+                    'list' => 'pseudo'
                 ],
             ])
             ->add('show_user_related', CheckboxType::class, [
@@ -32,7 +33,7 @@ class EntrantType extends AbstractType
                     'class' => 'checkbox_input'
                 ],
             ])
-            ->add('user_related', EntityType::class, [
+            /*->add('user_related', EntityType::class, [
                 'choice_label' => 'email',
                 'class' => User::class,
                  'label' => 'Email:',
@@ -42,7 +43,7 @@ class EntrantType extends AbstractType
                     'placeholder' => 'Email',
 
                 ],
-            ])
+            ])*/
         ;
     }
 

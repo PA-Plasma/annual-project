@@ -26,13 +26,36 @@ class UserRepository extends ServiceEntityRepository
     public function findLikeSlug(string $slug): array
     {
         $query = $this->createQueryBuilder('u')
-            ->where(' u.email LIKE :slug')
+            ->where(' u.pseudo LIKE :slug')
             ->setParameter('slug', '%' . $slug . '%');
 
         $datas = $query->getQuery()->getResult();
 
         // returns an array of Product objects
         return $datas;
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllPseudo(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT * FROM User';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+
+    /*    $query = $entityManager->createQuery(
+            'SELECT pseudo
+        FROM App\Entity\User'
+        );
+
+        // returns an array of User objects
+        return $query->execute();*/
     }
 
     // /**

@@ -20,12 +20,9 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
     // Display the form in the page in an li, before the "Add a tag" link li
     var $newFormLi = $('<li></li>').append(newForm);
+    //var $newFormLi = $('<li><input list="pseudo" class="pseudo_input_'+ index +'" type="text"></li>').append(newForm);
     $newLinkLi.before($newFormLi);
 }
-
-$('#event_entrants_1_show_user_related').on('click', function (e) {
-    console.log("2");
-});
 
 function hideEntrant(){
     $(document).ready(function () {
@@ -38,7 +35,7 @@ function hideEntrant(){
                 var numberCheckbox = parseInt(split[2]);
                 var entrantId = "event_entrants_" + numberCheckbox + "_user_related";
                 console.log($(entrantId));
-                //console.log($(".event_entrants_69_user_related"))
+
                 if($(this).is(':checked')){
                     document.getElementById(entrantId).style.display = 'none'
                 }
