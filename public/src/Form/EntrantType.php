@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,17 +34,15 @@ class EntrantType extends AbstractType
                     'class' => 'checkbox_input'
                 ],
             ])
-            /*->add('user_related', EntityType::class, [
-                'choice_label' => 'email',
-                'class' => User::class,
-                 'label' => 'Email:',
+            ->add('user_related', EmailType::class, [
+                'label' => 'Email:',
                 'required' => true,
                 'attr' => [
-                    'class' => 'id_user_related form-control mt-1 mb-1',
+                    'class' => 'id_user_related form-control mt-1 mb-1 hide',
                     'placeholder' => 'Email',
 
                 ],
-            ])*/
+            ])
         ;
     }
 

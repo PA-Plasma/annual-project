@@ -37,10 +37,10 @@ function hideEntrant(){
                 console.log($(entrantId));
 
                 if($(this).is(':checked')){
-                    document.getElementById(entrantId).style.display = 'none'
+                    document.getElementById(entrantId).style.display = 'block'
                 }
                 else{
-                    document.getElementById(entrantId).style.display = 'block'
+                    document.getElementById(entrantId).style.display = 'none'
                 }
 
 
