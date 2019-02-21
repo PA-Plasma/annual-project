@@ -47,7 +47,7 @@
         {% for module in modules %}
             {% if module.entity %}
                 {% if (not module.entity.isParameted()) %}
-                    {{ render(controller(module.controller~"::new", {'event': event})) }}
+                    {{ render(controller(module.controller~"::parameters", {'event': event})) }}
                 {% else %}
                     {{ render(controller(module.controller~"::display", {'event': event})) }}
                 {% endif %}

@@ -20,9 +20,9 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
      * @param Event $event
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/event/{slug}/tounament-parameters", name="module_tournament_new", methods={"GET","POST"})
+     * @Route("/event/{slug}/tounament-parameters", name="module_tournament_parameters", methods={"GET","POST"})
      */
-    public function new(Event $event, Request $request)
+    public function parameters(Event $event, Request $request)
     {
         $moduleTournoi = $event->getModuleTournament();
         if ($moduleTournoi->getModuleTournamentParameters() !== null) {
@@ -50,15 +50,6 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
             'moduleTournoi' => $moduleTournoi,
             'name' => 'Tournament'
         ]);
-    }
-
-    /**
-     * @param Event $event
-     * @param Request $request
-     */
-    public function edit(Event $event, Request $request)
-    {
-        // TODO: Implement edit() method.
     }
 
     /**
