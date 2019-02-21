@@ -3,12 +3,14 @@
 {% block module_content %}
     <div class="row">
         <div class="col-md-4">
-            <a href="">
-                <button class="btn btn-md btn-primary mt-1">Edit</button>
-            </a>
+            <button class="btn btn-md btn-primary mt-1" id="edit-tournament" data-slugevent="{{ event.slug }}">
+                Edit
+            </button>
         </div>
     </div>
     <p>{{ event.moduleTournament.moduleTournamentParameters.playerFormatDefault }}</p>
 {% endblock %}
 
-{% block module_js %}{% endblock %}
+{% block module_js %}
+    {{ parent() }}
+{% endblock %}

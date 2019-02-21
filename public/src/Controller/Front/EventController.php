@@ -56,7 +56,6 @@ class EventController extends AbstractController
                     $modulesHelper->generateModulesParameters($moduleName->getName(), $event, $entityManager);
                 }
             }
-            dump($event->getModuleTournament());
             $entityManager->flush();
 
             return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
