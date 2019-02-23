@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Entity\Entrant;
 use App\Service\ModulesHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,6 +65,44 @@ class EventController extends AbstractController
     /**
      * @param Request $request
      * @param Event $event
+     * @Route("/new/entrantRegister/{slug}", name="register_entrant")
+     */
+    public function registerEntrant(Request $request, Event $event)
+    {
+        $entrant = new Entrant();
+        $user = $this->getUser();
+
+        $entrant->setUserRelated($user);
+        $entrant->setPseudo($user->getPseudo());
+        $entrant->setEvent($event);
+        $entrant->setSlug($event->getSlug());
+        $this->addFlash('success', 'Inscription Réussie');
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($entrant);
+        $em->flush();
+
+        return $this->redirectToRoute('front_event_show', ['slug' => $event->getSlug()]);
+    }
+
+    /**
+     * @Route("/delete/{slug}", name="delete_registered_entrant")
+     */
+    public function deleteRegisteredEntrant(Request $request, Event $event): Response
+    {
+        $user = $this->getUser()->getId();
+        $entrant = $this->getDoctrine()->getRepository('App:Entrant')->findOneBy(array('user_related' => $user));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entrant->setDeleted(1);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('front_event_show', ['slug' => $event->getSlug()]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Event $event
      * @Route("/new/inscription/{slug}", name="inscription_entrants")
      */
     public function newStep2(Request $request, Event $event)
@@ -87,8 +126,17 @@ class EventController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET"})
      */
-    public function show(Event $event): Response
+    public function show(Event $event, EventRepository $eventRepository): Response
     {
+        if($this->getUser()){
+            $user = $this->getUser()->getId();
+            $entrants = $eventRepository->findUserRegistered($event, $user);
+            return $this->render('front/event/show.html.twig', [
+                'event' => $event,
+                'user' => $user,
+                'entrants' => $entrants
+            ]);
+        }
         return $this->render('front/event/show.html.twig', ['event' => $event]);
     }
     /**
