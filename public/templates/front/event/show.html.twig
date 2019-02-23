@@ -4,44 +4,51 @@
 
 {% block body %}
     <h1 class="m-3">Event</h1>
+{#
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
-
+#}
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ event.name }}</td>
-            </tr>
-            <tr>
-                <th>Beginnig_date</th>
-                <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End_date</th>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Registration_type</th>
-                <td>{{ event.registrationType }}</td>
-            </tr>
-            <tr>
-                <th>Modules</th>
-                <td>
-                    <ul>
-
-                        {% for module in event.modules %}
-                            <li> {{ module.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-
+        <tr>
+            <th>Id</th>
+            <td>{{ event.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ event.name }}</td>
+        </tr>
+        <tr>
+            <th>Beginnig_date</th>
+            <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>End_date</th>
+            <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Registration_type</th>
+            <td>{{ event.registrationType }}</td>
+        </tr>
+        <tr>
+            <th>Modules</th>
+            <td>
+                <ul>
+                    {% for module in event.modules %}
+                        <li> {{ module.name }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
         </tbody>
     </table>
-
+    {% if entrants is empty %}
+        {% include 'page/modalRegisterEvent.html.twig' %}
+    {% else %}
+        {% for entrant in entrants %}
+            {% if entrant.active %}
+                {% include 'page/modalCancelRegisterEvent.html.twig' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
 {% endblock %}
