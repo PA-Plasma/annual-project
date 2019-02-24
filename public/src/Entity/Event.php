@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Modules\ModuleTournament;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
@@ -75,6 +76,11 @@ class Event
      * @ORM\ManyToMany(targetEntity="App\Entity\Modules", inversedBy="events")
      */
     private $modules;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTournament", mappedBy="event", cascade={"persist", "remove"})
+     */
+    private $moduleTournament;
 
     public function __construct()
     {
@@ -218,6 +224,23 @@ class Event
     {
         if ($this->modules->contains($module)) {
             $this->modules->removeElement($module);
+        }
+
+        return $this;
+    }
+
+    public function getModuleTournament(): ?ModuleTournament
+    {
+        return $this->moduleTournament;
+    }
+
+    public function setModuleTournament(ModuleTournament $moduleTournament): self
+    {
+        $this->moduleTournament = $moduleTournament;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $moduleTournament->getEvent()) {
+            $moduleTournament->setEvent($this);
         }
 
         return $this;

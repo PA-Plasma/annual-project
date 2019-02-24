@@ -8,40 +8,52 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ event.name }}</td>
-            </tr>
-            <tr>
-                <th>Beginnig_date</th>
-                <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End_date</th>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Registration_type</th>
-                <td>{{ event.registrationType }}</td>
-            </tr>
-            <tr>
-                <th>Modules</th>
-                <td>
-                    <ul>
+        <tr>
+            <th>Id</th>
+            <td>{{ event.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ event.name }}</td>
+        </tr>
+        <tr>
+            <th>Beginnig_date</th>
+            <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>End_date</th>
+            <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Registration_type</th>
+            <td>{{ event.registrationType }}</td>
+        </tr>
+        <tr>
+            <th>Modules</th>
+            <td>
+                <ul>
 
-                        {% for module in event.modules %}
-                            <li> {{ module.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
+                    {% for module in event.modules %}
+                        <li> {{ module.name }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
 
         </tbody>
     </table>
 
+    <div id="modules">
+        {% for module in modules %}
+            {% if module.entity %}
+                {% if (not module.entity.isParameted()) %}
+                    {{ render(controller(module.controller~"::parameters", {'event': event})) }}
+                {% else %}
+                    {{ render(controller(module.controller~"::display", {'event': event})) }}
+                {% endif %}
+            {% endif %}
+
+        {% endfor %}
+    </div>
     {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
 {% endblock %}
