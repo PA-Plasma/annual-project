@@ -1,7 +1,12 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ label }}">
-            {{ message }}
-        </div>
+        {% if label == 'success' %}
+            <div id="success_iz" data-message="{{ message }}">
+            </div>
+        {% endif %}
+        {% if label == 'error' %}
+            <div id="error_iz" data-message="{{ message }}">
+            </div>
+        {% endif %}
     {% endfor %}
 {% endfor %}

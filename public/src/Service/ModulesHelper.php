@@ -16,10 +16,10 @@ use \Doctrine\Common\Persistence\ManagerRegistry;
  */
 class ModulesHelper
 {
-    const moduleControllerNameSpace = 'App\\Controller\\Modules\\';
-    const suffixModuleControllerName = 'ModuleController';
-    const moduleEntityNameSpace = 'App\\Entity\\Modules\\';
-    const prefixModuleEntityName = 'Module';
+    const MODULE_CONTROLLER_NAMESPACE = 'App\\Controller\\Modules\\';
+    const SUFFIX_MODULE_CONTROLLER_NAME = 'ModuleController';
+    const MODULE_ENTITY_NAMESPACE = 'App\\Entity\\Modules\\';
+    const PREFIX_MODULE_ENTITY_NAME = 'Module';
 
     /**
      * @var \Doctrine\Common\Persistence\ObjectManager
@@ -36,9 +36,10 @@ class ModulesHelper
         $modules = [];
         foreach ($event->getModules() as $module) {
             //controller permet d'appeller les fonctions d'un controller dans une vue twig (ex: render(controller($controllerModule)) )
-            $controllerModule = static::moduleControllerNameSpace.ucfirst($module->getName()).static::suffixModuleControllerName;
+            $controllerModule = static::MODULE_CONTROLLER_NAMESPACE.ucfirst($module->getName()).static::SUFFIX_MODULE_CONTROLLER_NAME;
 
             //on va chercher l'entité lié à l'event de manière dynamique
+          
             $entityName = static::getEntityName($module->getName());
             $entity = $this->em->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
             $modules[] = [
