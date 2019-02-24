@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use App\Security\LoginFormAuthenticator;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,7 +32,7 @@ class SecurityController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(LoginFormAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -46,8 +48,13 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Inscription Réussie');
-            
-            return $this->redirectToRoute('security_login');
+
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,          // the User object you just created
+                $request,
+                $authenticator, // authenticator whose onAuthenticationSuccess you want to use
+                'main'          // the name of the firewall in security.yaml
+            );
         }
         elseif ($form->isSubmitted()) {
             $this->addFlash('error', 'Formulaire incorrect');
