@@ -20,7 +20,7 @@ class ModuleTournament {
     }
 
     getFormEdit(eventSlug, module_content) {
-        return $.post('/event/'+ eventSlug +'/tounament-parameters', function(datas) {
+        return $.post('/event/'+ eventSlug +'/tounament-parameters', {ajax: true},function(datas) {
             module_content.html(datas);
         }, 'html');
     }
