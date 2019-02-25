@@ -60,6 +60,7 @@ class EventController extends AbstractController
         dump($event);
         $form = $this->createForm(EventType::class, $event, ['entrants' => true]);
         $form->handleRequest($request);
+        $users = $userRepository->findAll();
         dump($form);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -72,7 +73,7 @@ class EventController extends AbstractController
             'event' => $event,
             'form' => $form->createView(),
             'step' => 2,
-            'pseudo' => $userRepository->findAll()
+            'users' => $users
         ]);
     }
 
