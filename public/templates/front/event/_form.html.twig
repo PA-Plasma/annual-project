@@ -11,8 +11,8 @@
     </ul>
     {#<input list="pseudo" type="text">#}
     <datalist id="pseudo">
-        {% for pseudo in pseudo %}
-            <option value="{{ pseudo.pseudo }}"></option>
+        {% for user in users %}
+            <option value="{{ user.pseudo }}"></option>
         {% endfor %}
     </datalist>
 {% endif %}
