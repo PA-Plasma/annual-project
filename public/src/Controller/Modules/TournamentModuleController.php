@@ -31,9 +31,8 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
             $moduleTournoiParameters = new ModuleTournamentParameters();
             $moduleTournoiParameters->setModuleTournament($moduleTournoi);
         }
-
         $form = $this->createForm(ModuleTournamentParametersType::class, $moduleTournoiParameters, [
-            'action' => $this->generateUrl('module_tournament_new', ['slug' => $event->getSlug()])
+            'action' => $this->generateUrl('module_tournament_parameters', ['slug' => $event->getSlug()]),
         ]);
         $form->handleRequest($request);
 
@@ -48,7 +47,8 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
             'event' => $event,
             'form' => $form->createView(),
             'moduleTournoi' => $moduleTournoi,
-            'name' => 'Tournament'
+            'name' => 'Tournament',
+            'ajax' => (($request->getMethod() === 'GET') ? false : true)
         ]);
     }
 

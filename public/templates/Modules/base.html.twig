@@ -8,5 +8,7 @@
 {% endblock %}
 
 {% block module_js %}
+    {% if ajax is not defined or not ajax %}
     <script src="{{ asset('build/moduleTournament.js') }}"></script>
+    {% endif %}
 {% endblock %}
