@@ -21,20 +21,29 @@ class EventController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(EventRepository $eventRepository): Response
+    public function index(): Response
     {
-        $events = $eventRepository->findBy(
-            [
-                'deleted' => false,
-                'active' => true
-            ]
-        );
         return $this->render(
-            'front/event/index.html.twig',
-            [
-                'events' => $events,
-            ]
+            'front/event/index.html.twig'
         );
+    }
+
+    /**
+     * @Route("/list/", name="list", methods={"POST"})
+     * @param Request $request
+     * @param EventRepository $eventRepository
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function list(Request $request, EventRepository $eventRepository): Response
+    {
+        $name = $request->request->get('name');
+        $date = $request->request->get('date');
+        $date = ($date === '') ? null : new \DateTime($date);
+        $events = $eventRepository->getList($name, $date);
+
+        return $this->render('front/event/_list.html.twig', [
+            'events' => $events
+        ]);
     }
 
     /**
