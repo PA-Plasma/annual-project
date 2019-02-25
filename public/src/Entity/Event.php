@@ -19,9 +19,7 @@ class Event
     CONST REGISTRATION_TYPE_FREE = 1;
     CONST REGISTRATION_TYPE_PAYING = 2;
 
-    use ActiveTrait;
-    use SoftDeletedTrait;
-    use TimestampableTrait;
+    use ActiveTrait, SoftDeletedTrait, TimestampableTrait;
 
     /**
      * @ORM\Id()

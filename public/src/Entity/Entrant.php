@@ -13,9 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Entrant
 {
-    use ActiveTrait;
-    use SoftDeletedTrait;
-    use TimestampableTrait;
+    use ActiveTrait, SoftDeletedTrait, TimestampableTrait;
 
     /**
      * @ORM\Id()
