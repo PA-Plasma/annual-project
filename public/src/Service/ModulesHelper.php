@@ -63,6 +63,6 @@ class ModulesHelper
     }
 
     protected static function getEntityName($name) {
-        return static::moduleEntityNameSpace.static::prefixModuleEntityName.ucfirst($name);
+        return static::MODULE_ENTITY_NAMESPACE.static::PREFIX_MODULE_ENTITY_NAME.ucfirst($name);
     }
 }
