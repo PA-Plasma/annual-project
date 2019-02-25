@@ -35,29 +35,6 @@ class UserRepository extends ServiceEntityRepository
         return $datas;
     }
 
-    /**
-     * @return array
-     */
-    public function findAllPseudo(): array
-    {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = 'SELECT * FROM User';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-
-        // returns an array of arrays (i.e. a raw data set)
-        return $stmt->fetchAll();
-
-    /*    $query = $entityManager->createQuery(
-            'SELECT pseudo
-        FROM App\Entity\User'
-        );
-
-        // returns an array of User objects
-        return $query->execute();*/
-    }
-
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

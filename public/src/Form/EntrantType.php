@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Entrant;
 use App\Entity\Event;
 use App\Entity\User;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -19,7 +20,7 @@ class EntrantType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, [
-                'label' => "Pseudo",
+                'label' => false,
                 'required' => true,
                 'attr' => [
                     'class' => 'pseudo_input form-control mt-1 mb-1',
@@ -34,13 +35,14 @@ class EntrantType extends AbstractType
                     'class' => 'checkbox_input'
                 ],
             ])
-            ->add('user_related', EmailType::class, [
-                'label' => 'Email:',
+            ->add('user_related', EntityType::class, [
+                'choice_label' => 'email',
+                'class' => User::class,
+                'label' => false,
                 'required' => true,
                 'attr' => [
                     'class' => 'id_user_related form-control mt-1 mb-1 hide',
-                    'placeholder' => 'Email',
-
+                    'placeholder' => 'Email'
                 ],
             ])
         ;

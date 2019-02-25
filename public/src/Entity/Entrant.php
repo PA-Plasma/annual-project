@@ -33,6 +33,16 @@ class Entrant
      */
     private $pseudo;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $show_user_related;
+
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $email;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +80,30 @@ class Entrant
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getShowUserRelated(): ?bool
+    {
+        return $this->show_user_related;
+    }
+
+    public function setShowUserRelated(bool $show_user_related): self
+    {
+        $this->show_user_related = $show_user_related;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
