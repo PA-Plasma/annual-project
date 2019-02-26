@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Modules\ModuleTournamentMatch;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -47,6 +50,16 @@ class Entrant
      * @ORM\Column(type="string", nullable=true)
      */
     private $slug = null;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Modules\ModuleTournamentMatch", mappedBy="players")
+     */
+    private $moduleTournamentMatches;
+
+    public function __construct()
+    {
+        $this->moduleTournamentMatches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,5 +110,33 @@ class Entrant
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    /**
+     * @return Collection|ModuleTournamentMatch[]
+     */
+    public function getModuleTournamentMatches(): Collection
+    {
+        return $this->moduleTournamentMatches;
+    }
+
+    public function addModuleTournamentMatch(ModuleTournamentMatch $moduleTournamentMatch): self
+    {
+        if (!$this->moduleTournamentMatches->contains($moduleTournamentMatch)) {
+            $this->moduleTournamentMatches[] = $moduleTournamentMatch;
+            $moduleTournamentMatch->addPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModuleTournamentMatch(ModuleTournamentMatch $moduleTournamentMatch): self
+    {
+        if ($this->moduleTournamentMatches->contains($moduleTournamentMatch)) {
+            $this->moduleTournamentMatches->removeElement($moduleTournamentMatch);
+            $moduleTournamentMatch->removePlayer($this);
+        }
+
+        return $this;
     }
 }

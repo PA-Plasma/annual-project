@@ -4,8 +4,10 @@ namespace App\Controller\Modules;
 
 use App\Controller\Interfaces\ModuleInterface;
 use App\Entity\Event;
+use App\Entity\Modules\ModuleTournament;
 use App\Entity\Modules\ModuleTournamentParameters;
 use App\Form\ModuleTournamentParametersType;
+use App\Service\Modules\ModuleTournamentHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,5 +64,29 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
         return $this->render("Modules/ModuleTournament/show.html.twig", ['event' => $event]);
     }
 
+    /**
+     * @param ModuleTournament $tournament
+     * @param ModuleTournamentHelper $moduleTournamentHelper
+     * @Route(name="module_tournament_init_matches", path="/tournament/{id}/create-matches")
+     */
+    public function initMatches(ModuleTournament $tournament, ModuleTournamentHelper $moduleTournamentHelper)
+    {
+        $i = 1;
+        foreach ($tournament->getEvent()->getEntrants() as $joueurs) {
+            if ($i === 1) {
+                $match = $moduleTournamentHelper->newMatch($tournament);
+                $i++;
+            }
+            $match->addPlayer($joueurs);
+            if ($i === 2) {
+                $i = 1;
+            } else {
+                $i++;
+            }
+        }
+        $this->getDoctrine()->getManager()->flush();
+        dump($tournament->getMatches());exit;
+        return $this->redirectToRoute('front_event_show', ['slug' => $tournament->getEvent()->getSlug()]);
+    }
 
 }

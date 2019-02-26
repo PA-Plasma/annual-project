@@ -58,11 +58,10 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
-            dump($event);
             //génération des paramètres des modules
             if (!empty($event->getModules())) {
                 foreach ($event->getModules() as $moduleName) {
-                    $modulesHelper->generateModulesParameters($moduleName->getName(), $event, $entityManager);
+                    $modulesHelper->generateModulesParameters($moduleName->getName(), $event);
                 }
             }
             $entityManager->flush();
