@@ -32,34 +32,22 @@ $('#error_iz').show(function () {
 {#<a href="{{ render(controller('App\\Controller\\Front\\EventController::registerEntrant',{'slug': event.slug })) }}">#}
 */
 
-$('#register_user').click(function () {
+$(document).on('click', '#register_user', (function () {
     var path = $("#register_user").attr("data-path");
-    $.ajax({
-        type: 'post',
-        url: path,
-        success: function () {
-            console.log("ez");
-            iziToast.success({
-                title: 'Inscription validé !'
-            });
-            location.reload();
-        }
+    $.post(path, function (data) {
+        iziToast.success({
+            title: 'Inscription validé !'
+        });
+        $("#modalEntrant").html(data);
     });
+}));
 
-});
-
-$('#cancel_user').click(function () {
+$(document).on('click', '#cancel_user', (function () {
     var path = $("#cancel_user").attr("data-path");
-    $.ajax({
-        type: 'get',
-        url: path,
-        success: function () {
-            console.log("ez");
-            iziToast.success({
-                title: 'Inscription annulé !'
-            });
-            location.reload();
-        }
+    $.post(path, function (data) {
+        iziToast.success({
+            title: 'Inscription annulé !'
+        });
+        $("#modalEntrant").html(data);
     });
-
-});
+}));
