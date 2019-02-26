@@ -82,7 +82,7 @@ class EventController extends AbstractController
         $em->persist($entrant);
         $em->flush();
 
-        return $this->redirectToRoute('front_event_show', ['slug' => $event->getSlug()]);
+        return $this->render('page/modalCancelRegisterEvent.html.twig', ['slug' => $event->getSlug(), 'event' => $event]);
     }
 
     /**
@@ -91,13 +91,15 @@ class EventController extends AbstractController
     public function deleteRegisteredEntrant(Request $request, Event $event): Response
     {
         $user = $this->getUser()->getId();
-        $entrant = $this->getDoctrine()->getRepository('App:Entrant')->findOneBy(array('user_related' => $user));
+        $entrant = $this->getDoctrine()->getRepository('App:Entrant')->findBy(array('user_related' => $user));
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entrant->setDeleted(1);
-        $entityManager->flush();
+        foreach ($entrant as $ent) {
+            $ent->setDeleted(1);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
 
-        return $this->redirectToRoute('front_event_show', ['slug' => $event->getSlug()]);
+        return $this->render('page/modalRegisterEvent.html.twig', ['slug' => $event->getSlug(), 'event' => $event]);
     }
 
     /**
