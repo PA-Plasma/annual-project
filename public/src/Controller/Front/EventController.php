@@ -143,21 +143,18 @@ class EventController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET"})
      */
-    public function show(Event $event, EventRepository $eventRepository): Response
+    public function show(Event $event, ModulesHelper $modulesHelper, EventRepository $eventRepository): Response
     {
-        if($this->getUser()){
-            $user = $this->getUser()->getId();
-            $entrants = $eventRepository->findUserRegistered($event, $user);
-            $modules = $modulesHelper->FactoryModule($event);
-          
-            return $this->render('front/event/show.html.twig', [
-                'event' => $event,
-                'user' => $user,
-                'entrants' => $entrants,
-                'modules' => $modules
-            ]);
-        }
-        return $this->render('front/event/show.html.twig', ['event' => $event]);
+        $user = $this->getUser()->getId();
+        $entrants = $eventRepository->findUserRegistered($event, $user);
+        $modules = $modulesHelper->FactoryModule($event);
+
+        return $this->render('front/event/show.html.twig', [
+            'event' => $event,
+            'user' => $user,
+            'entrants' => $entrants,
+            'modules' => $modules
+        ]);
     }
 
     /**
