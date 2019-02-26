@@ -4,7 +4,20 @@
 
 {% block body %}
     <h1 class="m-3">Event index</h1>
+    <button class="btn btn-primary" id="display-search"><i class="fa fa-search"></i> Rechercher</button>
 
+    <div class="d-none" id="search">
+        <div class="form-group">
+            <label for="name-filter">Nom</label>
+            <input type="text" class="form-control filtre-input" id="name-filter" name="name"
+                   placeholder="Rechercher par nom">
+        </div>
+        <div class="form-group">
+            <label for="date-filter">Date</label>
+            <input type="date" class="form-control filtre-input" id="date-filter" placeholder="Rechercher par date" name="date">
+        </div>
+        <button id="rechercher" class="btn btn-primary">Filtrer</button>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -17,34 +30,15 @@
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
-        {% for event in events %}
-            <tr>
-                <td>{{ event.id }}</td>
-                <td>{{ event.name }}</td>
-                <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ event.registrationType }}</td>
-                <td>
-                    <ul>
-
-                        {% for module in event.modules %}
-                            <li> {{ module.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-                {% dump(event.entrants) %}
-                <td>
-                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
+        <tbody id="list-event">
         </tbody>
     </table>
 
+
     <a href="{{ path('front_event_new') }}"><button class="btn btn-md btn-primary mt-1">Create new</button></a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/eventList.js') }}"></script>
 {% endblock %}

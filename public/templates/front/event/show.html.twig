@@ -42,21 +42,33 @@
         </tbody>
     </table>
     <div id="modalEntrant">
-    {% if event.registrationType == 1 %}
-        {% if entrants is empty %}
-            {% include 'page/modalRegisterEvent.html.twig' %}
+        {% if event.registrationType == 1 %}
+            {% if entrants is empty %}
+                {% include 'page/modalRegisterEvent.html.twig' %}
+            {% else %}
+                {% for entrant in entrants %}
+                    {% if entrant.active %}
+                        {% include 'page/modalCancelRegisterEvent.html.twig' %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         {% else %}
-            {% for entrant in entrants %}
-                {% if entrant.active %}
-                    {% include 'page/modalCancelRegisterEvent.html.twig' %}
-                {% endif %}
-            {% endfor %}
+            <div class="alert alert-warning" role="alert">
+                Ceci est un tournoi avec invitation vous ne pouvez pas vous inscrire !
+            </div>
         {% endif %}
-    {% else %}
-        <div class="alert alert-warning" role="alert">
-            Ceci est un tournoi avec invitation vous ne pouvez pas vous inscrire !
-        </div>
-    {% endif %}
+    </div>
+    <div id="modules">
+        {% for module in modules %}
+            {% if module.entity %}
+                {% if (not module.entity.isParameted()) %}
+                    {{ render(controller(module.controller~"::parameters", {'event': event})) }}
+                {% else %}
+                    {{ render(controller(module.controller~"::display", {'event': event})) }}
+                {% endif %}
+            {% endif %}
+
+        {% endfor %}
     </div>
     {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
 {% endblock %}

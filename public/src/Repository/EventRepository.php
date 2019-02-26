@@ -34,7 +34,21 @@ class EventRepository extends ServiceEntityRepository
 
         return ($q->getQuery()->getResult());
 
-
+    public function getList($name = '', $date = null)
+    {
+        $query = $this->createQueryBuilder('e')
+            ->andWhere('e.deleted = false')
+            ->andWhere('e.active = true');
+        if ($name !== '') {
+            $query->andWhere('e.name LIKE :name')
+                ->setParameter('name', '%'.$name.'%');
+        }
+        if ($date !== null) {
+            $query->andWhere('e.end_date <= :date')
+                ->andWhere('e.beginnig_date >= :date')
+                ->setParameter('date', $date->format('Y/m/d'));
+        }
+        return $query->getQuery()->getResult();
     }
 
     // /**

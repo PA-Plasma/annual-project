@@ -22,26 +22,35 @@ class EventController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(EventRepository $eventRepository): Response
+    public function index(): Response
     {
-        $events = $eventRepository->findBy(
-            [
-                'deleted' => false,
-                'active'  => true
-            ]
-        );
         return $this->render(
-            'front/event/index.html.twig',
-            [
-                'events' => $events,
-            ]
+            'front/event/index.html.twig'
         );
+    }
+
+    /**
+     * @Route("/list/", name="list", methods={"POST"})
+     * @param Request $request
+     * @param EventRepository $eventRepository
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function list(Request $request, EventRepository $eventRepository): Response
+    {
+        $name = $request->request->get('name');
+        $date = $request->request->get('date');
+        $date = ($date === '') ? null : new \DateTime($date);
+        $events = $eventRepository->getList($name, $date);
+
+        return $this->render('front/event/_list.html.twig', [
+            'events' => $events
+        ]);
     }
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function newStep1(Request $request): Response
+    public function newStep1(Request $request, ModulesHelper $modulesHelper): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -50,6 +59,13 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
+            dump($event);
+            //génération des paramètres des modules
+            if (!empty($event->getModules())) {
+                foreach ($event->getModules() as $moduleName) {
+                    $modulesHelper->generateModulesParameters($moduleName->getName(), $event, $entityManager);
+                }
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
@@ -115,7 +131,6 @@ class EventController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
-
             return $this->redirectToRoute('front_event_inscription_entrants', ['slug' => $event->getSlug()]);
         }
         return $this->render('front/event/new.html.twig', [
@@ -133,19 +148,26 @@ class EventController extends AbstractController
         if($this->getUser()){
             $user = $this->getUser()->getId();
             $entrants = $eventRepository->findUserRegistered($event, $user);
+            $modules = $modulesHelper->FactoryModule($event);
+          
             return $this->render('front/event/show.html.twig', [
                 'event' => $event,
                 'user' => $user,
-                'entrants' => $entrants
+                'entrants' => $entrants,
+                'modules' => $modules
             ]);
         }
         return $this->render('front/event/show.html.twig', ['event' => $event]);
     }
+
     /**
      * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Event $event): Response
     {
+        // check for "edit" access
+        $this->denyAccessUnlessGranted('edit', $event);
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -164,7 +186,7 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $event->setDeleted(1);
             $entityManager->flush();

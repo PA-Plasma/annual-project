@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Event;
 use Doctrine\ORM\EntityManagerInterface;
+use \Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class RolesHelper
@@ -20,7 +21,17 @@ class ModulesHelper
     const MODULE_ENTITY_NAMESPACE = 'App\\Entity\\Modules\\';
     const PREFIX_MODULE_ENTITY_NAME = 'Module';
 
-    public static function FactoryModule(Event $event, EntityManagerInterface $entityMaganer)
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectManager
+     */
+    public $em;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->em = $doctrine->getManager();
+    }
+
+    public function FactoryModule(Event $event)
     {
         $modules = [];
         foreach ($event->getModules() as $module) {
@@ -28,9 +39,9 @@ class ModulesHelper
             $controllerModule = static::MODULE_CONTROLLER_NAMESPACE.ucfirst($module->getName()).static::SUFFIX_MODULE_CONTROLLER_NAME;
 
             //on va chercher l'entité lié à l'event de manière dynamique
-            $entityName = static::MODULE_ENTITY_NAMESPACE.static::PREFIX_MODULE_ENTITY_NAME.ucfirst($module->getName());
-            $entity = $entityMaganer->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
-
+          
+            $entityName = static::getEntityName($module->getName());
+            $entity = $this->em->getRepository($entityName)->findOneBy(['event' => $event->getId()]);
             $modules[] = [
                 'moduleName' => ucfirst($module->getName()), //module name
                 'controller' => $controllerModule, //string qui contient le nom du controller
@@ -38,5 +49,20 @@ class ModulesHelper
             ];
         }
         return $modules;
+    }
+
+    public function generateModulesParameters(string $name, Event $event)
+    {
+        $entityName = static::getEntityName($name);
+        $module = new $entityName();
+        $module->setName($name);
+        $module->setEvent($event);
+        $this->em->persist($module);
+        $this->em->flush();
+        //tester sans le flush
+    }
+
+    protected static function getEntityName($name) {
+        return static::MODULE_ENTITY_NAMESPACE.static::PREFIX_MODULE_ENTITY_NAME.ucfirst($name);
     }
 }
