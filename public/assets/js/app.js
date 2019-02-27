@@ -28,3 +28,26 @@ $('#success_iz').show(function () {
 $('#error_iz').show(function () {
     iziToast.error({timeout: 5000, icon: 'fa fa-chrome', message: message_error});
 });
+/*
+{#<a href="{{ render(controller('App\\Controller\\Front\\EventController::registerEntrant',{'slug': event.slug })) }}">#}
+*/
+
+$(document).on('click', '#register_user', (function () {
+    var path = $("#register_user").attr("data-path");
+    $.post(path, function (data) {
+        iziToast.success({
+            title: 'Inscription validé !'
+        });
+        $("#modalEntrant").html(data);
+    });
+}));
+
+$(document).on('click', '#cancel_user', (function () {
+    var path = $("#cancel_user").attr("data-path");
+    $.post(path, function (data) {
+        iziToast.success({
+            title: 'Inscription annulé !'
+        });
+        $("#modalEntrant").html(data);
+    });
+}));

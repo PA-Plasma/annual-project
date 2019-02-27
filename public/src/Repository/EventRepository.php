@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method Event|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,20 @@ class EventRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Event::class);
     }
+
+    public function findUserRegistered(Event $event, $user)
+    {
+        $q = $this->createQueryBuilder('g')
+            ->select('gu')
+            ->innerJoin('App:Entrant', 'gu', Join::WITH, 'g.id = gu.event')
+            ->andWhere('g.id = :eventId')
+            ->setParameter('eventId', $event->getId())
+            ->andWhere('gu.user_related = :entrantId')
+            ->setParameter('entrantId', $user)
+            ->andWhere('gu.deleted = :deleted')
+            ->setParameter('deleted', false);
+
+        return ($q->getQuery()->getResult());
 
     public function getList($name = '', $date = null)
     {
