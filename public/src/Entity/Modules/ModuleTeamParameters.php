@@ -23,6 +23,11 @@ class ModuleTeamParameters
      */
     private $moduleTeam;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -38,5 +43,27 @@ class ModuleTeamParameters
         $this->moduleTeam = $moduleTeam;
 
         return $this;
+    }
+
+    /**
+     * Description getName function
+     *
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Description setName function
+     *
+     * @param mixed $name
+     *
+     * @return void
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
     }
 }
