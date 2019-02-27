@@ -9,6 +9,7 @@
 
 {% block module_js %}
     {% if ajax is not defined or not ajax %}
-    <script src="{{ asset('build/moduleTournament.js') }}"></script>
+        {# Ajouter dynamiquement le moduleName pour loader le js et éviter de rajouter un script dans chaque show.html.twig #}
+        {#<script src="{{ asset('build/module' ~ moduleName ~ '.js') }}"></script>#}
     {% endif %}
 {% endblock %}
