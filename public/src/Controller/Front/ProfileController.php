@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\EntrantRepository;
 use App\Repository\UserRepository;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,14 +24,35 @@ class ProfileController extends AbstractController
     /**
      * @Route("/", name="profile")
      */
-    public function index(EventRepository $eventRepository)
+    public function index(EventRepository $eventRepository, EntrantRepository $entrantRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
+        $user_id = $user->getId();
+
+        $eventOwner = $eventRepository->findBy(
+            [
+                'createdBy' => $user_id
+            ]
+        );
+
+        $eventEntrant = $entrantRepository->findBy(
+            [
+                'user_related' => $user_id
+            ]
+        );
+
+
+
+        dump($eventOwner);
+        dump($eventEntrant);
+
         return $this->render('front/profile/index.html.twig', [
             'controller_name' => 'ProfileController',
             'user' => $user,
+            'events_owned' => $eventOwner,
+            'events_participated' => $eventEntrant,
         ]);
     }
 

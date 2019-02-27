@@ -17,10 +17,26 @@
 
     </ul>
 
-    Evènements
+    Mes évènements crées :
     <ul>
-        <li>{{ user.email }}</li>
+        {% if events_owned %}
+            {% for event_owned in events_owned %}
+                <li>{{ event_owned.name }}</li>
+            {% endfor %}
+        {% else %}
+            Vous n'avez crée aucun évènements ! Ce serait l'occasion !
+        {% endif %}
+    </ul>
 
+    Je participe à :
+    <ul>
+       {# {% if events_participated %}
+            {% for event_participated in events_participated %}
+                <li>{{ event_participated.event }}</li>
+            {% endfor %}
+        {% else %}
+            Vous ne participez à aucun évènement ! Ce serait l'occasion !
+        {% endif %}#}
     </ul>
 </div>
 {% endblock %}
