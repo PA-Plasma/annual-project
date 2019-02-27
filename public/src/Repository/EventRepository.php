@@ -33,6 +33,7 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('deleted', false);
 
         return ($q->getQuery()->getResult());
+    }
 
     public function getList($name = '', $date = null)
     {
