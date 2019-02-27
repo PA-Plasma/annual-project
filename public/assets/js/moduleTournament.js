@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let mt = new ModuleTournament();
+    let moduleTournament = new ModuleTournament();
 });
 
 class ModuleTournament {
@@ -12,10 +12,10 @@ class ModuleTournament {
     }
 
     watchEdit() {
-        let mt = this;
+        let moduleTournament = this;
         $('#edit-tournament').on('click', function () {
             let slugEvent = $(this).data('slugevent');
-            mt.getFormEdit(slugEvent, $(this).closest('.module-content'));
+            moduleTournament.getFormEdit(slugEvent, $(this).closest('.module-content'));
         })
     }
 
