@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Modules\ModuleTournamentMatch;
+use App\Entity\Modules\ModuleTournamentMatchScore;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
@@ -56,9 +57,15 @@ class Entrant
      */
     private $moduleTournamentMatches;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Modules\ModuleTournamentMatchScore", mappedBy="player")
+     */
+    private $moduleTournamentMatchScores;
+
     public function __construct()
     {
         $this->moduleTournamentMatches = new ArrayCollection();
+        $this->moduleTournamentMatchScores = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,6 +142,37 @@ class Entrant
         if ($this->moduleTournamentMatches->contains($moduleTournamentMatch)) {
             $this->moduleTournamentMatches->removeElement($moduleTournamentMatch);
             $moduleTournamentMatch->removePlayer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ModuleTournamentMatchScore[]
+     */
+    public function getModuleTournamentMatchScores(): Collection
+    {
+        return $this->moduleTournamentMatchScores;
+    }
+
+    public function addModuleTournamentMatchScore(ModuleTournamentMatchScore $moduleTournamentMatchScore): self
+    {
+        if (!$this->moduleTournamentMatchScores->contains($moduleTournamentMatchScore)) {
+            $this->moduleTournamentMatchScores[] = $moduleTournamentMatchScore;
+            $moduleTournamentMatchScore->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModuleTournamentMatchScore(ModuleTournamentMatchScore $moduleTournamentMatchScore): self
+    {
+        if ($this->moduleTournamentMatchScores->contains($moduleTournamentMatchScore)) {
+            $this->moduleTournamentMatchScores->removeElement($moduleTournamentMatchScore);
+            // set the owning side to null (unless already changed)
+            if ($moduleTournamentMatchScore->getPlayer() === $this) {
+                $moduleTournamentMatchScore->setPlayer(null);
+            }
         }
 
         return $this;

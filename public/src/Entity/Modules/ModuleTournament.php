@@ -7,6 +7,7 @@ use App\Entity\Interfaces\ModuleInterface;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
+use App\Repository\Modules\ModuleTournamentMatchRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,10 +43,10 @@ class ModuleTournament implements ModuleInterface
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Modules\ModuleTournamentMatch", mappedBy="tournament", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Modules\ModuleTournamentMatch", mappedBy="tournament", orphanRemoval=true, cascade={"persist"})
      */
     private $Matches;
-
+    
     public function __construct()
     {
         $this->Matches = new ArrayCollection();
@@ -97,7 +98,8 @@ class ModuleTournament implements ModuleInterface
         return $this;
     }
 
-    public function isParameted() {
+    public function isParameted()
+    {
         return ($this->getModuleTournamentParameters() !== null) ? true : false;
     }
 

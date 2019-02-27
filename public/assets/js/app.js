@@ -28,3 +28,5 @@ $('#success_iz').show(function () {
 $('#error_iz').show(function () {
     iziToast.error({timeout: 5000, icon: 'fa fa-chrome', message: message_error});
 });
+
+export default iziToast;

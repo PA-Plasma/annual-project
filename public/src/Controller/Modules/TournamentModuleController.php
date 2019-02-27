@@ -3,12 +3,19 @@
 namespace App\Controller\Modules;
 
 use App\Controller\Interfaces\ModuleInterface;
+use App\Entity\Entrant;
 use App\Entity\Event;
 use App\Entity\Modules\ModuleTournament;
+use App\Entity\Modules\ModuleTournamentMatch;
+use App\Entity\Modules\ModuleTournamentMatchScore;
 use App\Entity\Modules\ModuleTournamentParameters;
 use App\Form\ModuleTournamentParametersType;
+use App\Repository\Modules\ModuleTournamentMatchRepository;
 use App\Service\Modules\ModuleTournamentHelper;
+use Doctrine\ORM\NonUniqueResultException;
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,6 +25,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 Class TournamentModuleController extends AbstractController implements ModuleInterface
 {
+    protected $tournamentHelper;
+
+    public function __construct(ModuleTournamentHelper $helper)
+    {
+        $this->tournamentHelper = $helper;
+    }
+
     /**
      * @param Event $event
      * @param Request $request
@@ -61,32 +75,100 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
      */
     public function display(Event $event, Request $request)
     {
-        return $this->render("Modules/ModuleTournament/show.html.twig", ['event' => $event]);
+        $rounds = $this->tournamentHelper->getRounds($event->getModuleTournament());
+        $winner = $this->tournamentHelper->getTournamentWinner($event->getModuleTournament());
+        return $this->render("Modules/ModuleTournament/show.html.twig", ['event' => $event, 'rounds' => $rounds, 'winner' => $winner]);
     }
 
     /**
      * @param ModuleTournament $tournament
      * @param ModuleTournamentHelper $moduleTournamentHelper
      * @Route(name="module_tournament_init_matches", path="/tournament/{id}/create-matches")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function initMatches(ModuleTournament $tournament, ModuleTournamentHelper $moduleTournamentHelper)
     {
         $i = 1;
-        foreach ($tournament->getEvent()->getEntrants() as $joueurs) {
-            if ($i === 1) {
-                $match = $moduleTournamentHelper->newMatch($tournament);
-                $i++;
+        try {
+            foreach ($tournament->getEvent()->getEntrants() as $joueur) {
+                if ($i === 1) {
+                    $match = $moduleTournamentHelper->newMatch($tournament);
+                }
+                $match->addPlayer($joueur);
+                if ($i === 2) {
+                    $this->getDoctrine()->getManager()->persist($match);
+                    $this->getDoctrine()->getManager()->flush();
+                    $i = 1;
+                } else {
+                    $i++;
+                }
             }
-            $match->addPlayer($joueurs);
-            if ($i === 2) {
-                $i = 1;
-            } else {
-                $i++;
-            }
+        } catch (NonUniqueResultException $e) {
+            $this->addFlash('error', $e->getMessage());
         }
         $this->getDoctrine()->getManager()->flush();
-        dump($tournament->getMatches());exit;
         return $this->redirectToRoute('front_event_show', ['slug' => $tournament->getEvent()->getSlug()]);
+    }
+
+    /**
+     * @param ModuleTournamentMatch $match
+     * @param Request $request
+     * @param ModuleTournamentHelper $tournamentHelper
+     * @return JsonResponse
+     * @Route(name="module_tournament_score", path="/match/{id}/add-score")
+     */
+    public function addScore(ModuleTournamentMatch $match, Request $request, ModuleTournamentHelper $tournamentHelper)
+    {
+        $datas = $request->request->get('score');
+        $datas = json_decode($datas, true);
+        $em = $this->getDoctrine()->getManager();
+        foreach ($datas as $item) {
+            if ($item['score_id'] === null) {
+                $player = $em->getRepository(Entrant::class)->find($item['player_id']);
+                $score = new ModuleTournamentMatchScore();
+                $score->setMatch($match)
+                    ->setPlayer($player);
+                $em->persist($score);
+            } else {
+                $score = $em->getRepository(ModuleTournamentMatchScore::class)->find($item['score_id']);
+            }
+            $score->setScore($item['score']);
+        }
+        //si tous les matchs ont un score, on lance un nouveau round
+        $tournament = $match->getTournament();
+        $valid = true;
+        foreach ($tournament->getMatches() as $matchTournament) {
+            if (count($matchTournament->getPlayers()) !== count($matchTournament->getScores())) {
+                $valid = false;
+            }
+        }
+        if ($valid && $tournamentHelper->getTournamentWinner($tournament) === null) {
+            //new round
+            try {
+                $round = $match->getRound();
+                //recupération des joueurs gagnant du round précédent
+                $oldMatches = $em->getRepository(ModuleTournamentMatch::class)->findBy(['tournament' => $tournament, 'round' => $round]);
+                $i = 1;
+                $round++;
+                $match = $tournamentHelper->newMatch($tournament, $round);
+                foreach ($oldMatches as $om) {
+                    $winner = $tournamentHelper->getMatchWinner($om);
+                    $match->addPlayer($winner);
+                    if ($i === 2) {
+                        $em->flush();
+                        $match = $tournamentHelper->newMatch($tournament, $round);
+                        $em->persist($match);
+                        $i = 1;
+                    } else {
+                        $i++;
+                    }
+                }
+            } catch (NonUniqueResultException $e) {
+                return new JsonResponse(['etat' => 'error', 'message' => $e->getMessage()]);
+            }
+        }
+        $em->flush();
+        return new JsonResponse(['etat' => 'success', 'message' => 'ok']);
     }
 
 }

@@ -1,14 +1,15 @@
 {% extends "Modules/base.html.twig" %}
 {% block module_title %}module {{ event.moduleTournament.name }}{% endblock %}
 {% block module_content %}
-    <div class="row">
-        <div class="col-md-4">
-            <button class="btn btn-md btn-primary mt-1" id="edit-tournament" data-slugevent="{{ event.slug }}">
-                Edit
-            </button>
+    <div id="moduleTournament" data-id="{{ event.moduleTournament.id }}">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-md btn-primary mt-1" id="edit-tournament" data-slugevent="{{ event.slug }}">
+                    Edit
+                </button>
+            </div>
         </div>
-    </div>
-    {% include "Modules/ModuleTournament/admin.html.twig" %}
+        {% include "Modules/ModuleTournament/admin.html.twig" %}</div>
 {% endblock %}
 
 {% block module_js %}
