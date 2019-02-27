@@ -19,6 +19,16 @@ class EntrantRepository extends ServiceEntityRepository
         parent::__construct($registry, Entrant::class);
     }
 
+    public function findAllEntrantsByEvent($event)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+
+        $queryBuilder->where('e.event = :event')
+            ->setParameter('event', $event);
+
+        return $queryBuilder;
+    }
+
     // /**
     //  * @return Entrant[] Returns an array of Entrant objects
     //  */

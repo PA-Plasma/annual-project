@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Modules\ModuleTeamParameters;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
@@ -45,6 +46,12 @@ class Entrant
      * @ORM\Column(type="string", nullable=true)
      */
     private $slug = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Modules\ModuleTeamParameters", inversedBy="entrants")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $team;
 
     public function getId(): ?int
     {
@@ -95,5 +102,22 @@ class Entrant
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    public function getTeam(): ModuleTeamParameters
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?ModuleTeamParameters $team): self
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->pseudo;
     }
 }
