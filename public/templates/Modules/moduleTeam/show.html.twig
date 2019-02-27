@@ -1,0 +1,16 @@
+{% extends "Modules/base.html.twig" %}
+{% block module_title %}module {{ event.moduleTeam.name }}{% endblock %}
+{% block module_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-md btn-primary mt-1" id="edit-team" data-slugevent="{{ event.slug }}">
+                Edit
+            </button>
+        </div>
+    </div>
+    <p>{{ event.moduleTeam.moduleTeamParameters.name }}</p>
+{% endblock %}
+
+{% block module_js %}
+    <script src="{{ asset('build/moduleTeam.js') }}"></script>
+{% endblock %}
