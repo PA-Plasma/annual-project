@@ -109,16 +109,21 @@ class UserType extends AbstractType
                     ],
                 ],
             ]
-        )->add(
-            'submit',
-            SubmitType::class,
-            [
-                'label' => 'Register',
-                'attr'  => [
-                    'class' => 'btn btn-md btn-primary mt-1',
-                ],
-            ]
         );
+
+        if ($options['profile'] === false) {
+            $builder->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => 'Register',
+                    'attr'  => [
+                        'class' => 'btn btn-md btn-primary mt-1',
+                    ],
+                ]
+            );
+        }
+
     }
 
     /**
@@ -133,6 +138,7 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'back' => false,
+            'profile' => false,
         ]);
     }
 }
