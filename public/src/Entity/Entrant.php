@@ -30,7 +30,7 @@ class Entrant
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="entrants")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user_related;
 
@@ -46,7 +46,12 @@ class Entrant
     private $pseudo;
 
     /**
-     * @var string
+
+     * @ORM\Column(type="string", length=180)
+     */
+    private $email;
+
+    /* @var string
      * @Gedmo\Slug(fields={"pseudo"})
      * @ORM\Column(type="string", nullable=true)
      */
@@ -105,6 +110,18 @@ class Entrant
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

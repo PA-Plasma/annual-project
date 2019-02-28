@@ -30,3 +30,24 @@ $('#error_iz').show(function () {
 });
 
 export default iziToast;
+
+
+$(document).on('click', '#register_user', (function () {
+    var path = $("#register_user").attr("data-path");
+    $.post(path, function (data) {
+        iziToast.success({
+            title: 'Inscription validé !'
+        });
+        $("#modalEntrant").html(data);
+    });
+}));
+
+$(document).on('click', '#cancel_user', (function () {
+    var path = $("#cancel_user").attr("data-path");
+    $.post(path, function (data) {
+        iziToast.success({
+            title: 'Inscription annulé !'
+        });
+        $("#modalEntrant").html(data);
+    });
+}));
