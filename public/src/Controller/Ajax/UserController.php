@@ -63,15 +63,4 @@ class UserController extends AbstractController
             return null;
         }
     }
-
-    /***
-     * @param Request $request
-     * @param User $user
-     * @Route("/infos/")
-     * @Method({"POST"})
-     */
-    public function getInfosUser(Request $request)
-    {
-        return ("hello");
-    }
 }
