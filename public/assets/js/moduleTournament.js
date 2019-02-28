@@ -59,7 +59,7 @@ class ModuleTournament {
             }
         });
         score = JSON.stringify(score);
-        return $.post('/match/' + match.data('match-id') + '/add-score', {score: score}, function(datas) {
+        return $.post('/tournament/add-score/' + match.data('match-id'), {score: score}, function(datas) {
             if (datas.etat === 'error') {
                 iziToast.error({
                     title: 'Erreur',

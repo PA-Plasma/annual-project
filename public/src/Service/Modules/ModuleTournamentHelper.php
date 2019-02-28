@@ -64,6 +64,9 @@ class ModuleTournamentHelper
     public function getTournamentWinner(ModuleTournament $tournament)
     {
         $tournamentRounds = $this->getRounds($tournament);
+        if (empty($tournamentRounds)) {
+            return null;
+        }
         $lastRound = $tournamentRounds[count($tournamentRounds)];
         if (count($lastRound) === 1) {
             return $this->getMatchWinner($lastRound[0]);

@@ -10,10 +10,8 @@ use App\Entity\Modules\ModuleTournamentMatch;
 use App\Entity\Modules\ModuleTournamentMatchScore;
 use App\Entity\Modules\ModuleTournamentParameters;
 use App\Form\ModuleTournamentParametersType;
-use App\Repository\Modules\ModuleTournamentMatchRepository;
 use App\Service\Modules\ModuleTournamentHelper;
 use Doctrine\ORM\NonUniqueResultException;
-use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -115,7 +113,7 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
      * @param Request $request
      * @param ModuleTournamentHelper $tournamentHelper
      * @return JsonResponse
-     * @Route(name="module_tournament_score", path="/match/{id}/add-score")
+     * @Route(name="module_tournament_score", path="/tournament/add-score/{id}")
      */
     public function addScore(ModuleTournamentMatch $match, Request $request, ModuleTournamentHelper $tournamentHelper)
     {
@@ -134,6 +132,7 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
             }
             $score->setScore($item['score']);
         }
+        $em->flush();
         //si tous les matchs ont un score, on lance un nouveau round
         $tournament = $match->getTournament();
         $valid = true;
@@ -142,22 +141,27 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
                 $valid = false;
             }
         }
-        if ($valid && $tournamentHelper->getTournamentWinner($tournament) === null) {
+        $nextRound = $em->getRepository(ModuleTournamentMatch::class)->findBy(['round' => $match->getRound() + 1, 'tournament' => $match->getTournament()]);
+        if ($valid && $tournamentHelper->getTournamentWinner($tournament) === null && empty($nextRound)) {
             //new round
             try {
                 $round = $match->getRound();
                 //recupération des joueurs gagnant du round précédent
                 $oldMatches = $em->getRepository(ModuleTournamentMatch::class)->findBy(['tournament' => $tournament, 'round' => $round]);
                 $i = 1;
+                $count = 0;
                 $round++;
                 $match = $tournamentHelper->newMatch($tournament, $round);
                 foreach ($oldMatches as $om) {
+                    $count++;
                     $winner = $tournamentHelper->getMatchWinner($om);
                     $match->addPlayer($winner);
                     if ($i === 2) {
                         $em->flush();
-                        $match = $tournamentHelper->newMatch($tournament, $round);
-                        $em->persist($match);
+                        if ($count !== count($oldMatches)) {
+                            $match = $tournamentHelper->newMatch($tournament, $round);
+                            $em->persist($match);
+                        }
                         $i = 1;
                     } else {
                         $i++;
@@ -170,5 +174,4 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
         $em->flush();
         return new JsonResponse(['etat' => 'success', 'message' => 'ok']);
     }
-
 }
