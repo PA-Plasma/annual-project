@@ -26,7 +26,7 @@ class ModuleTeamInformation
     private $teamName;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTeam", inversedBy="moduleTeamInformation", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Modules\ModuleTeam", inversedBy="teams")
      * @ORM\JoinColumn(nullable=false)
      */
     private $moduleTeam;

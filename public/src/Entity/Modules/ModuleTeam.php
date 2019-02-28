@@ -6,6 +6,8 @@ use App\Entity\Event;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,14 +36,19 @@ class ModuleTeam
     private $moduleTeamParameters;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Modules\ModuleTeamInformation", mappedBy="moduleTeam", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Modules\ModuleTeamInformation", mappedBy="moduleTeam", cascade={"persist"})
      */
-    private $moduleTeamInformation;
+    private $teams;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    public function __construct()
+    {
+        $this->teams = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,18 +84,32 @@ class ModuleTeam
         return $this;
     }
 
-    public function getModuleTeamInformation(): ?ModuleTeamInformation
+    /**
+     * @return Collection|ModuleTeamInformation[]
+     */
+    public function getTeams(): Collection
     {
-        return $this->moduleTeamInformation;
+        return $this->teams;
     }
 
-    public function setModuleTeamInformation(ModuleTeamInformation $moduleTeamInformation): self
+    public function addTeam(ModuleTeamInformation $team): self
     {
-        $this->moduleTeamInformation = $moduleTeamInformation;
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);;
+            $team->setModuleTeam($this);
+        }
 
-        // set the owning side of the relation if necessary
-        if ($this !== $moduleTeamInformation->getModuleTeam()) {
-            $moduleTeamInformation->setModuleTeam($this);
+        return $this;
+    }
+
+    public function removeTeam(ModuleTeamInformation $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            // set the owning side to null (unless already changed)
+            if ($team->getModuleTeam() === $this) {
+                $team->getModuleTeam()(null);
+            }
         }
 
         return $this;
