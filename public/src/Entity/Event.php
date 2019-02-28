@@ -89,7 +89,7 @@ class Event
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Vich\UploadableField(mapping="events_image", fileNameProperty="imageName", size="imageSize")
+     * @Vich\UploadableField(mapping="events", fileNameProperty="imageName", size="imageSize")
      *
      * @var File
      */
