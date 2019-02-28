@@ -79,7 +79,7 @@ class ModuleTeam
 
     public function getModuleTeamInformation(): ?ModuleTeamInformation
     {
-        return $this->moduleTeamParameters;
+        return $this->moduleTeamInformation;
     }
 
     public function setModuleTeamInformation(ModuleTeamInformation $moduleTeamInformation): self
