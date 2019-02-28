@@ -18,7 +18,7 @@ class Entrant
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="entrants")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user_related;
 
@@ -32,11 +32,6 @@ class Entrant
      * @ORM\Column(type="string", length=255)
      */
     private $pseudo;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $show_user_related;
 
     /**
      * @ORM\Column(type="string", length=180)
