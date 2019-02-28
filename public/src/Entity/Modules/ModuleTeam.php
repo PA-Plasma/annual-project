@@ -34,6 +34,11 @@ class ModuleTeam
     private $moduleTeamParameters;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Modules\ModuleTeamInformation", mappedBy="moduleTeam", cascade={"persist", "remove"})
+     */
+    private $moduleTeamInformation;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -67,6 +72,23 @@ class ModuleTeam
         // set the owning side of the relation if necessary
         if ($this !== $moduleTeamParameters->getModuleTeam()) {
             $moduleTeamParameters->setModuleTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function getModuleTeamInformation(): ?ModuleTeamInformation
+    {
+        return $this->moduleTeamParameters;
+    }
+
+    public function setModuleTeamInformation(ModuleTeamInformation $moduleTeamInformation): self
+    {
+        $this->moduleTeamInformation = $moduleTeamInformation;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $moduleTeamInformation->getModuleTeam()) {
+            $moduleTeamInformation->setModuleTeam($this);
         }
 
         return $this;

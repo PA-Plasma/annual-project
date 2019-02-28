@@ -27,20 +27,14 @@ class ModuleTeamParameters
     private $moduleTeam;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
-    private $name;
+    private $nbEntrants;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="team")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $entrants;
-
-    public function __construct()
-    {
-        $this->entrants = new ArrayCollection();
-    }
+    private $teamColor;
 
     public function getId(): ?int
     {
@@ -60,52 +54,46 @@ class ModuleTeamParameters
     }
 
     /**
-     * Description getName function
+     * Description getNbEntrants function
      *
      * @return mixed
      */
-    public function getName()
+    public function getNbEntrants()
     {
-        return $this->name;
+        return $this->nbEntrants;
     }
 
     /**
-     * Description setName function
+     * Description setNbEntrants function
      *
-     * @param mixed $name
+     * @param mixed $nbEntrants
      *
      * @return void
      */
-    public function setName($name): void
+    public function setNbEntrants($nbEntrants): void
     {
-        $this->name = $name;
+        $this->nbEntrants = $nbEntrants;
     }
 
-    public function getEntrants(): Collection
+    /**
+     * Description getTeamColor function
+     *
+     * @return mixed
+     */
+    public function getTeamColor()
     {
-        return $this->entrants;
+        return $this->teamColor;
     }
 
-    public function addEntrant(Entrant $entrant): self
+    /**
+     * Description setTeamColor function
+     *
+     * @param mixed $teamColor
+     *
+     * @return void
+     */
+    public function setTeamColor($teamColor): void
     {
-        if (!$this->entrants->contains($entrant)) {
-            $this->entrants->add($entrant);
-            $entrant->setTeam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEntrant(Entrant $entrant): self
-    {
-        if ($this->entrants->contains($entrant)) {
-            $this->entrants->removeElement($entrant);
-            // set the owning side to null (unless already changed)
-            if ($entrant->getTeam() === $this) {
-                $entrant->setTeam(null);
-            }
-        }
-
-        return $this;
+        $this->teamColor = $teamColor;
     }
 }

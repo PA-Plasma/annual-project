@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Modules\ModuleTeamParameters;
+use App\Entity\Modules\ModuleTeamInformation;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
@@ -104,12 +104,12 @@ class Entrant
         $this->slug = $slug;
     }
 
-    public function getTeam(): ModuleTeamParameters
+    public function getTeam(): ModuleTeamInformation
     {
         return $this->team;
     }
 
-    public function setTeam(?ModuleTeamParameters $team): self
+    public function setTeam(?ModuleTeamInformation $team): self
     {
         $this->team = $team;
 
