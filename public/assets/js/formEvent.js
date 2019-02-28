@@ -36,17 +36,6 @@ function hideEntrant(){
                 var entrantId = "event_entrants_" + numberCheckbox + "_user_related";
                 console.log($(entrantId));
 
-                if($(this).is(':checked')){
-                    document.getElementById(entrantId).style.display = 'block';
-                    document.getElementById(entrantId).required = true;
-                }
-                else{
-                    document.getElementById(entrantId).style.display = 'none';
-                    document.getElementById(entrantId).required = false;
-                }
-
-
-
             // $('checkbox').is(':checked')
             //$('input').('').hide();
         });
@@ -134,4 +123,24 @@ function watch() {
 
 $(document).ready(function () {
     watch();
+    $(document).on('change', '.pseudo_input', function (e) {
+        var pseudo = $(this).val();
+        var idUser = $(this).attr('id');
+        var split = idUser.split("_");
+        var numberCheckbox = parseInt(split[2]);
+        var userId = "event_entrants_" + numberCheckbox + "_user_related";
+        var mailId = "event_entrants_" + numberCheckbox + "_email";
+        var path = '/ajax/user/match';
+        $.get(path, {
+            pseudo: pseudo,
+        }, function (data) {})
+            .done(function (data) {
+                $('#' + userId).val(data.id);
+                $('#' + mailId).hide();
+                $('#' + mailId).val(data.mail);
+            })
+            .fail(function () {
+                $('#' + mailId).show();
+            });
+    });
 });
