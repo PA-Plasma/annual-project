@@ -25,24 +25,26 @@ class EntrantType extends AbstractType
                 'attr' => [
                     'class' => 'pseudo_input form-control mt-1 mb-1',
                     'placeholder' => 'Pseudo',
-                    'list' => 'pseudo'
-                ],
-            ])
-            ->add('show_user_related', CheckboxType::class, [
-                'label' => 'Externe ?',
-                'required' => false,
-                'attr' => [
-                    'class' => 'checkbox_input'
+                    'list' => 'pseudo',
                 ],
             ])
             ->add('user_related', EntityType::class, [
                 'choice_label' => 'email',
                 'class' => User::class,
                 'label' => false,
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'class' => 'id_user_related form-control mt-1 mb-1 hide',
                     'placeholder' => 'Email'
+                ],
+            ])
+            ->add('email', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mt-1 mb-1',
+                    'placeholder' => 'Email',
+                    'style' => 'display:none'
                 ],
             ])
         ;
