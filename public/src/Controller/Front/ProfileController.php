@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 
 /**
@@ -38,22 +39,22 @@ class ProfileController extends AbstractController
             ]
         );
 
-        $eventEntrant = $entrantRepository->findBy(
+        /*$eventEntrant = $entrantRepository->findBy(
             [
                 'user_related' => $user_id
             ]
-        );
+        );*/
 
 
 
         dump($eventOwner);
-        dump($eventEntrant);
+        //dump($eventEntrant);
 
         return $this->render('front/profile/index.html.twig', [
             'controller_name' => 'ProfileController',
             'user' => $user,
             'events_owned' => $eventOwner,
-            'events_participated' => $eventEntrant,
+           // 'events_participated' => $eventEntrant,
         ]);
     }
 

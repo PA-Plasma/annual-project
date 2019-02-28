@@ -14,6 +14,7 @@ use App\Entity\Traits\TimestampableUserTrait;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user_account")
+ *
  */
 class User implements UserInterface
 {
@@ -194,4 +195,6 @@ class User implements UserInterface
         }
         return $this;
     }
+
+
 }
