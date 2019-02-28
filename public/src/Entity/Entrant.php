@@ -47,7 +47,7 @@ class Entrant
      */
     private $email;
 
-     * @var string
+    /* @var string
      * @Gedmo\Slug(fields={"pseudo"})
      * @ORM\Column(type="string", nullable=true)
      */
@@ -90,18 +90,6 @@ class Entrant
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
-
-        return $this;
-    }
-
-    public function getShowUserRelated(): ?bool
-    {
-        return $this->show_user_related;
-    }
-
-    public function setShowUserRelated(bool $show_user_related): self
-    {
-        $this->show_user_related = $show_user_related;
 
         return $this;
     }
