@@ -42,6 +42,28 @@ class UserController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/match/", name="match_user", methods={"GET"})
+     */
+    public function matchUser(Request $request, UserRepository $userRepository)
+    {
+        $pseudo = $request->get('pseudo');
+        $test = $userRepository->findOneBy(['pseudo'  => $pseudo]);
+
+        if (!empty($test)) {
+            $outDatas = [
+                'mail' => $test->getEmail(),
+                'id' => $test->getId()
+            ];
+            $response = new JsonResponse();
+            $response->setData($outDatas);
+            return $response;
+        }
+        else {
+            return null;
+        }
+    }
+
     /***
      * @param Request $request
      * @param User $user
@@ -50,6 +72,6 @@ class UserController extends AbstractController
      */
     public function getInfosUser(Request $request)
     {
-
+        return ("hello");
     }
 }
