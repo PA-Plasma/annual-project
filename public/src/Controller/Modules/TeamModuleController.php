@@ -59,24 +59,36 @@ Class TeamModuleController extends AbstractController implements ModuleInterface
     }
 
     /**
-    **
-    * @param Event $event
-    * @param Request $request
-    * @Route(name="module_team_show", path="/event/{slug}/team-show")
-    */
+     **
+     * @param Event $event
+     * @param Request $request
+     * @Route(name="module_team_show", path="/event/{slug}/team-show")
+     */
     public function display(Event $event, Request $request)
     {
+        return $this->render("Modules/ModuleTeam/show.html.twig", ['event' => $event]);
+    }
+
+    /**
+     * @param Event $event
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Route(name="module_team_add_team", path="/event/{slug}/add-team")
+     */
+    public function addTeam(Event $event, Request $request)
+    {
         $moduleTeam = $event->getModuleTeam();
-        $formTeam = $this->createForm(ModuleTeamType::class, $moduleTeam);
+        $formTeam = $this->createForm(ModuleTeamType::class, $moduleTeam, ['event' => $event]);
         $formTeam->handleRequest($request);
         if ($formTeam->isSubmitted() && $formTeam->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($moduleTeam);
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('module_team_show', ['slug' => $event->getSlug()]);
+            return $this->redirectToRoute('front_event_show', ['slug' => $event->getSlug()]);
         }
 
-        return $this->render("Modules/ModuleTeam/show.html.twig", ['event' => $event, 'formTeam' => $formTeam->createView()]);
+        return $this->render("Modules/ModuleTeam/teamForm.html.twig", ['event' => $event, 'formTeam' => $formTeam->createView()]);
     }
 }

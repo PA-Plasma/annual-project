@@ -48,7 +48,7 @@ class Entrant
     private $slug = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Modules\ModuleTeamParameters", inversedBy="entrants")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Modules\ModuleTeamInformation", inversedBy="entrants")
      * @ORM\JoinColumn(nullable=true)
      */
     private $team;

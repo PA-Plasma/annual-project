@@ -25,15 +25,12 @@ class ModuleTeamType extends AbstractType
         $builder
             ->add('teams', CollectionType::class, [
                     'entry_type' => ModuleTeamInformationType::class,
-                    'entry_options' => ['label' => false],
+                    'entry_options' => ['label' => false, 'event' => $options['event']],
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
                 ]
             )
-            ->add('Enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-md btn-primary mt-1 save'],
-            ]);
         ;
     }
 
@@ -41,6 +38,7 @@ class ModuleTeamType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ModuleTeam::class,
+            'event' => null
         ]);
     }
 }

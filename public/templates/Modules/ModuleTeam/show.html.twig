@@ -8,10 +8,15 @@
             </button>
         </div>
     </div>
-    {% include "Modules/ModuleTeam/teamForm.html.twig" %}
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{ path('module_team_add_team', {'slug': event.slug}) }}">
+                <button class="btn btn-md btn-primary mt-1">Ajouter des équipes</button>
+            </a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block module_js %}
     <script src="{{ asset('build/moduleTeam.js') }}"></script>
-    <script src="{{ asset('build/formTeam.js') }}"></script>
 {% endblock %}

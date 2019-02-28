@@ -39,28 +39,22 @@ class ModuleTeamInformationType extends AbstractType
                 ],
             ])
             // Permit to display entrants field before save button
-            ->add('entrants')
-//            ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $formEvent) {
-//                $moduleTeamParameters = $formEvent;
-//                $moduleTeam = $moduleTeamParameters->getModuleTeam();
-//                $event = $moduleTeam->getEvent();
-//
-//                $formEvent->getForm()->add('entrants', EntityType::class, [
-//                    'choice_label' => 'pseudo',
-//                    'multiple' => true,
-//                    'class' => Entrant::class,
-//                    'label' => 'Entrants:',
-//                    'required' => true,
-//                    'by_reference' => false,
-//                    'expanded' => false,
-//                    'attr' => [
-//                        'class' => 'form-control mt-1 mb-1',
-//                    ],
-//                    'query_builder' => function (EntrantRepository $entrantRepository) use ($event) {
-//                        return $entrantRepository->findAllEntrantsByEvent($event);
-//                    },
-//                ]);
-//            })
+//            ->add('entrants')
+            ->add('entrants', EntityType::class, [
+                    'choice_label' => 'pseudo',
+                    'multiple' => true,
+                    'class' => Entrant::class,
+                    'label' => 'Entrants:',
+                    'required' => true,
+                    'by_reference' => false,
+                    'expanded' => false,
+                    'attr' => [
+                        'class' => 'form-control mt-1 mb-1',
+                    ],
+                    'query_builder' => function (EntrantRepository $entrantRepository) use ($options) {
+                        return $entrantRepository->findAllEntrantsByEvent($options['event']);
+                    },
+                ]);
         ;
     }
 
@@ -68,6 +62,7 @@ class ModuleTeamInformationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ModuleTeamInformation::class,
+            'event' => null
         ]);
     }
 }

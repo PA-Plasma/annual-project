@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{# TODO::Remettre ce formulaire sur la page des evenements#}
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        {{ form_start(formTeam) }}
+        <ul class="teams" data-prototype="{{ form_widget(formTeam.teams.vars.prototype)|e }}">
+        </ul>
+        <button type="submit" class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
+        {{ form_end(formTeam) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('build/formTeam.js') }}"></script>
+{% endblock %}
