@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\UserRepository;
 use App\Entity\Entrant;
 use App\Service\ModulesHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -123,10 +124,11 @@ class EventController extends AbstractController
      * @param Event $event
      * @Route("/new/inscription/{slug}", name="inscription_entrants")
      */
-    public function newStep2(Request $request, Event $event)
+    public function newStep2(Request $request, Event $event, UserRepository $userRepository)
     {
         $form = $this->createForm(EventType::class, $event, ['entrants' => true]);
         $form->handleRequest($request);
+        $users = $userRepository->findAll();
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
@@ -136,7 +138,8 @@ class EventController extends AbstractController
         return $this->render('front/event/new.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
-            'step' => 2
+            'step' => 2,
+            'users' => $users
         ]);
     }
 
