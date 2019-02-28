@@ -20,6 +20,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('formEvent', './assets/js/formEvent.js')
+    .addEntry('formTeam', './assets/js/formTeam.js')
     .addEntry('moduleTournament', './assets/js/moduleTournament.js')
     .addEntry('moduleTeam', './assets/js/moduleTeam.js')
     //.addEntry('page2', './assets/js/page2.js')

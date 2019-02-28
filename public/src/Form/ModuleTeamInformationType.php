@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -22,7 +23,7 @@ class ModuleTeamInformationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('teamName', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+            ->add('teamName', TextType::class, [
                 'label' => 'Team name:',
                 'required' => true,
                 'attr' => [
@@ -30,7 +31,7 @@ class ModuleTeamInformationType extends AbstractType
                     'placeholder' => 'The dream team'
                 ],
             ])
-            ->add('teamColor', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+            ->add('teamColor', TextType::class, [
                 'label' => 'Team Color:',
                 'required' => false,
                 'attr' => [
@@ -39,30 +40,27 @@ class ModuleTeamInformationType extends AbstractType
             ])
             // Permit to display entrants field before save button
             ->add('entrants')
-            ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $formEvent) {
-                $moduleTeamParameters = $formEvent->getData();
-                $moduleTeam = $moduleTeamParameters->getModuleTeam();
-                $event = $moduleTeam->getEvent();
-
-                $formEvent->getForm()->add('entrants', EntityType::class, [
-                    'choice_label' => 'pseudo',
-                    'multiple' => true,
-                    'class' => Entrant::class,
-                    'label' => 'Entrants:',
-                    'required' => true,
-                    'by_reference' => false,
-                    'expanded' => false,
-                    'attr' => [
-                        'class' => 'form-control mt-1 mb-1',
-                    ],
-                    'query_builder' => function (EntrantRepository $entrantRepository) use ($event) {
-                        return $entrantRepository->findAllEntrantsByEvent($event);
-                    },
-                ]);
-            })
-            ->add('Enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-md btn-primary mt-1 save'],
-            ]);
+//            ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $formEvent) {
+//                $moduleTeamParameters = $formEvent;
+//                $moduleTeam = $moduleTeamParameters->getModuleTeam();
+//                $event = $moduleTeam->getEvent();
+//
+//                $formEvent->getForm()->add('entrants', EntityType::class, [
+//                    'choice_label' => 'pseudo',
+//                    'multiple' => true,
+//                    'class' => Entrant::class,
+//                    'label' => 'Entrants:',
+//                    'required' => true,
+//                    'by_reference' => false,
+//                    'expanded' => false,
+//                    'attr' => [
+//                        'class' => 'form-control mt-1 mb-1',
+//                    ],
+//                    'query_builder' => function (EntrantRepository $entrantRepository) use ($event) {
+//                        return $entrantRepository->findAllEntrantsByEvent($event);
+//                    },
+//                ]);
+//            })
         ;
     }
 

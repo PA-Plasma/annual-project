@@ -6,6 +6,7 @@ use App\Controller\Interfaces\ModuleInterface;
 use App\Entity\Event;
 use App\Entity\Modules\ModuleTeamParameters;
 use App\Form\ModuleTeamParametersType;
+use App\Form\ModuleTeamType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,6 +66,17 @@ Class TeamModuleController extends AbstractController implements ModuleInterface
     */
     public function display(Event $event, Request $request)
     {
-        return $this->render("Modules/ModuleTeam/show.html.twig", ['event' => $event]);
+        $moduleTeam = $event->getModuleTeam();
+        $formTeam = $this->createForm(ModuleTeamType::class, $moduleTeam);
+        $formTeam->handleRequest($request);
+        if ($formTeam->isSubmitted() && $formTeam->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($moduleTeam);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('module_team_show', ['slug' => $event->getSlug()]);
+        }
+
+        return $this->render("Modules/ModuleTeam/show.html.twig", ['event' => $event, 'formTeam' => $formTeam->createView()]);
     }
 }

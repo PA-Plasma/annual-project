@@ -8,8 +8,10 @@
             </button>
         </div>
     </div>
+    {% include "Modules/ModuleTeam/teamForm.html.twig" %}
 {% endblock %}
 
 {% block module_js %}
     <script src="{{ asset('build/moduleTeam.js') }}"></script>
+    <script src="{{ asset('build/formTeam.js') }}"></script>
 {% endblock %}
