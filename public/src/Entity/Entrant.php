@@ -104,6 +104,7 @@ class Entrant
         $this->email = $email;
 
         return $this;
+    }
 
     public function getSlug(): string
     {
