@@ -7,6 +7,8 @@ $(document).ready(function () {
 class ModuleTournament {
     constructor() {
         this.watchers();
+        this.getMatches();
+        this.tournament_id = $('#moduleTournament').data('id');
     }
 
     watchers() {
@@ -27,6 +29,10 @@ class ModuleTournament {
         $('#admin_tournament').on('click', '.add-score', function () {
             mt.addScore($(this));
         });
+
+        $('#admin_tournament').on('click', '#init-matches', function() {
+            mt.initMatches();
+        })
     }
 
     getFormEdit(eventSlug, module_content) {
@@ -35,7 +41,24 @@ class ModuleTournament {
         }, 'html');
     }
 
+    initMatches() {
+        let mt = this;
+        $.post('/tournament/'+mt.tournament_id+'/create-matches', {}, function(data) {
+            if (data.etat === 'success') {
+                mt.getMatches();
+                iziToast.success({
+                    message: data.message
+                });
+            } else {
+                iziToast.error({
+                    message: data.message
+                })
+            }
+        }, 'json')
+    }
+
     addScore(elem) {
+        let mt = this;
         let match = elem.closest('.match');
         let score = [];
         let error = false;
@@ -59,13 +82,20 @@ class ModuleTournament {
             }
         });
         score = JSON.stringify(score);
-        return $.post('/tournament/add-score/' + match.data('match-id'), {score: score}, function(datas) {
+        return $.post('/tournament/add-score/' + match.data('match-id'), {score: score}, function (datas) {
             if (datas.etat === 'error') {
                 iziToast.error({
                     title: 'Erreur',
                     message: datas.message
                 });
             }
+            mt.getMatches();
         }, 'json');
+    }
+
+    getMatches() {
+        return $.post('/tournament/' + $('#moduleTournament').data('id') + '/matches', {}, function (data) {
+            $('#tournement-content').html(data);
+        }, 'html');
     }
 }

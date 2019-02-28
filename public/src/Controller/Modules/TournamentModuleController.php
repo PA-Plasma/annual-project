@@ -15,6 +15,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,20 +24,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 Class TournamentModuleController extends AbstractController implements ModuleInterface
 {
-    protected $tournamentHelper;
-
-    public function __construct(ModuleTournamentHelper $helper)
-    {
-        $this->tournamentHelper = $helper;
-    }
-
     /**
      * @param Event $event
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/event/{slug}/tounament-parameters", name="module_tournament_parameters", methods={"GET","POST"})
      */
-    public function parameters(Event $event, Request $request)
+    public function parameters(Event $event, Request $request): Response
     {
         $moduleTournoi = $event->getModuleTournament();
         if ($moduleTournoi->getModuleTournamentParameters() !== null) {
@@ -70,42 +64,49 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
      * @param Event $event
      * @param Request $request
      * @Route(name="module_tournament_show", path="/event/{slug}/tournament-show")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function display(Event $event, Request $request)
+    public function display(Event $event, Request $request): Response
     {
-        $rounds = $this->tournamentHelper->getRounds($event->getModuleTournament());
-        $winner = $this->tournamentHelper->getTournamentWinner($event->getModuleTournament());
-        return $this->render("Modules/ModuleTournament/show.html.twig", ['event' => $event, 'rounds' => $rounds, 'winner' => $winner]);
+        return $this->render("Modules/ModuleTournament/show.html.twig", ['event' => $event]);
     }
 
     /**
      * @param ModuleTournament $tournament
      * @param ModuleTournamentHelper $moduleTournamentHelper
      * @Route(name="module_tournament_init_matches", path="/tournament/{id}/create-matches")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse
      */
-    public function initMatches(ModuleTournament $tournament, ModuleTournamentHelper $moduleTournamentHelper)
+    public function initMatches(ModuleTournament $tournament, ModuleTournamentHelper $moduleTournamentHelper): JsonResponse
     {
         $i = 1;
         try {
-            foreach ($tournament->getEvent()->getEntrants() as $joueur) {
-                if ($i === 1) {
-                    $match = $moduleTournamentHelper->newMatch($tournament);
+            $counter = count($tournament->getEvent()->getEntrants());
+            if ($counter > 8) {
+                $counter /= 4;
+            }
+            if ($counter === 4 || $counter % 4 === 0) {
+                foreach ($tournament->getEvent()->getEntrants() as $joueur) {
+                    if ($i === 1) {
+                        $match = $moduleTournamentHelper->newMatch($tournament);
+                    }
+                    $match->addPlayer($joueur);
+                    if ($i === 2) {
+                        $this->getDoctrine()->getManager()->persist($match);
+                        $this->getDoctrine()->getManager()->flush();
+                        $i = 1;
+                    } else {
+                        $i++;
+                    }
                 }
-                $match->addPlayer($joueur);
-                if ($i === 2) {
-                    $this->getDoctrine()->getManager()->persist($match);
-                    $this->getDoctrine()->getManager()->flush();
-                    $i = 1;
-                } else {
-                    $i++;
-                }
+            } else {
+                return new JsonResponse(['etat' => 'error', 'message' => 'Le nombre de joueur doit faire parti de la suite (4-8-16-32...)']);
             }
         } catch (NonUniqueResultException $e) {
-            $this->addFlash('error', $e->getMessage());
+            return new JsonResponse(['etat' => 'error', 'message' => $e->getMessage()]);
         }
         $this->getDoctrine()->getManager()->flush();
-        return $this->redirectToRoute('front_event_show', ['slug' => $tournament->getEvent()->getSlug()]);
+        return new JsonResponse(['etat' => 'success', 'message' => 'Les matchs ont bien été initialisés']);
     }
 
     /**
@@ -115,7 +116,7 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
      * @return JsonResponse
      * @Route(name="module_tournament_score", path="/tournament/add-score/{id}")
      */
-    public function addScore(ModuleTournamentMatch $match, Request $request, ModuleTournamentHelper $tournamentHelper)
+    public function addScore(ModuleTournamentMatch $match, Request $request, ModuleTournamentHelper $tournamentHelper): JsonResponse
     {
         $datas = $request->request->get('score');
         $datas = json_decode($datas, true);
@@ -173,5 +174,19 @@ Class TournamentModuleController extends AbstractController implements ModuleInt
         }
         $em->flush();
         return new JsonResponse(['etat' => 'success', 'message' => 'ok']);
+    }
+
+    /**
+     * @param ModuleTournament $tournament
+     * @param ModuleTournamentHelper $tournamentHelper
+     * @Route(name="module_tournament_matches", path="/tournament/{id}/matches")
+     * @return Response
+     */
+    public function getMatches(ModuleTournament $tournament, ModuleTournamentHelper $tournamentHelper): Response
+    {
+
+        $rounds = $tournamentHelper->getRounds($tournament);
+        $winner = $tournamentHelper->getTournamentWinner($tournament);
+        return $this->render('Modules/ModuleTournament/matches.html.twig', ['event' => $tournament->getEvent(),'rounds' => $rounds, 'winner' => $winner]);
     }
 }
