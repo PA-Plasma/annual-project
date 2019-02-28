@@ -21,7 +21,6 @@ class ModuleTeamParametersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nb_entrants')
-            ->add('team_color')
             ->add('Save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-md btn-primary mt-1 save'],
             ]);

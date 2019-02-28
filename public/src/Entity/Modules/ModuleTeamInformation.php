@@ -37,6 +37,11 @@ class ModuleTeamInformation
      */
     private $entrants;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $teamColor;
+
     public function __construct()
     {
         $this->entrants = new ArrayCollection();
@@ -107,5 +112,27 @@ class ModuleTeamInformation
         }
 
         return $this;
+    }
+
+    /**
+     * Description getTeamColor function
+     *
+     * @return mixed
+     */
+    public function getTeamColor()
+    {
+        return $this->teamColor;
+    }
+
+    /**
+     * Description setTeamColor function
+     *
+     * @param mixed $teamColor
+     *
+     * @return void
+     */
+    public function setTeamColor($teamColor): void
+    {
+        $this->teamColor = $teamColor;
     }
 }

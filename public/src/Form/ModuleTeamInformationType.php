@@ -22,12 +22,19 @@ class ModuleTeamInformationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+            ->add('teamName', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
                 'label' => 'Team name:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
                     'placeholder' => 'The dream team'
+                ],
+            ])
+            ->add('teamColor', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+                'label' => 'Team Color:',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mb-2',
                 ],
             ])
             // Permit to display entrants field before save button
