@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\EntrantRepository;
 use App\Repository\UserRepository;
 use App\Repository\EventRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,13 +60,17 @@ class ProfileController extends AbstractController
     /**
      * @Route("/editProfile", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user, ['profile' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // set encode password
+            $password = $user->getPassword();
+            $encodePassword = $passwordEncoder->encodePassword($user, $password);
+            $user->setPassword($encodePassword);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('front_profile');

@@ -1,5 +1,6 @@
 {% for event in events %}
     <tr>
+        <td><img src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}" /></td>
         <td>{{ event.id }}</td>
         <td>{{ event.name }}</td>
         <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>

@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EventType extends AbstractType
 {
@@ -84,6 +85,7 @@ class EventType extends AbstractType
                 ->add('address', AddressType::class, [
                     'label' => 'Address:',
                 ])
+                ->add('imageFile', VichImageType::class)
                 ->add('modules', EntityType::class, array(
                     'class' => Modules::class,
                     'query_builder' => $this->activeModules,

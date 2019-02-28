@@ -6,6 +6,8 @@
     <h1 class="m-3">Event</h1>
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
 
+
+    <img src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}" />
     <table class="table">
         <tbody>
         <tr>
