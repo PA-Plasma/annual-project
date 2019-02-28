@@ -6,14 +6,14 @@
 {% endblock %}
 
 {% block module_content %}
-
-    {% if not ajax %}
+    <div id="moduleTournament" data-id="{{ event.moduleTournament.id }}">
+        {% if not ajax %}
         <div class="row">
             <div class="col-sm-6 offset-sm-3">
-    {% endif %}
+                {% endif %}
                 {{ form(form) }}
-    {% if not ajax %}
+                {% if not ajax %}
             </div>
         </div>
-    {% endif %}
+        {% endif %}</div>
 {% endblock %}
