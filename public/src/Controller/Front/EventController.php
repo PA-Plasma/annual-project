@@ -93,6 +93,7 @@ class EventController extends AbstractController
         $entrant->setPseudo($user->getPseudo());
         $entrant->setEvent($event);
         $entrant->setSlug($event->getSlug());
+        $entrant->setEmail($user->getEmail());
         $this->addFlash('success', 'Inscription Réussie');
 
         $em = $this->getDoctrine()->getManager();
