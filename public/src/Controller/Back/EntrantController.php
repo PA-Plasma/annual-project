@@ -24,7 +24,18 @@ class EntrantController extends AbstractController
      */
     public function index(EntrantRepository $entrantRepository): Response
     {
-        return $this->render('back/entrant/index.html.twig', ['entrants' => $entrantRepository->findAll()]);
+        $entrnants = $entrantRepository->findBy(
+            [
+                'deleted' => false
+            ]
+        );
+
+        return $this->render(
+            'back/entrant/index.html.twig',
+            [
+                'entrants' => $entrnants
+            ]
+        );
     }
 
     /**
@@ -51,7 +62,7 @@ class EntrantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(Entrant $entrant): Response
     {
@@ -59,7 +70,7 @@ class EntrantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Entrant $entrant): Response
     {
@@ -69,7 +80,7 @@ class EntrantController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back_entrant_index', ['id' => $entrant->getId()]);
+            return $this->redirectToRoute('back_entrant_index', ['slug' => $entrant->getSlug()]);
         }
 
         return $this->render('back/entrant/edit.html.twig', [
@@ -79,13 +90,13 @@ class EntrantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Entrant $entrant): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$entrant->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$entrant->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($entrant);
+            $entrant->setDeleted(1);
             $entityManager->flush();
         }
 

@@ -45,7 +45,7 @@ class DefaultController extends AbstractController
      */
     public function getOperationsAction($route, $entity)
     {
-        $routeSuffix =  substr($route, 0, strrpos($route, "_"));
+        $routeSuffix = substr($route, 0, strrpos($route, "_"));
 
         return $this->render('page/operations.html.twig', [
             'route' => $route,

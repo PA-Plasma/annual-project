@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Modules\ModuleTournament;
+use App\Entity\Traits\ActiveTrait;
+use App\Entity\Traits\SoftDeletedTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -13,6 +18,10 @@ class Event
 {
     CONST REGISTRATION_TYPE_FREE = 1;
     CONST REGISTRATION_TYPE_PAYING = 2;
+
+    use ActiveTrait;
+    use SoftDeletedTrait;
+    use TimestampableTrait;
 
     /**
      * @ORM\Id()
@@ -56,9 +65,27 @@ class Event
      */
     private $Address;
 
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $slug = null;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Modules", inversedBy="events")
+     */
+    private $modules;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTournament", mappedBy="event", cascade={"persist", "remove"})
+     */
+    private $moduleTournament;
+
     public function __construct()
     {
         $this->entrants = new ArrayCollection();
+        $this->modules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,9 +141,6 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|Entrant[]
-     */
     public function getEntrants(): Collection
     {
         return $this->entrants;
@@ -165,6 +189,59 @@ class Event
     public function setAddress(?Address $Address): self
     {
         $this->Address = $Address;
+
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @return Collection|Modules[]
+     */
+    public function getModules(): Collection
+    {
+        return $this->modules;
+    }
+
+    public function addModule(Modules $module): self
+    {
+        if (!$this->modules->contains($module)) {
+            $this->modules[] = $module;
+        }
+
+        return $this;
+    }
+
+    public function removeModule(Modules $module): self
+    {
+        if ($this->modules->contains($module)) {
+            $this->modules->removeElement($module);
+        }
+
+        return $this;
+    }
+
+    public function getModuleTournament(): ?ModuleTournament
+    {
+        return $this->moduleTournament;
+    }
+
+    public function setModuleTournament(ModuleTournament $moduleTournament): self
+    {
+        $this->moduleTournament = $moduleTournament;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $moduleTournament->getEvent()) {
+            $moduleTournament->setEvent($this);
+        }
 
         return $this;
     }

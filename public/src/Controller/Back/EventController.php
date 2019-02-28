@@ -25,7 +25,18 @@ class EventController extends AbstractController
      */
     public function index(EventRepository $eventRepository): Response
     {
-        return $this->render('back/event/index.html.twig', ['events' => $eventRepository->findAll()]);
+        $events = $eventRepository->findBy(
+            [
+                'deleted' => false
+            ]
+        );
+
+        return $this->render(
+            'back/event/index.html.twig',
+            [
+                'events' => $events
+            ]
+        );
     }
 
     /**
@@ -34,7 +45,7 @@ class EventController extends AbstractController
     public function new(Request $request): Response
     {
         $event = new Event();
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(EventType::class, $event, ['back' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,7 +63,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(Event $event): Response
     {
@@ -60,17 +71,17 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Event $event): Response
     {
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(EventType::class, $event, ['back' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back_event_index', ['id' => $event->getId()]);
+            return $this->redirectToRoute('back_event_index', ['slug' => $event->getSlug()]);
         }
 
         return $this->render('back/event/edit.html.twig', [
@@ -80,13 +91,13 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Event $event): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$event->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($event);
+            $event->setDeleted(1);
             $entityManager->flush();
         }
 

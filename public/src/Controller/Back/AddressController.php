@@ -24,7 +24,18 @@ class AddressController extends AbstractController
      */
     public function index(AddressRepository $addressRepository): Response
     {
-        return $this->render('back/address/index.html.twig', ['addresses' => $addressRepository->findAll()]);
+        $addresses = $addressRepository->findBy(
+            [
+                'deleted' => false
+            ]
+        );
+
+        return $this->render(
+            'back/address/index.html.twig',
+            [
+                'addresses' => $addresses,
+            ]
+        );
     }
 
     /**
@@ -51,7 +62,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET"})
      */
     public function show(Address $address): Response
     {
@@ -59,7 +70,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Address $address): Response
     {
@@ -69,7 +80,7 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back_address_index', ['id' => $address->getId()]);
+            return $this->redirectToRoute('back_address_index', ['slug' => $address->getSlug()]);
         }
 
         return $this->render('back/address/edit.html.twig', [
@@ -79,13 +90,13 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{slug}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Address $address): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$address->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$address->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($address);
+            $address->setDeleted(1);
             $entityManager->flush();
         }
 

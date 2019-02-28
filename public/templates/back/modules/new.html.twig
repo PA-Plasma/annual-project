@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Modules{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <h1 class="m-3 text-center">Create new Modules</h1>
+            {{ include('back/modules/_form.html.twig') }}
+        </div>
+    </div>
+    {% include 'page/return.html.twig' with {'backPageName': 'back_modules_index'} %}
+{% endblock %}

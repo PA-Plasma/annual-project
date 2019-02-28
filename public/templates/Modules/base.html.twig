@@ -1,0 +1,14 @@
+{% block module_body %}
+    <div class="module-block container">
+        <div class="col-md-6 col-sm-12">
+            <h3 class="module-title">{% block module_title %}{% endblock %}</h3>
+            <div class="module-content">{% block module_content %}{% endblock %}</div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block module_js %}
+    {% if ajax is not defined or not ajax %}
+    <script src="{{ asset('build/moduleTournament.js') }}"></script>
+    {% endif %}
+{% endblock %}

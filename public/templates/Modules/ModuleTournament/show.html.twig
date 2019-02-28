@@ -1,0 +1,16 @@
+{% extends "Modules/base.html.twig" %}
+{% block module_title %}module {{ event.moduleTournament.name }}{% endblock %}
+{% block module_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-md btn-primary mt-1" id="edit-tournament" data-slugevent="{{ event.slug }}">
+                Edit
+            </button>
+        </div>
+    </div>
+    <p>{{ event.moduleTournament.moduleTournamentParameters.playerFormatDefault }}</p>
+{% endblock %}
+
+{% block module_js %}
+    {{ parent() }}
+{% endblock %}
