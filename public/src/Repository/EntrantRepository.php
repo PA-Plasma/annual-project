@@ -24,7 +24,9 @@ class EntrantRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('e');
 
         $queryBuilder->where('e.event = :event')
-            ->setParameter('event', $event);
+            ->setParameter('event', $event)
+//            ->andWhere('e.team is NULL')
+        ;
 
         return $queryBuilder;
     }
