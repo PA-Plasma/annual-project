@@ -2,6 +2,7 @@
 {% block module_title %}module {{ event.moduleTournament.name }}{% endblock %}
 {% block module_content %}
     <div id="moduleTournament" data-id="{{ event.moduleTournament.id }}">
+        {% if isOwner(app.user, event) %}
         <div class="row">
             <div class="col-md-4">
                 <button class="btn btn-md btn-primary mt-1" id="edit-tournament" data-slugevent="{{ event.slug }}">
@@ -9,6 +10,7 @@
                 </button>
             </div>
         </div>
+        {% endif %}
         <div class="row" id="admin_tournament">
             <div class="col-md-12" id="tournement-content">
             </div>
