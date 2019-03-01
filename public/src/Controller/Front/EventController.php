@@ -149,6 +149,9 @@ class EventController extends AbstractController
      */
     public function show(Event $event, ModulesHelper $modulesHelper, EventRepository $eventRepository): Response
     {
+        // check for "edit" access
+        $this->denyAccessUnlessGranted('show', $event);
+
         $user = $this->getUser()->getId();
         $entrants = $eventRepository->findUserRegistered($event, $user);
         $modules = $modulesHelper->FactoryModule($event);

@@ -3,73 +3,71 @@
 {% block title %}Event{% endblock %}
 
 {% block body %}
-    <h1 class="m-3">Event</h1>
-    {#
-        {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
-    #}
-    <img src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}" />
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ event.id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ event.name }}</td>
-        </tr>
-        <tr>
-            <th>Beginnig_date</th>
-            <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>End_date</th>
-            <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>Registration_type</th>
-            <td>{{ event.registrationType }}</td>
-        </tr>
-        <tr>
-            <th>Modules</th>
-            <td>
-                <ul>
-                    {% for module in event.modules %}
-                        <li> {{ module.name }}</li>
-                    {% endfor %}
-                </ul>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div id="modalEntrant">
-        {% if event.registrationType == 1 %}
-            {% if entrants is empty %}
-                {% include 'page/modalRegisterEvent.html.twig' %}
-            {% else %}
-                {% for entrant in entrants %}
-                    {% if entrant.active %}
-                        {% include 'page/modalCancelRegisterEvent.html.twig' %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% else %}
-            <div class="alert alert-warning" role="alert">
-                Ceci est un tournoi avec invitation vous ne pouvez pas vous inscrire !
-            </div>
-        {% endif %}
-    </div>
-    <div id="modules">
-        {% for module in modules %}
-            {% if module.entity %}
-                {% if (not module.entity.isParameted()) %}
-                    {{ render(controller(module.controller~"::parameters", {'event': event})) }}
-                {% else %}
-                    {{ render(controller(module.controller~"::display", {'event': event})) }}
-                {% endif %}
-            {% endif %}
+    <h1 class="m-3">Event {{ event.name }}</h1>
+    <hr>
 
-        {% endfor %}
+    <div class="card ">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Informations</a>
+                </li>
+                {% for module in modules %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="{{ module.moduleName }}-tab" data-toggle="tab" href="#{{ module.moduleName }}" role="tab" aria-controls="{{ module.moduleName }}" aria-selected="false">{{ module.moduleName }} Module</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    {% if vich_uploader_asset(event, 'imageFile') %}
+                        <img src="{{ vich_uploader_asset(event, 'imageFile')  }}" alt="{{ event.name }}" class="card-img-top mb-1"/>
+                    {% endif %}
+                    <h4 class="card-title">{{ event.name }}</h4>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
+                    <p class="card-text">
+                        <small class="text-muted">From: {{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</small>
+                        <br>
+                        <small class="text-muted">To: {{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</small>
+                    </p>
+                </div>
+                {% for module in modules %}
+                    <div class="tab-pane fade" id="{{ module.moduleName }}" role="tabpanel" aria-labelledby="{{ module.moduleName }}-tab">
+                        {% if module.entity %}
+                            {% if (not module.entity.isParameted()) %}
+                                {{ render(controller(module.controller~"::parameters", {'event': event})) }}
+                            {% else %}
+                                {{ render(controller(module.controller~"::display", {'event': event})) }}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card-footer text-right">
+        <div id="modalEntrant">
+            {% if event.registrationType == 1 %}
+                {% if entrants is empty %}
+                    {% include 'page/modalRegisterEvent.html.twig' %}
+                {% else %}
+                    {% for entrant in entrants %}
+                        {% if entrant.active %}
+                            {% include 'page/modalCancelRegisterEvent.html.twig' %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Ceci est un tournoi avec invitation vous ne pouvez pas vous inscrire !
+                </div>
+            {% endif %}
+        </div>
+        {% if isOwner(app.user, event) %}
+            {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
+        {% endif %}
+        </div>
     </div>
     {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
 {% endblock %}
