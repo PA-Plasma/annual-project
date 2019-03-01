@@ -6,14 +6,17 @@
 {% endblock %}
 
 {% block module_content %}
-
-    {% if not ajax %}
-        <div class="row">
+    {% if isOwner(app.user, event) %}
+        {% if not ajax %}
+            <div class="row">
             <div class="col-sm-6 offset-sm-3">
-    {% endif %}
-                {{ form(form) }}
-    {% if not ajax %}
+        {% endif %}
+        {{ form(form) }}
+        {% if not ajax %}
             </div>
-        </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>Le module est en cours de paramétrage</p>
     {% endif %}
 {% endblock %}
