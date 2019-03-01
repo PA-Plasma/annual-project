@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Modules\ModuleTournament;
+use App\Entity\Modules\ModuleTeam;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
@@ -19,9 +20,7 @@ class Event
     CONST REGISTRATION_TYPE_FREE = 1;
     CONST REGISTRATION_TYPE_PAYING = 2;
 
-    use ActiveTrait;
-    use SoftDeletedTrait;
-    use TimestampableTrait;
+    use ActiveTrait, SoftDeletedTrait, TimestampableTrait;
 
     /**
      * @ORM\Id()
@@ -81,6 +80,11 @@ class Event
      * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTournament", mappedBy="event", cascade={"persist", "remove"})
      */
     private $moduleTournament;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTeam", mappedBy="event", cascade={"persist", "remove"})
+     */
+    private $moduleTeam;
 
     public function __construct()
     {
@@ -241,6 +245,23 @@ class Event
         // set the owning side of the relation if necessary
         if ($this !== $moduleTournament->getEvent()) {
             $moduleTournament->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function getModuleTeam(): ?ModuleTeam
+    {
+        return $this->moduleTeam;
+    }
+
+    public function setModuleTeam(ModuleTeam $moduleTeam): self
+    {
+        $this->moduleTeam = $moduleTeam;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $moduleTeam->getEvent()) {
+            $moduleTeam->setEvent($this);
         }
 
         return $this;

@@ -17,9 +17,7 @@ use App\Entity\Traits\TimestampableUserTrait;
  */
 class User implements UserInterface
 {
-    use ActiveTrait;
-    use SoftDeletedTrait;
-    use TimestampableUserTrait;
+    use ActiveTrait, SoftDeletedTrait, TimestampableUserTrait;
 
     /**
      * @ORM\Id()

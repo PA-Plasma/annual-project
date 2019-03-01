@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Modules\ModuleTeamInformation;
 use App\Entity\Modules\ModuleTournamentMatch;
 use App\Entity\Modules\ModuleTournamentMatchScore;
 use App\Entity\Traits\ActiveTrait;
@@ -17,9 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Entrant
 {
-    use ActiveTrait;
-    use SoftDeletedTrait;
-    use TimestampableTrait;
+    use ActiveTrait, SoftDeletedTrait, TimestampableTrait;
 
     /**
      * @ORM\Id()
@@ -56,6 +55,12 @@ class Entrant
      * @ORM\Column(type="string", nullable=true)
      */
     private $slug = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Modules\ModuleTeamInformation", inversedBy="entrants")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $team;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Modules\ModuleTournamentMatch", mappedBy="players")
@@ -136,6 +141,16 @@ class Entrant
         $this->slug = $slug;
     }
 
+    public function getTeam(): ModuleTeamInformation
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?ModuleTeamInformation $team): self
+    {
+        $this->team = $team;
+    }
+  
     /**
      * @return Collection|ModuleTournamentMatch[]
      */
@@ -154,6 +169,11 @@ class Entrant
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->pseudo;
+    }
+  
     public function removeModuleTournamentMatch(ModuleTournamentMatch $moduleTournamentMatch): self
     {
         if ($this->moduleTournamentMatches->contains($moduleTournamentMatch)) {
