@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Address index{% endblock %}
+
+{% block body %}
+    <h1 class="m-3">Address index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number</th>
+                <th>Road</th>
+                <th>City</th>
+                <th>City_code</th>
+                <th>Country</th>
+                <th>Complement</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for address in addresses %}
+            <tr>
+                <td>{{ address.id }}</td>
+                <td>{{ address.number }}</td>
+                <td>{{ address.road }}</td>
+                <td>{{ address.city }}</td>
+                <td>{{ address.cityCode }}</td>
+                <td>{{ address.country }}</td>
+                <td>{{ address.complement }}</td>
+                <td>
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': address})) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_address_new') }}"><button class="btn btn-md btn-primary mt-1">Create new</button></a>
+{% endblock %}

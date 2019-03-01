@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+    <h1 class="m-3">Edit User</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': user})) }}
+
+    {{ include('back/user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {% include 'page/return.html.twig' with {'backPageName': 'front_profile'} %}
+{% endblock %}

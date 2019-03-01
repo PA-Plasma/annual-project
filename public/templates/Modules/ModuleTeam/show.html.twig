@@ -1,0 +1,34 @@
+{% extends "Modules/base.html.twig" %}
+{% block module_title %}module {{ event.moduleTeam.name }}{% endblock %}
+{% block module_content %}
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-md btn-primary mt-1" id="edit-team" data-slugevent="{{ event.slug }}">
+                Edit
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{ path('module_team_add_team', {'slug': event.slug}) }}">
+                <button class="btn btn-md btn-primary mt-1">Ajouter des équipes</button>
+            </a>
+        </div>
+    </div>
+    {% for team in event.moduleTeam.teams %}
+        <div class="card winner">
+            <h5 class="card-header">Team "{{ team.teamName }}"</h5>
+            <div class="card-body">
+                <div class="card">
+                    {% for player in team.entrants %}
+                        <h5 class="card-header">{{ player.pseudo }}</h5>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block module_js %}
+    <script src="{{ asset('build/moduleTeam.js') }}"></script>
+{% endblock %}

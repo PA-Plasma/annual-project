@@ -19,8 +19,15 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    //.addEntry('page1', './assets/js/page1.js')
+    .addEntry('formEvent', './assets/js/formEvent.js')
+    .addEntry('formTeam', './assets/js/formTeam.js')
+    .addEntry('moduleTournament', './assets/js/moduleTournament.js')
+    .addEntry('moduleTeam', './assets/js/moduleTeam.js')
+    .addEntry('eventList', './assets/js/eventList.js')
     //.addEntry('page2', './assets/js/page2.js')
+
+    // Bootstrap import
+    .addStyleEntry('css/app', './assets/css/app.scss')
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
@@ -46,7 +53,7 @@ Encore
     //.enableTypeScriptLoader()
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()

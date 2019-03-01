@@ -1,3 +1,15 @@
+//assets/css/app.scss
+@import "~bootstrap/scss/bootstrap"; // importe le fichier bootstrap.scss situé dans node_modules/bootstrap/scss/bootstrap/
+@import "~izitoast/dist/css/iziToast.min.css";
+
 body {
     background-color: lightgray;
+}
+
+.operations p, .operations form {
+    display: inline-block;
+}
+
+.hide {
+    display : none;
 }

@@ -1,0 +1,19 @@
+{% extends 'Modules/base.html.twig' %}
+{% block module_title %}
+    {% if not ajax %}
+        Module {{ event.moduleTeam.name }}
+    {% endif %}
+{% endblock %}
+
+{% block module_content %}
+
+    {% if not ajax %}
+        <div class="row">
+            <div class="col-sm-6 offset-sm-3">
+    {% endif %}
+                {{ form(form) }}
+    {% if not ajax %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

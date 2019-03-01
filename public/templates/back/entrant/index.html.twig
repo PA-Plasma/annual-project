@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entrant index{% endblock %}
+
+{% block body %}
+    <h1 class="m-3">Entrant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pseudo</th>
+                <th>State</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entrant in entrants %}
+            <tr>
+                <td>{{ entrant.id }}</td>
+                <td>{{ entrant.pseudo }}</td>
+                <td>{{ entrant.state }}</td>
+                <td>
+                    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': entrant})) }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_entrant_new') }}"><button class="btn btn-md btn-primary mt-1">Create new</button></a>
+{% endblock %}

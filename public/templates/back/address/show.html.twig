@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Address{% endblock %}
+
+{% block body %}
+    <h1 class="m-3">Address</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': address})) }}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ address.id }}</td>
+            </tr>
+            <tr>
+                <th>Number</th>
+                <td>{{ address.number }}</td>
+            </tr>
+            <tr>
+                <th>Road</th>
+                <td>{{ address.road }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ address.city }}</td>
+            </tr>
+            <tr>
+                <th>City_code</th>
+                <td>{{ address.cityCode }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ address.country }}</td>
+            </tr>
+            <tr>
+                <th>Complement</th>
+                <td>{{ address.complement }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% include 'page/return.html.twig' with {'backPageName': 'back_address_index'} %}
+{% endblock %}

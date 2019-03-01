@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Entrant{% endblock %}
+
+{% block body %}
+    <h1 class="m-3">Edit Entrant</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': entrant})) }}
+
+    {{ include('back/entrant/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {% include 'page/return.html.twig' with {'backPageName': 'back_entrant_index'} %}
+{% endblock %}
