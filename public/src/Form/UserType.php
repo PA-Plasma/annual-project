@@ -111,12 +111,12 @@ class UserType extends AbstractType
                 ],
             ]
         );
-        if ($options['profile'] === true) {
-            $builder->add(
-                'imageFile',
-                VichImageType::class
-            );
-        }
+//        if ($options['profile'] === true) {
+//            $builder->add(
+//                'imageFile',
+//                VichImageType::class
+//            );
+//        }
         if ($options['profile'] === false) {
             $builder->add(
                 'submit',
