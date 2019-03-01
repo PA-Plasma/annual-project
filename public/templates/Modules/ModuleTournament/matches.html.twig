@@ -1,5 +1,9 @@
 {% if event.moduleTournament.matches is empty %}
-    <button class="btn btn-primary" id="init-matches">Create matches</button>
+    {% if isOwner(app.user, event) %}
+        <button class="btn btn-primary" id="init-matches">Create matches</button>
+    {% else %}
+        <p>Module en cours de paramètrage</p>
+    {% endif %}
 {% else %}
     {% if winner is not null %}
         <div class="card winner">
@@ -25,29 +29,36 @@
                             </h5>
                             {% if match.scores is empty %}
                                 {% for player in match.players %}
-                                    <div class="form-group">
-                                        <label for="score_{{ loop.index }}">score de {{ player.pseudo }}</label>
-                                        <input type="number" class="form-control score"
-                                               id="score_{{ loop.index }}" name="name"
-                                               placeholder="Score du joueur {{ player.pseudo }}"
-                                               data-player-id="{{ player.id }}">
-                                    </div>
+                                    {% if isOwner(app.user, event) %}
+                                        <div class="form-group">
+                                            <label for="score_{{ loop.index }}">score de {{ player.pseudo }}</label>
+                                            <input type="number" class="form-control score"
+                                                   id="score_{{ loop.index }}" name="name"
+                                                   placeholder="Score du joueur {{ player.pseudo }}"
+                                                   data-player-id="{{ player.id }}">
+                                        </div>
+                                    {% endif %}
                                 {% endfor %}
                             {% else %}
                                 {% for score in match.scores %}
-                                    <div class="form-group">
-                                        <label for="score_{{ loop.index }}">Score
-                                            de {{ score.player.pseudo }}</label>
-                                        <input type="number" class="form-control score"
-                                               id="score_{{ loop.index }}" name="name"
-                                               placeholder="Score du joueur {{ score.player.pseudo }}"
-                                               data-player-id="{{ score.player.id }}" value="{{ score.score }}"
-                                               data-score-id="{{ score.id }}">
-                                    </div>
+                                    {% if isOwner(app.user, event) %}
+                                        <div class="form-group">
+                                            <label for="score_{{ loop.index }}">Score
+                                                de {{ score.player.pseudo }}</label>
+                                            <input type="number" class="form-control score"
+                                                   id="score_{{ loop.index }}" name="name"
+                                                   placeholder="Score du joueur {{ score.player.pseudo }}"
+                                                   data-player-id="{{ score.player.id }}" value="{{ score.score }}"
+                                                   data-score-id="{{ score.id }}">
+                                        </div>
+                                    {% else %}
+                                        <p>score de {{ score.player.pseudo }} : {{ score.score }}</p>
+                                    {% endif %}
                                 {% endfor %}
                             {% endif %}
-
-                            <a class="btn btn-primary add-score">Add score</a>
+                            {% if isOwner(app.user, event) %}
+                                <a class="btn btn-primary add-score">Add score</a>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
