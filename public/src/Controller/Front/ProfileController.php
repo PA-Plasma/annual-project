@@ -45,11 +45,6 @@ class ProfileController extends AbstractController
             ]
         );*/
 
-
-
-        dump($eventOwner);
-        //dump($eventEntrant);
-
         return $this->render('front/profile/index.html.twig', [
             'controller_name' => 'ProfileController',
             'user' => $user,
