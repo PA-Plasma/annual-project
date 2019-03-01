@@ -114,6 +114,7 @@ class Event
      */
     private $updatedAt;
 
+    /*
      * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTeam", mappedBy="event", cascade={"persist", "remove"})
      */
     private $moduleTeam;
@@ -326,6 +327,7 @@ class Event
     public function getImageSize(): ?int
     {
         return $this->imageSize;
+    }
 
     public function getModuleTeam(): ?ModuleTeam
     {
