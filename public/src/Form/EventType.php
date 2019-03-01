@@ -85,8 +85,7 @@ class EventType extends AbstractType
                 ->add('address', AddressType::class, [
                     'label' => 'Address:',
                 ])
-                ->add('imageFile', VichImageType::class)
-                ->add('modules', EntityType::class, array(
+                ->add('modules', EntityType::class, [
                     'class' => Modules::class,
                     'query_builder' => $this->activeModules,
                     'label'    => 'Select which modules you want to enable: ',
@@ -95,7 +94,12 @@ class EventType extends AbstractType
                     'attr' => [
                         'class' => 'form-control mb-2',
                     ],
-                ));
+                ])
+                ->add('imageFile', VichImageType::class, [
+                    'required' => false,
+                    'label' => 'Add event image',
+                ]);
+
         } elseif (!$options['back']) {
             $builder->add('entrants', CollectionType::class, [
                     'entry_type' => EntrantType::class,
