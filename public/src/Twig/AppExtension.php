@@ -24,8 +24,11 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function isOwner(User $user, Event $event)
+    public function isOwner(?User $user, Event $event)
     {
+        if ($user === null) {
+            return false;
+        }
         if ($this->security->isGranted('ROLE_ADMIN')) {
             return true;
         }
