@@ -7,6 +7,9 @@ use App\Entity\Interfaces\ModuleInterface;
 use App\Entity\Traits\ActiveTrait;
 use App\Entity\Traits\SoftDeletedTrait;
 use App\Entity\Traits\TimestampableTrait;
+use App\Repository\Modules\ModuleTournamentMatchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +41,16 @@ class ModuleTournament implements ModuleInterface
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Modules\ModuleTournamentMatch", mappedBy="tournament", orphanRemoval=true, cascade={"persist"})
+     */
+    private $Matches;
+    
+    public function __construct()
+    {
+        $this->Matches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,7 +98,39 @@ class ModuleTournament implements ModuleInterface
         return $this;
     }
 
-    public function isParameted() {
+    public function isParameted()
+    {
         return ($this->getModuleTournamentParameters() !== null) ? true : false;
+    }
+
+    /**
+     * @return Collection|ModuleTournamentMatch[]
+     */
+    public function getMatches(): Collection
+    {
+        return $this->Matches;
+    }
+
+    public function addMatch(ModuleTournamentMatch $match): self
+    {
+        if (!$this->Matches->contains($match)) {
+            $this->Matches[] = $match;
+            $match->setTournament($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatch(ModuleTournamentMatch $match): self
+    {
+        if ($this->Matches->contains($match)) {
+            $this->Matches->removeElement($match);
+            // set the owning side to null (unless already changed)
+            if ($match->getTournament() === $this) {
+                $match->setTournament(null);
+            }
+        }
+
+        return $this;
     }
 }

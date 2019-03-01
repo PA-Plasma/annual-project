@@ -20,7 +20,29 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
     // Display the form in the page in an li, before the "Add a tag" link li
     var $newFormLi = $('<li></li>').append(newForm);
+    //var $newFormLi = $('<li><input list="pseudo" class="pseudo_input_'+ index +'" type="text"></li>').append(newForm);
     $newLinkLi.before($newFormLi);
+}
+
+function hideEntrant(){
+    $(document).ready(function () {
+
+        $(document).on('click', '.checkbox_input', function (e) {
+
+                var checkboxId = $(this).attr('id');
+                var split = checkboxId.split("_");
+                console.log(split[2]);
+                var numberCheckbox = parseInt(split[2]);
+                var entrantId = "event_entrants_" + numberCheckbox + "_user_related";
+                console.log($(entrantId));
+
+            // $('checkbox').is(':checked')
+            //$('input').('').hide();
+        });
+        //#event_entrants_1_user_related
+        //#event_entrants_1_show_user_related
+
+    });
 }
 
 function entrantType() {
@@ -86,7 +108,7 @@ function watch() {
     }
 
     entrantType();
-
+    hideEntrant();
     addUserWatcher();
 
 
@@ -101,4 +123,24 @@ function watch() {
 
 $(document).ready(function () {
     watch();
+    $(document).on('change', '.pseudo_input', function (e) {
+        var pseudo = $(this).val();
+        var idUser = $(this).attr('id');
+        var split = idUser.split("_");
+        var numberCheckbox = parseInt(split[2]);
+        var userId = "event_entrants_" + numberCheckbox + "_user_related";
+        var mailId = "event_entrants_" + numberCheckbox + "_email";
+        var path = '/ajax/user/match';
+        $.get(path, {
+            pseudo: pseudo,
+        }, function (data) {})
+            .done(function (data) {
+                $('#' + userId).val(data.id);
+                $('#' + mailId).hide();
+                $('#' + mailId).val(data.mail);
+            })
+            .fail(function () {
+                $('#' + mailId).show();
+            });
+    });
 });

@@ -11,6 +11,12 @@
 {% else %}
     <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
     </ul>
+    {#<input list="pseudo" type="text">#}
+    <datalist id="pseudo">
+        {% for user in users %}
+            <option value="{{ user.pseudo }}"></option>
+        {% endfor %}
+    </datalist>
 {% endif %}
     <button class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

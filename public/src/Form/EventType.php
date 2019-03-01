@@ -91,6 +91,7 @@ class EventType extends AbstractType
                     'label'    => 'Select which modules you want to enable: ',
                     'choice_label' => 'name',
                     'multiple' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control mb-2',
                     ],

@@ -42,14 +42,25 @@ class UserController extends AbstractController
         return $response;
     }
 
-    /***
-     * @param Request $request
-     * @param User $user
-     * @Route("/infos/")
-     * @Method({"POST"})
+    /**
+     * @Route("/match/", name="match_user", methods={"GET"})
      */
-    public function getInfosUser(Request $request)
+    public function matchUser(Request $request, UserRepository $userRepository)
     {
+        $pseudo = $request->get('pseudo');
+        $test = $userRepository->findOneBy(['pseudo'  => $pseudo]);
 
+        if (!empty($test)) {
+            $outDatas = [
+                'mail' => $test->getEmail(),
+                'id' => $test->getId()
+            ];
+            $response = new JsonResponse();
+            $response->setData($outDatas);
+            return $response;
+        }
+        else {
+            return null;
+        }
     }
 }
