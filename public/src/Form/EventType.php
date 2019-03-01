@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EventType extends AbstractType
 {
@@ -84,7 +85,7 @@ class EventType extends AbstractType
                 ->add('address', AddressType::class, [
                     'label' => 'Address:',
                 ])
-                ->add('modules', EntityType::class, array(
+                ->add('modules', EntityType::class, [
                     'class' => Modules::class,
                     'query_builder' => $this->activeModules,
                     'label'    => 'Select which modules you want to enable: ',
@@ -94,7 +95,12 @@ class EventType extends AbstractType
                     'attr' => [
                         'class' => 'form-control mb-2',
                     ],
-                ));
+                ])
+                ->add('imageFile', VichImageType::class, [
+                    'required' => false,
+                    'label' => 'Add event image',
+                ]);
+
         } elseif (!$options['back']) {
             $builder->add('entrants', CollectionType::class, [
                     'entry_type' => EntrantType::class,

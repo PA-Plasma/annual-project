@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 /**
  * Class UserType
@@ -109,16 +110,26 @@ class UserType extends AbstractType
                     ],
                 ],
             ]
-        )->add(
-            'submit',
-            SubmitType::class,
-            [
-                'label' => 'Register',
-                'attr'  => [
-                    'class' => 'btn btn-md btn-primary mt-1',
-                ],
-            ]
         );
+//        if ($options['profile'] === true) {
+//            $builder->add(
+//                'imageFile',
+//                VichImageType::class
+//            );
+//        }
+        if ($options['profile'] === false) {
+            $builder->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => 'Register',
+                    'attr'  => [
+                        'class' => 'btn btn-md btn-primary mt-1',
+                    ],
+                ]
+            );
+        }
+
     }
 
     /**
@@ -133,6 +144,7 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'back' => false,
+            'profile' => false,
         ]);
     }
 }
