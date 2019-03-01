@@ -23,6 +23,7 @@ Encore
     .addEntry('formTeam', './assets/js/formTeam.js')
     .addEntry('moduleTournament', './assets/js/moduleTournament.js')
     .addEntry('moduleTeam', './assets/js/moduleTeam.js')
+    .addEntry('eventList', './assets/js/eventList.js')
     //.addEntry('page2', './assets/js/page2.js')
 
     // Bootstrap import

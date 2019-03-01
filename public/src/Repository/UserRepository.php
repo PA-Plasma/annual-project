@@ -26,7 +26,7 @@ class UserRepository extends ServiceEntityRepository
     public function findLikeSlug(string $slug): array
     {
         $query = $this->createQueryBuilder('u')
-            ->where(' u.email LIKE :slug')
+            ->where(' u.pseudo LIKE :slug')
             ->setParameter('slug', '%' . $slug . '%');
 
         $datas = $query->getQuery()->getResult();

@@ -4,8 +4,9 @@
 
 {% block body %}
     <h1 class="m-3">Event</h1>
+{#
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
-
+#}
     <table class="table">
         <tbody>
         <tr>
@@ -32,17 +33,31 @@
             <th>Modules</th>
             <td>
                 <ul>
-
                     {% for module in event.modules %}
                         <li> {{ module.name }}</li>
                     {% endfor %}
                 </ul>
             </td>
         </tr>
-
         </tbody>
     </table>
-
+    <div id="modalEntrant">
+        {% if event.registrationType == 1 %}
+            {% if entrants is empty %}
+                {% include 'page/modalRegisterEvent.html.twig' %}
+            {% else %}
+                {% for entrant in entrants %}
+                    {% if entrant.active %}
+                        {% include 'page/modalCancelRegisterEvent.html.twig' %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Ceci est un tournoi avec invitation vous ne pouvez pas vous inscrire !
+            </div>
+        {% endif %}
+    </div>
     <div id="modules">
         {% for module in modules %}
             {% if module.entity %}
