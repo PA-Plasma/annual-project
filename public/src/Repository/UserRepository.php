@@ -19,6 +19,22 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param string $slug
+     * @return User[]
+     */
+    public function findLikeSlug(string $slug): array
+    {
+        $query = $this->createQueryBuilder('u')
+            ->where(' u.pseudo LIKE :slug')
+            ->setParameter('slug', '%' . $slug . '%');
+
+        $datas = $query->getQuery()->getResult();
+
+        // returns an array of Product objects
+        return $datas;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

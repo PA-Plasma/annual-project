@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-collapse collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item {% if "front_index" in route  %}active{% endif %}"><a href="{{ url('front_index') }}" class="nav-link">Accueil</a></li>
+            {% if app.user %}
+                <li class="nav-item {% if "front_event" in route  %}active{% endif %}"><a href="{{ url('front_event_index') }}" class="nav-link">Events</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="navbar-collapse collapse justify-content-end">
+        <ul class="navbar-nav">
+            {% if app.user %}
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                           aria-expanded="false">Manage</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item {% if "back_event" in route  %}active{% endif %}" href="{{ url('back_event_index')  }}">Events</a>
+                            <a class="dropdown-item {% if "back_entrant" in route  %}active{% endif %}" href="{{ url('back_entrant_index')  }}">Entrants</a>
+                            <a class="dropdown-item {% if "back_user" in route  %}active{% endif %}" href="{{ url('back_user_index')  }}">Users</a>
+                            <a class="dropdown-item {% if "back_address" in route  %}active{% endif %}" href="{{ url('back_address_index')  }}">Addresses</a>
+                            <a class="dropdown-item {% if "back_modules" in route  %}active{% endif %}" href="{{ url('back_modules_index')  }}">Modules</a>
+                        </div>
+                    </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{ app.user.username }}</a>
+                    <div class="dropdown-menu">
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <a class="dropdown-item {% if "back_index" in route  %}active{% endif %}" href="{{ url('back_index') }}">Admin</a>
+                            <div class="dropdown-divider"></div>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ url('front_profile') }}">Profile</a>
+                        <a class="dropdown-item" href="{{ url('security_logout') }}">Déconnexion</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url('security_login') }}">Connexion</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('security_register') }}">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

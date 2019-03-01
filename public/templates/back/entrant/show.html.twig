@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entrant{% endblock %}
+
+{% block body %}
+    <h1 class="m-3">Entrant</h1>
+    {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': entrant})) }}
+
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entrant.id }}</td>
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ entrant.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>{{ entrant.state }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% include 'page/return.html.twig' with {'backPageName': 'back_entrant_index'} %}
+{% endblock %}

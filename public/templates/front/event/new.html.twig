@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Event{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <h1 class="m-3">Create new Event</h1>
+            {{ include('front/event/_form.html.twig') }}
+        </div>
+    </div>
+    {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}
+{% endblock %}

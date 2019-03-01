@@ -1,0 +1,25 @@
+{% for event in events %}
+    <tr>
+        <td><img src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}" /></td>
+        <td>{{ event.id }}</td>
+        <td>{{ event.name }}</td>
+        <td>{{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</td>
+        <td>{{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</td>
+        <td>{{ event.registrationType }}</td>
+        <td>
+            <ul>
+
+                {% for module in event.modules %}
+                    <li> {{ module.name }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>
+            {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="6">no records found</td>
+    </tr>
+{% endfor %}

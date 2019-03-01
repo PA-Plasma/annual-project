@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <form method="post">
+                <h1 class="m-3 text-center">Please sign in</h1>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mt-1 mb-1" placeholder="Email" required autofocus>
+                <input type="password" name="password" id="inputPassword" class="form-control mt-1 mb-1" placeholder="Password" required>
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                <div class="checkbox mb-2">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
+                </div>
+
+                <button class="btn btn-md btn-primary" type="submit">
+                    Sign in
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
