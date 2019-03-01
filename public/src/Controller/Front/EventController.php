@@ -145,7 +145,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="show", methods={"GET"})
+     * @Route("/{slug}", name="show", methods={"GET","POST"})
      */
     public function show(Event $event, ModulesHelper $modulesHelper, EventRepository $eventRepository): Response
     {

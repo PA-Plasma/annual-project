@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav">
-            <li class="nav-item {% if "front_index" in route  %}active{% endif %}"><a href="{{ url('front_index') }}" class="nav-link">Acceuil</a></li>
+            <li class="nav-item {% if "front_index" in route  %}active{% endif %}"><a href="{{ url('front_index') }}" class="nav-link">Accueil</a></li>
             {% if app.user %}
                 <li class="nav-item {% if "front_event" in route  %}active{% endif %}"><a href="{{ url('front_event_index') }}" class="nav-link">Events</a></li>
             {% endif %}
