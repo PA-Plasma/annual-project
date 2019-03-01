@@ -3,39 +3,27 @@
 {% block title %}Event index{% endblock %}
 
 {% block body %}
-    <h1 class="m-3">Event index</h1>
-    <button class="btn btn-primary" id="display-search"><i class="fa fa-search"></i> Rechercher</button>
+    <h1 class="m-3">Find events</h1>
+    <hr>
+    <p><a href="{{ path('front_event_new') }}"><button class="btn btn-md btn-primary ">Create new event</button></a></p>
+    <button class="btn btn-primary" id="display-search"><i class="fa fa-search"></i> Search</button>
 
     <div class="d-none" id="search">
         <div class="form-group">
-            <label for="name-filter">Nom</label>
+            <label for="name-filter">Name</label>
             <input type="text" class="form-control filtre-input" id="name-filter" name="name"
-                   placeholder="Rechercher par nom">
+                   placeholder="Search by name">
         </div>
         <div class="form-group">
             <label for="date-filter">Date</label>
-            <input type="date" class="form-control filtre-input" id="date-filter" placeholder="Rechercher par date" name="date">
+            <input type="date" class="form-control filtre-input" id="date-filter" placeholder="Search by date" name="date">
         </div>
-        <button id="rechercher" class="btn btn-primary">Filtrer</button>
+        <button id="rechercher" class="btn btn-primary">Filter</button>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Beginnig_date</th>
-                <th>End_date</th>
-                <th>Registration_type</th>
-                <th>Modules</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody id="list-event">
-        </tbody>
-    </table>
+    <div id="list-event" class="row">
 
-
-    <a href="{{ path('front_event_new') }}"><button class="btn btn-md btn-primary mt-1">Create new</button></a>
+    </div>
+    <a href="{{ path('front_event_new') }}"><button class="btn btn-md btn-primary mb-5">Create new event</button></a>
 {% endblock %}
 
 {% block javascripts %}

@@ -3,18 +3,39 @@
 {% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<!-- Page Content -->
+<div class="container">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="row">
+        <div class="col-md-8 mb-5">
+            <h2>What is Plasma?</h2>
+            <hr>
+            <p>Plasma is an application that permit you to <b>find</b>, <b>create</b>, <b>organize</b>, <b>participate</b> and <b>see</b> gaming events all around the world!</p>
+            <p>This is know easy to become event organizator and bring together gamers.</p>
+            <p>Click on the button to join the Plasma community and start to create or discover events.</p>
+            <a class="btn btn-primary btn-md" href="{{ url('front_event_index') }}">Discover &raquo;</a>
+            <br/>
+        </div>
+        <div class="col-md-4 mb-5">
+            <h2>Contact Us</h2>
+            <hr>
+            <address>
+                <strong>Plasma</strong>
+                <br>242 Rue du Faubourg Saint-Antoine,
+                <br>75012 Paris
+                <br>
+            </address>
+            <address>
+                <span title="Phone">P:</span>
+                01 56 06 90 41
+                <br>
+                <span title="Email">E:</span>
+                <a href="mailto:#">plasma@contact.com</a>
+            </address>
+        </div>
+    </div>
+    <!-- /.row -->
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/Front/DefaultController.php'|file_link(0) }}">src/Controller/Front/DefaultController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/front/default/index.html.twig'|file_link(0) }}">templates/front/default/index.html.twig</a></code></li>
-    </ul>
+
 </div>
 {% endblock %}
