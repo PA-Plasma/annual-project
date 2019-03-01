@@ -136,9 +136,10 @@ class Entrant
         return $this->slug;
     }
 
-    public function setSlug(string $slug): void
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+        return $this;
     }
 
     public function getTeam(): ModuleTeamInformation
@@ -149,6 +150,7 @@ class Entrant
     public function setTeam(?ModuleTeamInformation $team): self
     {
         $this->team = $team;
+        return $this;
     }
   
     /**
