@@ -1,20 +1,24 @@
 {% extends "Modules/base.html.twig" %}
 {% block module_title %}module {{ event.moduleTeam.name }}{% endblock %}
 {% block module_content %}
-    <div class="row">
-        <div class="col-md-4">
-            <button class="btn btn-md btn-primary mt-1" id="edit-team" data-slugevent="{{ event.slug }}">
-                Edit
-            </button>
+    {% if isOwner(app.user, event) %}
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-md btn-primary mt-1" id="edit-team" data-slugevent="{{ event.slug }}">
+                    Edit
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <a href="{{ path('module_team_add_team', {'slug': event.slug}) }}">
-                <button class="btn btn-md btn-primary mt-1">Ajouter des équipes</button>
-            </a>
+        <div class="row">
+            <div class="col-md-4">
+                <a href="{{ path('module_team_add_team', {'slug': event.slug}) }}">
+                    <button class="btn btn-md btn-primary mt-1">Ajouter des équipes</button>
+                </a>
+            </div>
         </div>
-    </div>
+    {% elseif event.moduleTeam.teams is empty %}
+        <p>Le module est en cours de paramétrage</p>
+    {% endif %}
     {% for team in event.moduleTeam.teams %}
         <div class="card winner">
             <h5 class="card-header">Team "{{ team.teamName }}"</h5>

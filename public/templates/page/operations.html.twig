@@ -1,6 +1,6 @@
 {% if 'list' in route %}
     <a href="{{ path(routeSuffix ~ '_show', {'slug': entity.slug}) }}"><button class="btn"><i class="fas fa-eye text-dark"></i></button></a>
-    <a href="{{ path(routeSuffix ~ '_edit', {'slug': entity.slug}) }}"><button class="btn"><i class="fas fa-pen text-dark"></i></button></a>
+    {% if isOwner(app.user, entity) %}<a href="{{ path(routeSuffix ~ '_edit', {'slug': entity.slug}) }}"><button class="btn"><i class="fas fa-pen text-dark"></i></button></a>{% endif %}
 {% else %}
     <div class="operations mb-3 ml-2">
         {% if 'show' in route  %}
