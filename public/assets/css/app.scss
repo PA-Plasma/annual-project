@@ -1,15 +1,70 @@
 //assets/css/app.scss
-@import "~bootstrap/scss/bootstrap"; // importe le fichier bootstrap.scss situé dans node_modules/bootstrap/scss/bootstrap/
+// importe le fichier bootstrap.scss situé dans node_modules/bootstrap/scss/bootstrap/
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import "_variable";
+@import "~bootstrap/scss/bootstrap";
 @import "~izitoast/dist/css/iziToast.min.css";
 
+@font-face {
+  font-family: Lazer84;
+  src: url("fonts/Lazer84.ttf") format("opentype");
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
+
 body {
-    background-color: lightgray;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  display:flex;
+  flex-direction:column;
+  background-color: #f9f9f9;
+  font-family: 'Open Sans', sans-serif;
+  #app {
+    height: 100%;
+  }
+  .title {
+    font-family: Lazer84, sans-serif;
+  }
+
+  .btn-primary {
+    background: $primary; /* Old browsers */
+    background: -moz-linear-gradient(-45deg, #ff5429 0%, #fa50bc 100%, #2989d8 100%, #207cca 100%, #f966c3 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, #ff5429 0%,#fa50bc 100%,#2989d8 100%,#207cca 100%,#f966c3 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, #ff5429 0%,#fa50bc 100%,#2989d8 100%,#207cca 100%,#f966c3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff5429', endColorstr='#f966c3',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+  }
+  .btn-primary:hover {
+    background: none;
+    color: $dark;
+  }
+  .btn {
+    transition: 0.2s;
+  }
+}
+
+header{
+  height: 90vh;
+  background: no-repeat center 100% url("../images/bck.jpg");
+  h2 {
+    font-size: 3rem;
+  }
+}
+
+footer {
+  margin-top: auto;
 }
 
 .operations p, .operations form {
-    display: inline-block;
+  display: inline-block;
 }
 
 .hide {
-    display : none;
+  display: none;
 }
