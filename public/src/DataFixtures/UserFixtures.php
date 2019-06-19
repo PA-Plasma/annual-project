@@ -24,7 +24,7 @@ class UserFixtures extends Fixture
             ->setPseudo('User')
             ->setEmail('user@plasma.fr')
             ->setRoles(["ROLE_USER"])
-            ->setPassword('$argon2i$v=19$m=1024,t=2,p=2$YUR6NXVZUWkxTGFoVUZCVQ$JQWu1QXTSYJnwHiq09fbwmwZglHIrqTqvRKqPiac+pw');
+            ->setPassword('$argon2i$v=19$m=1024,t=2,p=2$VnJjeng4N0g0NHlia1FPNQ$JqrG4tD1r6FwsenhYH5zXwBzFn9ogNdf5vZJx35DrJU');
         $manager->persist($casualUser);
 
         // Create casual users
@@ -34,7 +34,7 @@ class UserFixtures extends Fixture
                 ->setPseudo($userName)
                 ->setEmail($userName.'@plasma.fr')
                 ->setRoles(["ROLE_USER"])
-                ->setPassword('$argon2i$v=19$m=1024,t=2,p=2$YUR6NXVZUWkxTGFoVUZCVQ$JQWu1QXTSYJnwHiq09fbwmwZglHIrqTqvRKqPiac+pw');
+                ->setPassword('$argon2i$v=19$m=1024,t=2,p=2$VnJjeng4N0g0NHlia1FPNQ$JqrG4tD1r6FwsenhYH5zXwBzFn9ogNdf5vZJx35DrJU');
             $manager->persist($user);
         }
 
