@@ -24,6 +24,7 @@ Encore
     .addEntry('moduleTournament', './assets/js/moduleTournament.js')
     .addEntry('moduleTeam', './assets/js/moduleTeam.js')
     .addEntry('eventList', './assets/js/eventList.js')
+    .addStyleEntry('css/event/index', './assets/css/event/index.scss')
     //.addEntry('page2', './assets/js/page2.js')
 
     // Bootstrap import
