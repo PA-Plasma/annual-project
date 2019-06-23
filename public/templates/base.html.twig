@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            {# 'app' is the first argument to addEntry() in webpack.config.js #}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block header %}{{ render(controller('App\\Controller\\Front\\DefaultController::getHeaderAction',{'route': app.request.attributes.get('_route')})) }}{% endblock %}
-        {% block messages %}{{ include('page/messages.html.twig') }}{% endblock %}
-        <div class="container">
-            {% block body %}{% endblock %}
-        </div>
-        {% block footer %}{{ include('page/footer.html.twig') }}{% endblock %}
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/plasma-favico/favicon.ico') }}"/>
+    <title>Plasma {% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        {# 'app' is the first argument to addEntry() in webpack.config.js #}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div id="app">
+    {% block header %}{{ render(controller('App\\Controller\\Front\\DefaultController::getHeaderAction',{'route': app.request.attributes.get('_route')})) }}{% endblock %}
+    {% block messages %}{{ include('page/messages.html.twig') }}{% endblock %}
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+</div>
+{% block footer %}{{ include('page/footer.html.twig') }}{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
 </html>
