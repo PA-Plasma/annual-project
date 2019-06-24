@@ -12,10 +12,10 @@ class ModulesFixtures extends Fixture
     {
         // Create modules
         $tournamentModule = (new Modules())
-            ->setName('tournament');
+            ->setName('team');
         $manager->persist($tournamentModule);
         $tournamentModule = (new Modules())
-            ->setName('team');
+            ->setName('tournament');
         $manager->persist($tournamentModule);
 
         $manager->flush();
