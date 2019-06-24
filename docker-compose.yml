@@ -20,6 +20,8 @@ services:
     webserver:
       image: nginx:alpine
       container_name: serveur-php-webserver
+      depends_on:
+          - blackfire
       working_dir: /application
       volumes:
           - .:/application
@@ -34,4 +36,13 @@ services:
       volumes:
         - .:/application
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+
+    blackfire:
+        image: blackfire/blackfire
+        container_name: "annual_project_blackfire"
+        environment:
+            BLACKFIRE_SERVER_ID: $BLACKFIRE_SERVER_ID
+            BLACKFIRE_SERVER_TOKEN: $BLACKFIRE_SERVER_TOKEN
+            BLACKFIRE_CLIENT_ID: $BLACKFIRE_CLIENT_ID
+            BLACKFIRE_CLIENT_TOKEN: $BLACKFIRE_CLIENT_TOKEN
 

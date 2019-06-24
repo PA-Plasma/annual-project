@@ -1,36 +1,38 @@
 {% extends "Modules/base.html.twig" %}
-{% block module_title %}module {{ event.moduleTeam.name }}{% endblock %}
-{% block module_content %}
-    {% if isOwner(app.user, event) %}
-        <div class="row">
-            <div class="col-md-4">
+{% block module_title %}
+    <div class="row">
+        <div class="col-md-5 pl-5">module {{ event.moduleTeam.name }}</div>
+        <div class="col-md-7 text-right pr-5">
+            {% if isOwner(app.user, event) %}
+
                 <button class="btn btn-md btn-primary mt-1" id="edit-team" data-slugevent="{{ event.slug }}">
                     Edit
                 </button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
                 <a href="{{ path('module_team_add_team', {'slug': event.slug}) }}">
                     <button class="btn btn-md btn-primary mt-1">Ajouter des équipes</button>
                 </a>
-            </div>
+            {% endif %}
         </div>
-    {% elseif event.moduleTeam.teams is empty %}
+    </div>
+{% endblock %}
+{% block module_content %}
+
+    {% if event.moduleTeam.teams is empty %}
         <p>Le module est en cours de paramétrage</p>
     {% endif %}
-    {% for team in event.moduleTeam.teams %}
-        <div class="card winner">
-            <h5 class="card-header">Team "{{ team.teamName }}"</h5>
-            <div class="card-body">
-                <div class="card">
-                    {% for player in team.entrants %}
-                        <h5 class="card-header">{{ player.pseudo }}</h5>
-                    {% endfor %}
+    <div class="teams row m-2">
+        {% for team in event.moduleTeam.teams %}
+            <div class="col-md-6 col-xs-12 p-2">
+                <div class="row text-center team m-3">
+                    <div class="col-md-12 p-2"><h3 class="title text-secondary">{{ team.teamName }}</h3></div>
+                    <div class="col-md-12 d-flex justify-content-center">
+                        {% for player in team.entrants %}
+                            <div class="col-md-6"><h5 class="">{{ player.pseudo }}</h5></div>
+                        {% endfor %}</div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block module_js %}

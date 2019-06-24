@@ -1,13 +1,14 @@
 import keyDownEnter from "./helper";
 
 export default class Search {
-    constructor(id_tableau, ajax_url, id_search, id_display_search, id_search_button, class_filtre_input) {
+    constructor(id_tableau, ajax_url, id_search, id_display_search, id_search_button, class_filtre_input, skeleton) {
         this.id_tableau = id_tableau;
         this.ajax_url = ajax_url;
         this.id_search = id_search;
         this.id_display_search = id_display_search;
         this.class_filtre_input = class_filtre_input;
         this.id_search_button = id_search_button;
+        this.skeleton = skeleton;
         this.watch();
     }
 
@@ -38,6 +39,7 @@ export default class Search {
             });
         });
         return $.post(list.ajax_url, params, function (data) {
+            $(list.skeleton).removeClass('active-skeleton');
             $(list.id_tableau).html(data);
         }, 'html');
     }

@@ -2,11 +2,24 @@
 
 {% block title %}Event index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('css/event/index') }}
+{% endblock %}
+
 {% block body %}
-    <h1 class="m-3">Find events</h1>
+    <h1 class="m-3 title">Find events</h1>
     <hr>
-    <p><a href="{{ path('front_event_new') }}"><button class="btn btn-md btn-primary ">Create new event</button></a></p>
-    <button class="btn btn-primary" id="display-search"><i class="fa fa-search"></i> Search</button>
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{{ path('front_event_new') }}">
+                <button class="btn btn-md btn-primary "><i class="fa fa-plus"></i> Create new event</button>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary mb-2" id="display-search"><i class="fa fa-search"></i> Search</button>
+        </div>
+    </div>
 
     <div class="d-none" id="search">
         <div class="form-group">
@@ -20,10 +33,20 @@
         </div>
         <button id="rechercher" class="btn btn-primary">Filter</button>
     </div>
-    <div id="list-event" class="row">
-
+    <div class="skeleton active-skeleton">
+        <div class="hero"></div>
+        <div class="title"></div>
+        <div class="text"></div>
     </div>
-    <a href="{{ path('front_event_new') }}"><button class="btn btn-md btn-primary mb-5">Create new event</button></a>
+    <div id="list-event" class="row">
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{{ path('front_event_new') }}">
+                <button class="btn btn-md btn-primary mb-5"><i class="fa fa-plus"></i> Create new event</button>
+            </a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
