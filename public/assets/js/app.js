@@ -51,3 +51,4 @@ $(document).on('click', '#cancel_user', (function () {
         $("#modalEntrant").html(data);
     });
 }));
+
