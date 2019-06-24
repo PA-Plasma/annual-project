@@ -11,6 +11,10 @@ BLACKFIRE_SERVER_ID=YOUR_BLACKFIRE_CLIENT_ID
 BLACKFIRE_SERVER_TOKEN=YOUR_BLACKFIRE_CLIENT_TOKEN
 ```
 
+## Webpack
+
+`$ yarn encore dev`
+
 ## Fixtures
 
 `$ php bin/console doctrine:fixtures:load` then "yes"
