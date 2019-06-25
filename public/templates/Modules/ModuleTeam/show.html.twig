@@ -26,9 +26,12 @@
                 <div class="row text-center team m-3">
                     <div class="col-md-12 p-2"><h3 class="title text-secondary">{{ team.teamName }}</h3></div>
                     <div class="col-md-12 d-flex justify-content-center">
+                        <ul>
                         {% for player in team.entrants %}
-                            <div class="col-md-6"><h5 class="">{{ player.pseudo }}</h5></div>
-                        {% endfor %}</div>
+                            <li><h5 class="">{{ player.pseudo }}</h5></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         {% endfor %}
