@@ -107,6 +107,36 @@ function watch() {
         })
     }
 
+    function displayPrice(selectValue = null) {
+      const free = '1';
+      const payable = '2';
+
+      let registrationTypeSelect = $('#event_registration_type');
+      let priceDiv = $('#price-div');
+
+      if (selectValue === null) {
+        selectValue = registrationTypeSelect.val();
+      }
+
+      if (selectValue === payable) {
+        priceDiv.addClass('visible');
+      } else if (selectValue === free) {
+        priceDiv.removeClass('visible');
+      }
+    }
+
+    function checkRegistrationType() {
+      let registrationTypeSelect = $('#event_registration_type');
+
+      registrationTypeSelect.change(function(){
+        let selectValue = this.value;
+
+        displayPrice(selectValue);
+      });
+    }
+
+    displayPrice();
+    checkRegistrationType();
     entrantType();
     hideEntrant();
     addUserWatcher();

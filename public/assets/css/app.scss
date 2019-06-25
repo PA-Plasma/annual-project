@@ -73,3 +73,11 @@ footer {
   background: no-repeat center 100% url("../images/bck.jpg");
   border-radius: 2%;
 }
+
+#price-div {
+  display: none;
+}
+
+#price-div.visible {
+  display: block;
+}

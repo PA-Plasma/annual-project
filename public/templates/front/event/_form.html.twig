@@ -1,9 +1,13 @@
 {{ form_start(form) }}
 {% if step is same as(1) %}
     {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
     {{ form_row(form.beginnig_date) }}
     {{ form_row(form.end_date) }}
     {{ form_row(form.registration_type) }}
+    <div id="price-div">
+        {{ form_row(form.price) }}
+    </div>
     {{ form_row(form.invitation) }}
     {{ form_row(form.address) }}
     {{ form_row(form.modules) }}
@@ -22,7 +26,5 @@
 {{ form_end(form) }}
 
 {% block javascripts %}
-    {% if step is same as(2) %}
-        <script src="{{ asset('build/formEvent.js') }}"></script>
-    {% endif %}
+    <script src="{{ asset('build/formEvent.js') }}"></script>
 {% endblock %}
