@@ -1,13 +1,13 @@
 {{ form_start(form) }}
 {% if step is same as(1) %}
     {{ form_row(form.name) }}
-        {{ form_row(form.beginnig_date) }}
-        {{ form_row(form.end_date) }}
-        {{ form_row(form.registration_type) }}
-        {{ form_row(form.invitation) }}
-        {{ form_row(form.address) }}
-        {{ form_row(form.modules) }}
-        {{ form_row(form.imageFile) }}
+    {{ form_row(form.beginnig_date) }}
+    {{ form_row(form.end_date) }}
+    {{ form_row(form.registration_type) }}
+    {{ form_row(form.invitation) }}
+    {{ form_row(form.address) }}
+    {{ form_row(form.modules) }}
+    {{ form_row(form.imageFile) }}
 {% else %}
     <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
     </ul>
