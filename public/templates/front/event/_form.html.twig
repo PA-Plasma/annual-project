@@ -1,17 +1,87 @@
 {{ form_start(form) }}
 {% if step is same as(1) %}
-    {{ form_row(form.name) }}
-    {{ form_row(form.description) }}
-    {{ form_row(form.beginnig_date) }}
-    {{ form_row(form.end_date) }}
-    {{ form_row(form.registration_type) }}
-    <div id="price-div">
-        {{ form_row(form.price) }}
+    <div class="container event-form">
+        <div id="event-informations">
+            <a data-toggle="collapse" href="#event-informations-body" role="button" aria-expanded="true" aria-controls="event-informations-body">
+                <div class="card-header d-flex justify-content-center">
+                    <h3>1. What are the event information?</h3>
+                </div>
+            </a>
+            <div class="card-body form-row collapse show" id="event-informations-body">
+                <div class="col-md-6">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.beginnig_date) }}
+                    {{ form_row(form.end_date) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.registration_type) }}
+                    <div id="price-div">
+                        {{ form_row(form.price) }}
+                    </div>
+                    {{ form_row(form.invitation) }}
+                </div>
+            </div>
+        </div>
+
+        <div id="event-image">
+            <a data-toggle="collapse" href="#event-image-body" role="button" aria-expanded="true" aria-controls="event-image-body">
+                <div class="card-header d-flex justify-content-center">
+                    <h3>2. Add a nice picture?</h3>
+                </div>
+            </a>
+            <div class="card-body form-row collapse" id="event-image-body">
+                <div class="col-md-12">
+                    {{ form_row(form.imageFile) }}
+                </div>
+            </div>
+        </div>
+
+        <div id="event-address">
+            <a data-toggle="collapse" href="#event-address-body" role="button" aria-expanded="true" aria-controls="event-address-body">
+                <div class="card-header d-flex justify-content-center">
+                    <h3>3. Where does it take place?</h3>
+                </div>
+            </a>
+            <div class="card-body form-row collapse" id="event-address-body">
+                <div class="container">
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            {{ form_row(form.address.number) }}
+                        </div>
+                        <div class="form-group col-md-10">
+                            {{ form_row(form.address.road) }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            {{ form_row(form.address.city) }}
+                        </div>
+                        <div class="form-group col-md-2">
+                            {{ form_row(form.address.city_code) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form_row(form.address.country) }}
+                        </div>
+                    </div>
+                    {{ form_row(form.address.complement) }}
+                </div>
+            </div>
+        </div>
+
+        <div id="event-module">
+            <a data-toggle="collapse" href="#event-module-body" role="button" aria-expanded="true" aria-controls="event-module-body">
+                <div class="card-header d-flex justify-content-center">
+                    <h3>4. Which modules do you want to link?</h3>
+                </div>
+            </a>
+            <div class="card-body form-row collapse" id="event-module-body">
+                <div class="col-md-6">
+                    {{ form_row(form.modules) }}
+                </div>
+            </div>
+        </div>
     </div>
-    {{ form_row(form.invitation) }}
-    {{ form_row(form.address) }}
-    {{ form_row(form.modules) }}
-    {{ form_row(form.imageFile) }}
 {% else %}
     <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
     </ul>
