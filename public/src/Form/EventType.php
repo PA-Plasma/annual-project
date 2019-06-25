@@ -8,8 +8,10 @@ use App\Repository\ModulesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -44,6 +46,14 @@ class EventType extends AbstractType
                         'placeholder' => 'Capcom Cup...'
                     ],
                 ])
+                ->add('description', TextareaType::class, [
+                    'label' => 'Description:',
+                    'required' => false,
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => 'Beautiful and free LAN in Paris...'
+                    ],
+                ])
                 ->add('beginnig_date', DateTimeType::class, [
                     'widget' => 'single_text',
                     'label' => 'Start date:',
@@ -69,6 +79,14 @@ class EventType extends AbstractType
                     'label' => 'Registration type:',
                     'attr' => [
                         'class' => 'form-control mb-2',
+                    ],
+                ])
+                ->add('price', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Price ',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '12'
                     ],
                 ])
                 ->add('invitation', ChoiceType::class, [
