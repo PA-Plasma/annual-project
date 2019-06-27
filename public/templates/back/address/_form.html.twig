@@ -7,7 +7,6 @@
             {{ form_row(form.road) }}
         </div>
     </div>
-    {{ form_row(form.complement) }}
     <div class="form-row">
         <div class="form-group col-md-4">
         {{ form_row(form.city) }}
@@ -19,5 +18,6 @@
             {{ form_row(form.country) }}
         </div>
     </div>
+    {{ form_row(form.complement) }}
     <button class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

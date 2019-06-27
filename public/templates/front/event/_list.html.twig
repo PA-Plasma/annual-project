@@ -6,12 +6,26 @@
             {% endif %}
             <div class="card-body">
                 <h4 class="card-title">{{ event.name }}</h4>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
-                <p class="card-text">
-                    <small class="text-muted">From: {{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</small>
-                    <br>
-                    <small class="text-muted">To: {{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</small>
-                </p>
+                {% if event.description %}
+                    <small class="card-text">{{ event.description }}</small>
+                {% endif %}
+                <hr>
+                {% if event.createdby %}
+                    <small class="card-text"><i class="fas fa-user-tie list-icon"></i> : {{ event.createdby.pseudo }}</small><br>
+                {% endif %}
+                {% if event.invitation %}
+                    <small class="card-text"><i class="fas fa-envelope list-icon"></i> : Invitation nécessaire</small><br>
+                {% else %}
+                    <small><i class="fas fa-envelope-open list-icon"></i> : Inscriptions ouvertes</small><br>
+                {% endif %}
+                {% if event.registrationtype == 2 %}
+                    <small class="card-text"><i class="fas fa-euro-sign list-icon"></i> : {{ event.price }}€</small><br>
+                {% endif %}
+                {% if (event.cashpricetype == 2) %}
+                    <small class="card-text"><i class="fas fa-trophy list-icon"></i> : {{ event.cashprice1 }}€</small><br>
+                {% endif %}
+                <small class="card-text"><i class="fas fa-calendar-alt list-icon"></i> : {{ event.beginnigDate|date('d M Y') }} - {{ event.endDate|date('d M Y') }}</small><br>
+                <small class="card-text"><i class="fas fa-map-marked-alt list-icon"></i> : {{ event.address.number }} {{ event.address.road }} - {{ event.address.citycode }} {{ event.address.city }} </small>
             </div>
             <div class="card-footer text-right">
                 {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
