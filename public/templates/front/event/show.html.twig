@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <h1 class="m-3 title">Event</h1>
         </div>
-        <div class="col-md-6 d-flex align-items-center justify-content-end ">
+        <div class="col-md-4 d-flex align-items-center justify-content-end ">
             <div id="modalEntrant">
                 {% if event.registrationType == 1 %}
                     {% if entrants is empty %}
@@ -19,50 +19,112 @@
                             {% endif %}
                         {% endfor %}
                     {% endif %}
-                {% else %}
-                    <div class="alert alert-warning" role="alert">
-                        Ceci est un tournoi avec invitation vous ne pouvez pas vous inscrire !
-                    </div>
                 {% endif %}
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 actions">
+            {% if event.registrationType != 1 %}
+                <div class="alert alert-warning" role="alert">
+                    Ceci est un tournoi avec invitation. Vous ne pouvez pas vous inscrire !
+                </div>
+            {% endif %}
             {% if isOwner(app.user, event) %}
                 {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
             {% endif %}
-
         </div>
     </div>
     <hr>
 
-    <div class="card bg-dark text-white">
+    <div class="card text-dark">
         <div class="card-header">
-            <div class="row">{% if vich_uploader_asset(event, 'imageFile') %}
+            <div class="row">
+                {% if vich_uploader_asset(event, 'imageFile') %}
                     <div class="col-md-4">
                         <img src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}" class="card-img-top mb-1"/>
                     </div>
                 {% endif %}
                 <div class="col-md-8">
                     <h4 class="card-title">{{ event.name }}</h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
-                    <p class="card-text">
-                        <small class="text-muted">From: {{ event.beginnigDate ? event.beginnigDate|date('Y-m-d H:i:s') : '' }}</small>
-                        <br>
-                        <small class="text-muted">To: {{ event.endDate ? event.endDate|date('Y-m-d H:i:s') : '' }}</small>
-                    </p>
+                    <p class="card-text">{{ (event.description) ? event.description : 'Aucune description renseignée.' }}</p>
                 </div>
             </div>
-
         </div>
         <div class="card-body">
-            <ul class="nav nav-tabs card-header-tabs pull-right mb-4" id="myTab" role="tablist">
+            <ul class="nav nav-tabs pull-right mb-4 " id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="informations-tab" data-toggle="tab" href="#informations-tab-content" role="tab" aria-controls="informations-tab" aria-selected="false">Informations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="address-tab" data-toggle="tab" href="#address-tab-content" role="tab" aria-controls="address-tab" aria-selected="false">Adresse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="entrants-tab" data-toggle="tab" href="#entrants-tab-content" role="tab" aria-controls="entrants-tab" aria-selected="false">Participants</a>
+                </li>
+                {% if event.createdby %}
+                <li class="nav-item">
+                    <a class="nav-link" id="promoter-tab" data-toggle="tab" href="#promoter-tab-content" role="tab" aria-controls="promoter-tab" aria-selected="false">Organisateur</a>
+                </li>
+                {% endif %}
                 {% for module in modules %}
                     <li class="nav-item">
-                        <a class="nav-link {% if loop.first %}active{% endif %}" {% if loop.first %}aria-selected="true"{% endif %} id="{{ module.moduleName }}-tab" data-toggle="tab" href="#{{ module.moduleName }}" role="tab" aria-controls="{{ module.moduleName }}" aria-selected="false">{{ module.moduleName }} Module</a>
+                        <a class="nav-link" {% if loop.first %}aria-selected="true"{% endif %} id="{{ module.moduleName|lower }}-tab" data-toggle="tab" href="#{{ module.moduleName|lower}}" role="tab" aria-controls="{{ module.moduleName|lower }}" aria-selected="false">{{ module.moduleName }} Module</a>
                     </li>
                 {% endfor %}
             </ul>
             <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade active show" id="informations-tab-content" role="tabpanel" aria-labelledby="informations-tab">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Horaires</h5>
+                            <ul class="cashprices-list">
+                                <li>Début le {{ event.beginnigDate|date('d M Y à H:i') }}</li>
+                                <li>Fin le {{ event.endDate|date('d M Y à H:i') }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            {% if (event.registrationtype == 2) %}
+                                <h5>Tournoi payant : {{ event.price }}€</h5>
+                                <small><i>Somme à régler avant le  {{ event.beginnigDate ? event.beginnigDate|date('d M Y') : '' }} {{ (event.createdby) ? 'auprès de l\'organisateur ' ~ event.createdby.email : '' }}</i></small>
+                                {% else %}
+                                <h5>Inscriptions gratuites</h5>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            {% if (event.cashpricetype == 2) %}
+                                <h5>Cashprices</h5>
+                                <ul class="cashprices-list">
+                                    <li>1<sup>st</sup> place : {{ event.cashprice1 }}€</li>
+                                    <li>2<sup>nd</sup> place : {{ event.cashprice2 }}€</li>
+                                    <li>3<sup>rd</sup> place : {{ event.cashprice3 }}€</li>
+                                </ul>
+                            {% else %}
+                                <h5>Aucun cashprice pour cet événement</h5>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="address-tab-content" role="tabpanel" aria-labelledby="address-tab">
+                    {{ event.address.number }}
+                    {{ event.address.road }}
+                    <br>
+                    {{ event.address.city }}
+                    {{ event.address.citycode }}
+                    {{ event.address.country }}
+                    <br>
+                    {{ event.address.complement }}
+                </div>
+                <div class="tab-pane fade" id="entrants-tab-content" role="tabpanel" aria-labelledby="entrants-tab">
+                    <p>entrants</p>
+                </div>
+                {% if event.createdby %}
+                <div class="tab-pane fade" id="promoter-tab-content" role="tabpanel" aria-labelledby="promoter-tab">
+                    <h5>{{ event.createdby.pseudo }}, {{ event.createdby.email }}</h5>
+                </div>
+                {% endif %}
                 {% for module in modules %}
-                    <div class="tab-pane fade {% if loop.first %}active show{% endif %}" id="{{ module.moduleName }}" role="tabpanel" aria-labelledby="{{ module.moduleName }}-tab">
+                    <div class="tab-pane fade" id="{{ module.moduleName|lower }}" role="tabpanel" aria-labelledby="{{ module.moduleName|lower }}-tab">
                         {% if module.entity %}
                             {% if (not module.entity.isParameted()) %}
                                 {{ render(controller(module.controller~"::parameters", {'event': event})) }}
@@ -73,10 +135,6 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>
-        <div class="card-footer text-right">
-
-
         </div>
     </div>
     {% include 'page/return.html.twig' with {'backPageName': 'front_event_index'} %}

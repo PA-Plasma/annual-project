@@ -22,6 +22,8 @@ class Event
 {
     CONST REGISTRATION_TYPE_FREE = 1;
     CONST REGISTRATION_TYPE_PAYING = 2;
+    CONST CASHPRICE_TYPE_WITHOUT = 1;
+    CONST CASHPRICE_TYPE_WITH = 2;
 
     use ActiveTrait, SoftDeletedTrait, TimestampableTrait;
 
@@ -118,6 +120,36 @@ class Event
      * @ORM\OneToOne(targetEntity="App\Entity\Modules\ModuleTeam", mappedBy="event", cascade={"persist", "remove"})
      */
     private $moduleTeam;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $price;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $cashprice_type;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $cashprice1;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $cashprice2;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $cashprice3;
 
     public function __construct()
     {
@@ -342,6 +374,78 @@ class Event
         if ($this !== $moduleTeam->getEvent()) {
             $moduleTeam->setEvent($this);
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCashpriceType(): ?int
+    {
+        return $this->cashprice_type;
+    }
+
+    public function setCashpriceType(int $cashprice_type): self
+    {
+        $this->cashprice_type = $cashprice_type;
+
+        return $this;
+    }
+
+    public function getCashprice1(): ?float
+    {
+        return $this->cashprice1;
+    }
+
+    public function setCashprice1(?float $cashprice1): self
+    {
+        $this->cashprice1 = $cashprice1;
+
+        return $this;
+    }
+
+    public function getCashprice2(): ?float
+    {
+        return $this->cashprice2;
+    }
+
+    public function setCashprice2(?float $cashprice2): self
+    {
+        $this->cashprice2 = $cashprice2;
+
+        return $this;
+    }
+
+    public function getCashprice3(): ?float
+    {
+        return $this->cashprice3;
+    }
+
+    public function setCashprice3(?float $cashprice3): self
+    {
+        $this->cashprice3 = $cashprice3;
 
         return $this;
     }
