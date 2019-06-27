@@ -73,3 +73,16 @@ footer {
   background: no-repeat center 100% url("../images/bck.jpg");
   border-radius: 2%;
 }
+
+#price-div, #cashprice-div {
+  display: none;
+}
+
+#price-div.visible, #cashprice-div.visible {
+  display: block;
+}
+
+.cashprices-list {
+  list-style: none;
+  padding: 0;
+}

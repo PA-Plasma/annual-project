@@ -44,3 +44,16 @@
     transform: translateX(100%);
   }
 }
+
+a:hover {
+  text-decoration: none;
+}
+
+.event-form {
+  a {
+    color:black !important;
+  }
+  a:hover {
+    text-decoration: none !important;
+  }
+}

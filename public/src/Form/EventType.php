@@ -8,8 +8,10 @@ use App\Repository\ModulesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -44,6 +46,14 @@ class EventType extends AbstractType
                         'placeholder' => 'Capcom Cup...'
                     ],
                 ])
+                ->add('description', TextareaType::class, [
+                    'label' => 'Description:',
+                    'required' => false,
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => 'Beautiful and free LAN in Paris...'
+                    ],
+                ])
                 ->add('beginnig_date', DateTimeType::class, [
                     'widget' => 'single_text',
                     'label' => 'Start date:',
@@ -71,6 +81,49 @@ class EventType extends AbstractType
                         'class' => 'form-control mb-2',
                     ],
                 ])
+                ->add('price', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Price ',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '12'
+                    ],
+                ])
+                ->add('cashprice_type', ChoiceType::class, [
+                    'choices' => [
+                        'Without' => Event::CASHPRICE_TYPE_WITHOUT,
+                        'For the 3 first places' => Event::CASHPRICE_TYPE_WITH,
+                    ],
+                    'required' => true,
+                    'label' => 'Cashprice type',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ],
+                ])
+                ->add('cashprice1', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Winner',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '1000'
+                    ],
+                ])
+                ->add('cashprice2', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Second place',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '800'
+                    ],
+                ])
+                ->add('cashprice3', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Third place',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '500'
+                    ],
+                ])
                 ->add('invitation', ChoiceType::class, [
                     'choices' => [
                         'Oui' => true,
@@ -82,9 +135,7 @@ class EventType extends AbstractType
                         'class' => 'form-control mb-2',
                     ],
                 ])
-                ->add('address', AddressType::class, [
-                    'label' => 'Address:',
-                ])
+                ->add('address', AddressType::class)
                 ->add('modules', EntityType::class, [
                     'class' => Modules::class,
                     'query_builder' => $this->activeModules,
@@ -98,7 +149,9 @@ class EventType extends AbstractType
                 ])
                 ->add('imageFile', VichImageType::class, [
                     'required' => false,
-                    'label' => 'Add event image',
+                    'label'             => 'Picture (.jpg or .png)',
+                    'download_link'     => false,
+                    'delete_label'          => 'Delete image ?'
                 ]);
 
         } elseif (!$options['back']) {
@@ -159,9 +212,7 @@ class EventType extends AbstractType
                         'class' => 'form-control mb-2',
                     ],
                 ])
-                ->add('address', AddressType::class, [
-                    'label' => 'Address:',
-                ])
+                ->add('address', AddressType::class)
                 ->add('entrants', CollectionType::class, [
                     'entry_type' => EntrantType::class,
                     'entry_options' => ['label' => false],
