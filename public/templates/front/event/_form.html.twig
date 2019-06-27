@@ -15,11 +15,19 @@
                     {{ form_row(form.end_date) }}
                 </div>
                 <div class="col-md-6">
+                    {{ form_row(form.invitation) }}
                     {{ form_row(form.registration_type) }}
                     <div id="price-div">
                         {{ form_row(form.price) }}
                     </div>
-                    {{ form_row(form.invitation) }}
+                    {{ form_row(form.cashprice_type) }}
+                    <div id="cashprice-div">
+                        <div class="row">
+                            <div class="col-md-4">{{ form_row(form.cashprice1) }}</div>
+                            <div class="col-md-4">{{ form_row(form.cashprice2) }}</div>
+                            <div class="col-md-4">{{ form_row(form.cashprice3) }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

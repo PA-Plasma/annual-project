@@ -74,10 +74,10 @@ footer {
   border-radius: 2%;
 }
 
-#price-div {
+#price-div, #cashprice-div {
   display: none;
 }
 
-#price-div.visible {
+#price-div.visible, #cashprice-div.visible {
   display: block;
 }

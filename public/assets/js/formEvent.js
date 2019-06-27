@@ -107,36 +107,73 @@ function watch() {
         })
     }
 
-    function displayPrice(selectValue = null) {
-      const free = '1';
-      const payable = '2';
+    function managePrice() {
+      function displayPrice(selectValue = null) {
+        const free = '1';
+        const payable = '2';
 
-      let registrationTypeSelect = $('#event_registration_type');
-      let priceDiv = $('#price-div');
+        let registrationTypeSelect = $('#event_registration_type');
+        let priceDiv = $('#price-div');
 
-      if (selectValue === null) {
-        selectValue = registrationTypeSelect.val();
+        if (selectValue === null) {
+          selectValue = registrationTypeSelect.val();
+        }
+
+        if (selectValue === payable) {
+          priceDiv.addClass('visible');
+        } else if (selectValue === free) {
+          priceDiv.removeClass('visible');
+        }
       }
 
-      if (selectValue === payable) {
-        priceDiv.addClass('visible');
-      } else if (selectValue === free) {
-        priceDiv.removeClass('visible');
+      function checkRegistrationType() {
+        let registrationTypeSelect = $('#event_registration_type');
+
+        registrationTypeSelect.change(function(){
+          let selectValue = this.value;
+
+          displayPrice(selectValue);
+        });
+      }
+
+      checkRegistrationType();
+    }
+
+  function manageCashprice() {
+    function displayCashprices(selectValue = null) {
+      const withCashprice = '1';
+      const withoutCashprice = '2';
+
+      let cashpriceTypeSelect = $('#event_cashprice_type');
+      let cashpriceDiv = $('#cashprice-div');
+
+      if (selectValue === null) {
+        selectValue = cashpriceTypeSelect.val();
+      }
+
+      if (selectValue === withoutCashprice) {
+        cashpriceDiv.addClass('visible');
+      } else if (selectValue === withCashprice) {
+        cashpriceDiv.removeClass('visible');
       }
     }
 
-    function checkRegistrationType() {
-      let registrationTypeSelect = $('#event_registration_type');
+    function checkCashpriceType() {
+      let cashpriceTypeSelect = $('#event_cashprice_type');
 
-      registrationTypeSelect.change(function(){
+      cashpriceTypeSelect.change(function(){
         let selectValue = this.value;
 
-        displayPrice(selectValue);
+        displayCashprices(selectValue);
       });
     }
 
-    displayPrice();
-    checkRegistrationType();
+    checkCashpriceType();
+  }
+
+    managePrice();
+    manageCashprice();
+
     entrantType();
     hideEntrant();
     addUserWatcher();

@@ -89,6 +89,41 @@ class EventType extends AbstractType
                         'placeholder' => '12'
                     ],
                 ])
+                ->add('cashprice_type', ChoiceType::class, [
+                    'choices' => [
+                        'Without' => Event::CASHPRICE_TYPE_WITHOUT,
+                        'For the 3 first places' => Event::CASHPRICE_TYPE_WITH,
+                    ],
+                    'required' => true,
+                    'label' => 'Cashprice type',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                    ],
+                ])
+                ->add('cashprice1', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Winner',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '1000'
+                    ],
+                ])
+                ->add('cashprice2', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Second place',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '800'
+                    ],
+                ])
+                ->add('cashprice3', MoneyType::class, [
+                    'required' => false,
+                    'label' => 'Third place',
+                    'attr' => [
+                        'class' => 'form-control mb-2',
+                        'placeholder' => '500'
+                    ],
+                ])
                 ->add('invitation', ChoiceType::class, [
                     'choices' => [
                         'Oui' => true,
