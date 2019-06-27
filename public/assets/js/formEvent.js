@@ -108,6 +108,8 @@ function watch() {
     }
 
     function managePrice() {
+      checkRegistrationType();
+
       function displayPrice(selectValue = null) {
         const free = '1';
         const payable = '2';
@@ -134,12 +136,14 @@ function watch() {
 
           displayPrice(selectValue);
         });
-      }
 
-      checkRegistrationType();
+        displayPrice();
+      }
     }
 
   function manageCashprice() {
+    checkCashpriceType();
+
     function displayCashprices(selectValue = null) {
       const withCashprice = '1';
       const withoutCashprice = '2';
@@ -166,9 +170,9 @@ function watch() {
 
         displayCashprices(selectValue);
       });
-    }
 
-    checkCashpriceType();
+      displayCashprices();
+    }
   }
 
     managePrice();
