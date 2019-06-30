@@ -71,7 +71,13 @@ class UserType extends AbstractType
                     'placeholder' => 'Email'
                 ],
             ]
-        );
+        )
+        ->add('imageFile', VichImageType::class, [
+            'required' => false,
+            'label'             => 'Picture (.jpg or .png)',
+            'download_link'     => false,
+            'allow_delete'          => false,
+        ]);
 
         if ($options['back'] === true) {
             $builder->add(
