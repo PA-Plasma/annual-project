@@ -49,7 +49,7 @@ function entrantType() {
     var $collectionHolder;
 
 // setup an "add a tag" link
-    var $addTagButton = $('<button type="button" class="add_entrant_link">Ajouter un inscrit</button>');
+    var $addTagButton = $('<button type="button" class="add_entrant_link btn btn-md btn-primary mt-1 mb-5">Ajouter un participant</button>');
     var $newLinkLi = $('<li></li>').append($addTagButton);
 
     $(document).ready(function () {
