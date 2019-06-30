@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="user_account")
  *
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     use ActiveTrait, SoftDeletedTrait, TimestampableUserTrait;
 
@@ -66,7 +66,7 @@ class User implements UserInterface
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Vich\UploadableField(mapping="event", fileNameProperty="imageName", size="imageSize")
+     * @Vich\UploadableField(mapping="user", fileNameProperty="imageName", size="imageSize")
      *
      * @var File
      */
@@ -271,5 +271,30 @@ class User implements UserInterface
     public function getImageSize(): ?int
     {
         return $this->imageSize;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->pseudo,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->pseudo,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized, array('allowed_classes' => false));
+
     }
 }

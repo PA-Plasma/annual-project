@@ -3,31 +3,39 @@
 {% block title %}Hello {{ controller_name }}!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ user.pseudo }}! ✅</h1>
+    <h1 class="m-3 title">Hello {{ user.pseudo }} !</h1>
 
-    Email
-    <ul>
-        <li>{{ user.email }}</li>
-
-    </ul>
-
-    <div><a href="{{ url('front_edit') }}">Modifier profile</a></div>
-
-    Mes évènements crées :
-    <ul>
-        {% if events_owned %}
-            {% for event_owned in events_owned %}
-                <li>{{ event_owned.name }}</li>
-            {% endfor %}
-        {% else %}
-            Vous n'avez crée aucun évènements ! Ce serait l'occasion !
-        {% endif %}
-    </ul>
-</div>
+    <div class="card">
+        <div class="row">
+            <div class="card-body mb-3 col-8">
+                <h5 class="card-title">Informations du profil</h5>
+                <p class="card-text">adresse email : {{ user.email }}</p>
+            </div>
+            <div class="col-4 float-right">
+                {% if vich_uploader_asset(user, 'imageFile') %}
+                    <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Photo de profil" class="card-img-top mb-1  user-avatar"/>
+                {% else %}
+                    <img src="{{ asset('images/user/user.png') }}" alt="Photo de profil" class="card-img-top mb-1  user-avatar"/>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card-header">
+                Mes évènements crées :
+            </div>
+            <ul class="list-group list-group-flush mb-3">
+                {% if events_owned %}
+                    {% for event_owned in events_owned %}
+                        <li class="list-group-item">{{ event_owned.name }}</li>
+                    {% endfor %}
+                {% else %}
+                    <p class="card-text">Vous n'avez crée aucun évènements ! Ce serait l'occasion !</p>
+                {% endif %}
+            </ul>
+            <a href="{{ url('front_edit') }}">
+                <button class="btn btn-md btn-primary mb-5">Modifier profil</button>
+            </a>
+        </div>
+    </div>
 {% endblock %}
