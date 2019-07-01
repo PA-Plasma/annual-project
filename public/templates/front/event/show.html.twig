@@ -106,14 +106,23 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="address-tab-content" role="tabpanel" aria-labelledby="address-tab">
-                    {{ event.address.number }}
-                    {{ event.address.road }}
-                    <br>
-                    {{ event.address.city }}
-                    {{ event.address.citycode }}
-                    {{ event.address.country }}
-                    <br>
-                    {{ event.address.complement }}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Addresse de l'événement</h5>
+                            {{ event.address.number }}
+                            {{ event.address.road }}
+                            <br>
+                            {{ event.address.city }}
+                            {{ event.address.citycode }}
+                            {{ event.address.country }}
+                            <br>
+                            {{ event.address.complement }}
+                        </div>
+                        <div class="col-md-6">
+                            <iframe width='650' height='350' frameborder='0' scrolling='no'  marginheight='0' marginwidth='0' src='https://maps.google.com/maps?&amp;q={{ event.address.number }} {{ event.address.road}} {{ event.address.citycode }} {{ event.address.city }}&amp;output=embed'></iframe>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="tab-pane fade" id="entrants-tab-content" role="tabpanel" aria-labelledby="entrants-tab">
                     <p>entrants</p>
