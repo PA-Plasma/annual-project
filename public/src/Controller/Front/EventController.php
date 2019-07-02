@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Repository\EntrantRepository;
 use App\Repository\EventRepository;
 use App\Repository\UserRepository;
 use App\Entity\Entrant;
@@ -147,13 +148,13 @@ class EventController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET","POST"})
      */
-    public function show(Event $event, ModulesHelper $modulesHelper, EventRepository $eventRepository): Response
+    public function show(Event $event, ModulesHelper $modulesHelper, EntrantRepository $entrantRepository): Response
     {
         // check for "edit" access
         $this->denyAccessUnlessGranted('show', $event);
 
         $user = $this->getUser()->getId();
-        $entrants = $eventRepository->findUserRegistered($event, $user);
+        $entrants = $entrantRepository->findAllEntrantsByEvent($event);
         $modules = $modulesHelper->FactoryModule($event);
 
         return $this->render('front/event/show.html.twig', [
