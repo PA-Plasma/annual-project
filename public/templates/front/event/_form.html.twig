@@ -91,14 +91,25 @@
         </div>
     </div>
 {% else %}
-    <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
-    </ul>
-    {#<input list="pseudo" type="text">#}
-    <datalist id="pseudo">
-        {% for user in users %}
-            <option value="{{ user.pseudo }}"></option>
-        {% endfor %}
-    </datalist>
+    <div id="event-entrants">
+        <a data-toggle="collapse" href="#event-entrants-body" role="button" aria-expanded="true" aria-controls="event-entrants-body">
+            <div class="card-header d-flex justify-content-center">
+                <h3>Final step, do you want to add entrants?</h3>
+            </div>
+        </a>
+        <div class="card-body form-row collapse show" id="event-entrants-body">
+            <div class="col-md-6">
+                <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}" style="list-style: none;">
+                </ul>
+                {#<input list="pseudo" type="text">#}
+                <datalist id="pseudo">
+                    {% for user in users %}
+                        <option value="{{ user.pseudo }}"></option>
+                    {% endfor %}
+                </datalist>
+            </div>
+        </div>
+    </div>
 {% endif %}
     <button class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

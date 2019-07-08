@@ -11,7 +11,7 @@
             </ul>
         </div>
         <div class="navbar-collapse collapse justify-content-end">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" style="align-items: center;">
                 {% if app.user %}
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <li class="nav-item dropdown">
@@ -26,16 +26,21 @@
                         </li>
                     {% endif %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.pseudo }}</a>
                         <div class="dropdown-menu">
                             {% if 'ROLE_ADMIN' in app.user.roles %}
                                 <a class="dropdown-item {% if "back_index" in route %}active{% endif %}" href="{{ url('back_index') }}">Admin</a>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
-                            <a class="dropdown-item" href="{{ url('front_profile') }}">Profile</a>
+                            <a class="dropdown-item" href="{{ url('front_profile') }}">Profil</a>
                             <a class="dropdown-item" href="{{ url('security_logout') }}">Déconnexion</a>
                         </div>
                     </li>
+                    {% if vich_uploader_asset(app.user, 'imageFile') %}
+                        <img src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Photo de profil" class="card-img-top mb-1" style="width: 80px;"/>
+                    {% else %}
+                        <i class="fas fa-user" style="color: white; font-size: 50px; margin: 10px"></i>
+                    {% endif %}
                 {% else %}
                     <li class="nav-item"><a class="nav-link" href="{{ url('security_login') }}">Connexion</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('security_register') }}">Inscription</a></li>
