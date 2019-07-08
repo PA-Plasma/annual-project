@@ -39,7 +39,7 @@
                     {% if vich_uploader_asset(app.user, 'imageFile') %}
                         <img src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Photo de profil" class="card-img-top mb-1" style="width: 80px;"/>
                     {% else %}
-                        <img src="{{ asset('images/user/info.png') }}" alt="Photo de profil" class="card-img-top mb-1" style="width: 80px;"/>
+                        <i class="fas fa-user" style="color: white; font-size: 50px; margin: 10px"></i>
                     {% endif %}
                 {% else %}
                     <li class="nav-item"><a class="nav-link" href="{{ url('security_login') }}">Connexion</a></li>

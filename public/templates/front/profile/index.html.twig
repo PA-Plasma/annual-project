@@ -17,49 +17,44 @@
                     {% if vich_uploader_asset(user, 'imageFile') %}
                         <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Photo de profil" class="card-img-top mb-1  user-avatar"/>
                     {% else %}
-                        <img src="{{ asset('images/user/info.png') }}" alt="Photo de profil" class="card-img-top mb-1  user-avatar"/>
+                        <i class="fas fa-user" style="color: black; font-size: 100px; margin: 10px; float: right;"></i>
                     {% endif %}
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        Mes évènements créés :
-                    </div>
-                    <ul class="list-group list-group-flush mb-3">
-                        {% if events_owned %}
-                            {% for event_owned in events_owned %}
-                                <li class="list-group-item"><a href="{{ path('front_event_show', {'slug': event_owned.slug}) }}">{{ event_owned.name }}</a></li>
-
-                            {% endfor %}
-                        {% else %}
-                            <p class="card-text">Arrête de faire le casu et commencer à t'éclater !</p>
-                        {% endif %}
-                    </ul>
-                </div>
+        <div class="card-body">
+            <div class="card-header">
+                Mes évènements créés :
             </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        Mon historique de participation :
-                    </div>
-                    <ul class="list-group list-group-flush mb-3">
-                        {% if events_entrant %}
-                            {% for event_entrant in events_entrant%}
-                                <li class="list-group-item"><a href="{{ path('front_event_show', {'slug': event_entrant.slug}) }}">{{ event_entrant.name }}</a></li>
-
-                            {% endfor %}
-                        {% else %}
-                            <p class="card-text">Stop afk !!</p>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
+            <ul class="list-group list-group-flush mb-3">
+                {% if events_owned %}
+                    {% for event_owned in events_owned %}
+                        <li class="list-group-item"><a href="{{ path('front_event_show', {'slug': event_owned.slug}) }}">{{ event_owned.name }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <i class="card-text">Vous n'avez encore créé aucun évènements.</i>
+                {% endif %}
+            </ul>
         </div>
-        <a href="{{ url('front_edit') }}">
-            <button class="btn btn-md btn-primary float-right mt-4 mb-4">Modifier</button>
-        </a>
+        <div class="card-body">
+            <div class="card-header">
+                Mon historique de participation :
+            </div>
+            <ul class="list-group list-group-flush mb-3">
+                {% if events_entrant %}
+                    {% for event_entrant in events_entrant%}
+                        <li class="list-group-item"><a href="{{ path('front_event_show', {'slug': event_entrant.slug}) }}">{{ event_entrant.name }}</a></li>
+
+                    {% endfor %}
+                {% else %}
+                    <i class="card-text">Vous n'avez participé à aucun événement pour le moment.</i>
+                {% endif %}
+            </ul>
+        </div>
+        <div style="margin: 10px 20px 0 0">
+            <a href="{{ url('front_edit') }}">
+                <button class="btn btn-md btn-primary float-right mb-5">Modifier profil</button>
+            </a>
+        </div>
     </div>
 {% endblock %}
