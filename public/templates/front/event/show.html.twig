@@ -125,7 +125,16 @@
 
                 </div>
                 <div class="tab-pane fade" id="entrants-tab-content" role="tabpanel" aria-labelledby="entrants-tab">
-                    <p>entrants</p>
+                    <p>Participants : </p>
+                    <ul class="list-group list-group-flush mb-3">
+                        {% if entrants %}
+                            {% for entrant in entrants %}
+                                <li class="list-group-item">{{ entrant.pseudo }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <p class="card-text">Il n'y a pas encore de participants !</p>
+                        {% endif %}
+                    </ul>
                 </div>
                 {% if event.createdby %}
                 <div class="tab-pane fade" id="promoter-tab-content" role="tabpanel" aria-labelledby="promoter-tab">
