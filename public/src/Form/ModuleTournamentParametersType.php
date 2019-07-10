@@ -15,35 +15,32 @@ class ModuleTournamentParametersType extends AbstractType
     {
         $builder
             ->add('bracketType', ChoiceType::class, [
-                'label' => 'Bracket type:',
+                'label' => 'Type de tournoi:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
-                    'placeholder' => 'Bracket type'
                 ],
                 'choices' => [
-                    'Choix 1' => ModuleTournamentParameters::BRACKET_TYPE_1,
-                    'Choix 2' => ModuleTournamentParameters::BRACKET_TYPE_2,
+                    'Par équipe' => ModuleTournamentParameters::BRACKET_TYPE_1,
+                    'Battle royal' => ModuleTournamentParameters::BRACKET_TYPE_2,
                 ]
             ])
             ->add('stageType', ChoiceType::class, [
-                'label' => 'Stage type:',
+                'label' => 'Type de match:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
-                    'placeholder' => 'Bracket type'
                 ],
                 'choices' => [
-                    'Choix 1' => ModuleTournamentParameters::STAGE_TYPE_1,
-                    'Choix 2' => ModuleTournamentParameters::STAGE_TYPE_2,
+                    'Normal' => ModuleTournamentParameters::STAGE_TYPE_1,
+                    'Aller-retour' => ModuleTournamentParameters::STAGE_TYPE_2,
                 ]
             ])
             ->add('playerFormatDefault', ChoiceType::class, [
-                'label' => 'Stage type:',
+                'label' => 'Type d\'affrontement:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
-                    'placeholder' => 'Bracket type'
                 ],
                 'choices' => [
                     'BO3' => ModuleTournamentParameters::BO3,
