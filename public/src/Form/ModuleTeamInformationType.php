@@ -52,7 +52,8 @@ class ModuleTeamInformationType extends AbstractType
                         'class' => 'form-control mt-1 mb-1',
                     ],
                     'query_builder' => function (EntrantRepository $entrantRepository) use ($options) {
-                        return $entrantRepository->findAllEntrantsByEvent($options['event']);
+                        $eventEntrants = $entrantRepository->findAllEntrantsByEvent($options['event']);
+                        return $eventEntrants;
                     },
                 ]);
         ;

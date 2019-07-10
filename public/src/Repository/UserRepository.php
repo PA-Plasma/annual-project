@@ -37,15 +37,15 @@ class UserRepository extends ServiceEntityRepository
     }
 
 
-    public function findAllEventByEntrant($user)
+    public function findAllEventsByEntrant($user)
     {
-        $q = $this->createQueryBuilder('u')
+        $queryBuilder = $this->createQueryBuilder('u')
             ->select('e')
             ->innerJoin('App:Entrant', 'e2', Join::WITH, 'u.id = e2.user_related')
             ->innerJoin('App:Event', 'e', Join::WITH, 'e2.event = e.id')
             ->andWhere('u.id = :userId')
             ->setParameter('userId', $user);
-        return ($q->getQuery()->getResult());
+        return $queryBuilder;
     }
 
     // /**

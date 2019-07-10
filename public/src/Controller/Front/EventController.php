@@ -154,7 +154,7 @@ class EventController extends AbstractController
         $this->denyAccessUnlessGranted('show', $event);
 
         $user = $this->getUser()->getId();
-        $entrants = $entrantRepository->findAllEntrantsByEvent($event);
+        $entrants = $entrantRepository->findAllEntrantsByEvent($event)->getQuery()->getResult();
         $modules = $modulesHelper->FactoryModule($event);
 
         return $this->render('front/event/show.html.twig', [

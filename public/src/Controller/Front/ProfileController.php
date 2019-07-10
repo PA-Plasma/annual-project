@@ -39,7 +39,7 @@ class ProfileController extends AbstractController
             ]
         );
 
-        $eventEntrant = $userRepository->findAllEventByEntrant($user);
+        $eventEntrant = $userRepository->findAllEventsByEntrant($user)->getQuery()->getResult();
 
         /*$eventEntrant = $entrantRepository->findBy(
             [
