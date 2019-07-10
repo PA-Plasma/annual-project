@@ -27,7 +27,7 @@ class EntrantRepository extends ServiceEntityRepository
             ->setParameter('event', $event);
 //            ->andWhere('e.team is NULL')
 
-        return ($queryBuilder->getQuery()->getResult());
+        return $queryBuilder;
     }
 
     // /**
