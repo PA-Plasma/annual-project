@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Entrant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -27,6 +28,31 @@ class EntrantRepository extends ServiceEntityRepository
             ->setParameter('event', $event);
 //            ->andWhere('e.team is NULL')
 
+        return $queryBuilder;
+    }
+
+    public function findAllEntrantsRegisteredByEvent($event)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+
+        $queryBuilder->where('e.event = :event')
+            ->andWhere('e.deleted != true')
+            ->setParameter('event', $event);
+//            ->andWhere('e.team is NULL')
+
+        return $queryBuilder;
+    }
+
+
+    public function findEntrantRegisteredByEvent($event, $user)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+
+        $queryBuilder->where('e.user_related = :userId')
+            ->andWhere('e.deleted != true')
+            ->andwhere('e.event = :event')
+            ->setParameter('event', $event)
+            ->setParameter('userId', $user);
         return $queryBuilder;
     }
 

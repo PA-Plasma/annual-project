@@ -10,10 +10,10 @@
         <div class="col-md-4 d-flex align-items-center justify-content-end ">
             <div id="modalEntrant">
                 {% if event.registrationType == 1 %}
-                    {% if entrants is empty %}
+                    {% if entrantRegistered is empty %}
                         {% include 'page/modalRegisterEvent.html.twig' %}
                     {% else %}
-                        {% for entrant in entrants %}
+                        {% for entrant in entrantRegistered %}
                             {% if entrant.active %}
                                 {% include 'page/modalCancelRegisterEvent.html.twig' %}
                             {% endif %}
