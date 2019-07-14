@@ -70,7 +70,6 @@ footer {
 }
 
 .team {
-  background: no-repeat center 100% url("../images/bck.jpg");
   border-radius: 2%;
 }
 
@@ -90,4 +89,24 @@ footer {
 .user-avatar {
   float: right;
   width: 150px;
+}
+
+.custom-box {
+  -webkit-box-shadow: 10px 10px 24px -5px rgba(0,0,0,0.42);
+  -moz-box-shadow: 10px 10px 24px -5px rgba(0,0,0,0.42);
+  box-shadow: 10px 10px 24px -5px rgba(0,0,0,0.42);
+}
+
+.round-btn {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.black-bck {
+  background: no-repeat center 100% url("../images/bck_black.png");
+}
+
+.match {
+  margin-bottom: 10px;
+  border: 1px solid #fe4a3b;
 }

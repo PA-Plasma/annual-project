@@ -1,16 +1,18 @@
 {% extends "Modules/base.html.twig" %}
-{% block module_title %}module {{ event.moduleTournament.name }}{% endblock %}
-{% block module_content %}
-    <div id="moduleTournament" data-id="{{ event.moduleTournament.id }}">
-        {% if isOwner(app.user, event) %}
-        <div class="row">
-            <div class="col-md-4">
+{% block module_title %}
+    <div class="row">
+        <div class="col-md-5 pl-5">Module {{ event.moduleTournament.name|capitalize }}</div>
+        <div class="col-md-7 text-right pr-5">
+            {% if isOwner(app.user, event) %}
                 <button class="btn btn-md btn-primary mt-1" id="edit-tournament" data-slugevent="{{ event.slug }}">
                     Edit
                 </button>
-            </div>
-        </div><br>
-        {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block module_content %}
+    <div id="moduleTournament" data-id="{{ event.moduleTournament.id }}">
         <div class="row" id="admin_tournament">
             <div class="col-md-12" id="tournement-content">
             </div>

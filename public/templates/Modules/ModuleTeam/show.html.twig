@@ -1,7 +1,7 @@
 {% extends "Modules/base.html.twig" %}
 {% block module_title %}
     <div class="row">
-        <div class="col-md-5 pl-5">module {{ event.moduleTeam.name }}</div>
+        <div class="col-md-5 pl-5">Module {{ event.moduleTeam.name|capitalize }}</div>
         <div class="col-md-7 text-right pr-5">
             {% if isOwner(app.user, event) %}
 
@@ -22,14 +22,16 @@
     {% endif %}
     <div class="teams row m-2">
         {% for team in event.moduleTeam.teams %}
-            <div class="col-md-6 col-xs-12 p-2">
-                <div class="row text-center team m-3">
-                    <div class="col-md-12 p-2"><h3 class="title text-secondary">{{ team.teamName }}</h3></div>
-                    <div class="col-md-12 d-flex justify-content-center">
-                        <ul>
-                        {% for player in team.entrants %}
-                            <li><h5 class="">{{ player.pseudo }}</h5></li>
-                        {% endfor %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header black-bck">
+                        <h3 class="title text-secondary text-center">{{ team.teamName }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul style="list-style: none;">
+                            {% for player in team.entrants %}
+                                <li><h5 class="">{{ player.pseudo }}</h5></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

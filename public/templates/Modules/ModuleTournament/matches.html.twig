@@ -14,22 +14,24 @@
     {% else %}
     {% if winner is not null %}
         <div class="card winner">
-            <h1 class="card-header"><i class="fas fa-trophy"></i> Winner</h1>
-            <div class="card-body">
-               <h5>{{ winner.pseudo }}</h5>
+            <div class="card-header black-bck text-center">
+                <h1 class="title text-primary"><i class="fas fa-trophy"></i> Winner <i class="fas fa-trophy"></i></h1>
+            </div>
+            <div class="card-body text-center">
+               <h2>{{ winner.pseudo }}</h2>
             </div>
         </div><br>
     {% endif %}
     <div style="color:black">
         {% for key, round in rounds %}
         <div class="card round">
-            <a data-toggle="collapse" href="#event-image-body" role="button" aria-expanded="true"
-               aria-controls="event-image-body">
+            <a data-toggle="collapse" href="#event-image-body-{{ key }}" role="button" aria-expanded="true"
+               aria-controls="event-image-body" class="round-btn black-bck">
                 <div class="card-header d-flex justify-content-center">
-                    <h3>ROUND {{ key }}</h3>
+                    <h3 class="title text-primary">ROUND {{ key }}</h3>
                 </div>
             </a>
-            <div class="card-body form-row collapse {{ (key == 1) ? 'show' : '' }}" id="event-image-body">
+            <div class="card-body form-row collapse {{ (key == 1) ? 'show' : '' }}" id="event-image-body-{{ key }}">
                 {% for match in round %}
                 {% if round|length == 1 %}
                 <div class="col-md-12">
@@ -37,16 +39,18 @@
                     <div class="col-md-6">
                         {% endif %}
                         <div class="card match" data-match-id="{{ match.id }}">
-                            <h5 class="card-header">MATCH {{ match.number }}</h5>
+                            <div class="card-header">
+                                <h5 class="title text-secondary">MATCH {{ match.number }}</h5>
+                            </div>
                             <div class="card-body">
                                 <h4 class="card-title text-center">
                                     {% for player in match.players %}
                                         {{ player.pseudo }}
-                                        {% if not loop.last %} VS {% endif %}
+                                        {% if not loop.last %} <span class="title text-primary">VS</span> {% endif %}
                                     {% endfor %}
                                 </h4>
                                 {% if match.scores is empty %}
-                                    <div class="row" style="margin: 10px 0 10px 0">
+                                    <div class="row text-center" style="margin: 10px 0 10px 0">
                                         {% for player in match.players %}
                                             {% if isOwner(app.user, event) %}
                                                 <div class="form-group col-md-6 text-center">
@@ -61,13 +65,13 @@
                                             {% endif %}
                                         {% endfor %}
                                         {% if not isOwner(app.user, event) %}
-                                            <h5><i>Le match n'est pas terminé.</i></h5>
+                                            <p><i>Le match n'est pas terminé.</i></p>
                                         {% endif %}
                                     </div>
                                 {% else %}
                                     <div class="row" style="margin: 10px 0 10px 0;">
                                         {% if not isOwner(app.user, event) %}
-                                            <div class="col-md-6 offset-4">
+                                            <div class="col-md-12 text-center">
                                         {% endif %}
                                         {% for score in match.scores %}
                                             {% if isOwner(app.user, event) %}
