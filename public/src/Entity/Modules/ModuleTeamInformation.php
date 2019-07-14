@@ -33,7 +33,7 @@ class ModuleTeamInformation
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Entrant", mappedBy="team")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $entrants;
 
