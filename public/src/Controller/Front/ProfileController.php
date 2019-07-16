@@ -93,8 +93,6 @@ class ProfileController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->render('front/default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        return $this->redirectToRoute('logout');
     }
 }
