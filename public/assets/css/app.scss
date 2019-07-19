@@ -110,3 +110,12 @@ footer {
   margin-bottom: 10px;
   border: 1px solid #fe4a3b;
 }
+
+.event-form-pannel {
+  text-decoration: none;
+}
+.event-form-pannel:hover {
+  text-decoration: none !important;
+  font-weight: bold !important;
+  color: black !important;
+}

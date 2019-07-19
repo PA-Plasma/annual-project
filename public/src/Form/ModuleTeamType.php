@@ -24,8 +24,12 @@ class ModuleTeamType extends AbstractType
     {
         $builder
             ->add('teams', CollectionType::class, [
+                    'label' => 'Équipes',
                     'entry_type' => ModuleTeamInformationType::class,
-                    'entry_options' => ['label' => false, 'event' => $options['event']],
+                    'entry_options' => [
+                        'label' => false,
+                        'event' => $options['event']
+                    ],
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,

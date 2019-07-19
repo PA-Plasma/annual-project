@@ -24,7 +24,7 @@ class ModuleTeamInformationType extends AbstractType
     {
         $builder
             ->add('teamName', TextType::class, [
-                'label' => 'Team name:',
+                'label' => 'Nom:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
@@ -32,7 +32,7 @@ class ModuleTeamInformationType extends AbstractType
                 ],
             ])
             ->add('teamColor', TextType::class, [
-                'label' => 'Team Color:',
+                'label' => 'Couleur:',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control mb-2',
@@ -44,7 +44,7 @@ class ModuleTeamInformationType extends AbstractType
                     'choice_label' => 'pseudo',
                     'multiple' => true,
                     'class' => Entrant::class,
-                    'label' => 'Entrants:',
+                    'label' => 'Participants:',
                     'required' => true,
                     'by_reference' => false,
                     'expanded' => false,
