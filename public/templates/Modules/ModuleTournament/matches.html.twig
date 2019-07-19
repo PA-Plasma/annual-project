@@ -25,20 +25,19 @@
     <div style="color:black">
         {% for key, round in rounds %}
         <div class="card round">
-            <a data-toggle="collapse" href="#event-image-body-{{ key }}" role="button" aria-expanded="true"
-               aria-controls="event-image-body" class="round-btn black-bck">
-                <div class="card-header d-flex justify-content-center">
+            <a data-toggle="collapse" href="#event-image-body-{{ key }}" role="button" aria-expanded="true" aria-controls="event-image-body" class="round-btn black-bck toto">
+                <div class="card-header d-flex justify-content-center tournament-round-link  {{ (key == 1) ? 'first-tournament-round-link' : '' }} ">
                     <h3 class="title text-primary">ROUND {{ key }}</h3>
                 </div>
             </a>
-            <div class="card-body form-row collapse {{ (key == 1) ? 'show' : '' }}" id="event-image-body-{{ key }}">
+            <div class="card-body form-row collapse tournament-round-body {{ (key == 1) ? 'first-tournament-round-body' : '' }}" id="event-image-body-{{ key }}">
                 {% for match in round %}
                 {% if round|length == 1 %}
                 <div class="col-md-12">
                     {% else %}
                     <div class="col-md-6">
                         {% endif %}
-                        <div class="card match" data-match-id="{{ match.id }}">
+                        <div class="card match tournament-round-body" data-match-id="{{ match.id }}">
                             <div class="card-header">
                                 <h5 class="title text-secondary">MATCH {{ match.number }}</h5>
                             </div>
@@ -107,3 +106,4 @@
         </div>
         {% endif %}
     </div>
+</div>

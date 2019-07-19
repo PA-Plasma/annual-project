@@ -52,3 +52,24 @@ $(document).on('click', '#cancel_user', (function () {
     });
 }));
 
+
+// EVENT TAB LOCAL STORAGE
+let openedTab = localStorage.getItem('opened-tab');
+let eventInfoLink = $('.event-info-link');
+let eventInfoBody = $('.event-info-body');
+let infoTabLink = $('.informations-tab');
+let infoTabContent = $('.informations-tab-content');
+
+if (openedTab) {
+  eventInfoLink.removeClass('active');
+  eventInfoBody.removeClass('active show');
+  $('#'+openedTab).addClass('active');
+  $('#'+openedTab+'-content').addClass('active show');
+} else {
+  infoTabLink.addClass('active');
+  $(infoTabContent).addClass('active show');
+}
+
+eventInfoLink.click(function(event) {
+    localStorage.setItem('opened-tab', event.target.id);
+});

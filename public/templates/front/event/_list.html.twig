@@ -7,7 +7,7 @@
             <div class="card-body">
                 <h4 class="card-title">{{ event.name }}</h4>
                 {% if event.description %}
-                    <small class="card-text">{{ event.description }}</small>
+                    <small class="card-text">{{ event.description|slice(0, 200) ~ '...' }}</small>
                 {% endif %}
                 <hr>
                 {% if event.createdby %}
