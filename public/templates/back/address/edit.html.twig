@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Address{% endblock %}
+{% block title %}Plasma - Éditer l'adresse{% endblock %}
 
 {% block body %}
-    <h1 class="m-3">Edit Address</h1>
+    <h1 class="m-3">Éditer l'adresse</h1>
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': address})) }}
 
     {{ include('back/address/_form.html.twig', {'button_label': 'Update'}) }}

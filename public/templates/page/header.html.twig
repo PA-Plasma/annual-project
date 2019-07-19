@@ -6,7 +6,7 @@
                     <a href="{{ url('front_index') }}" class="nav-link"><img width="150px" src=" {{ asset('images/plasma-logo.png') }}" alt="plasma logo"></a>
                 </li>
                 <li class="nav-item align-items-center d-flex justify-content-center {% if "front_event" in route %}active{% endif %}">
-                    <a href="{{ url('front_event_index') }}" class="nav-link">Events</a>
+                    <a href="{{ url('front_event_index') }}" class="nav-link">Événements</a>
                 </li>
             </ul>
         </div>
@@ -15,12 +15,12 @@
                 {% if app.user %}
                     {% if 'ROLE_ADMIN' in app.user.roles %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Manage</a>
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item {% if "back_event" in route %}active{% endif %}" href="{{ url('back_event_index') }}">Events</a>
-                                <a class="dropdown-item {% if "back_entrant" in route %}active{% endif %}" href="{{ url('back_entrant_index') }}">Entrants</a>
-                                <a class="dropdown-item {% if "back_user" in route %}active{% endif %}" href="{{ url('back_user_index') }}">Users</a>
-                                <a class="dropdown-item {% if "back_address" in route %}active{% endif %}" href="{{ url('back_address_index') }}">Addresses</a>
+                                <a class="dropdown-item {% if "back_event" in route %}active{% endif %}" href="{{ url('back_event_index') }}">Événements</a>
+                                <a class="dropdown-item {% if "back_entrant" in route %}active{% endif %}" href="{{ url('back_entrant_index') }}">Participants</a>
+                                <a class="dropdown-item {% if "back_user" in route %}active{% endif %}" href="{{ url('back_user_index') }}">Utilisateurs</a>
+                                <a class="dropdown-item {% if "back_address" in route %}active{% endif %}" href="{{ url('back_address_index') }}">Adresses</a>
                                 <a class="dropdown-item {% if "back_modules" in route %}active{% endif %}" href="{{ url('back_modules_index') }}">Modules</a>
                             </div>
                         </li>
@@ -28,10 +28,10 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.pseudo }}</a>
                         <div class="dropdown-menu">
-                            {% if 'ROLE_ADMIN' in app.user.roles %}
-                                <a class="dropdown-item {% if "back_index" in route %}active{% endif %}" href="{{ url('back_index') }}">Admin</a>
-                                <div class="dropdown-divider"></div>
-                            {% endif %}
+                            {#{% if 'ROLE_ADMIN' in app.user.roles %}#}
+                                {#<a class="dropdown-item {% if "back_index" in route %}active{% endif %}" href="{{ url('back_index') }}">Admin</a>#}
+                                {#<div class="dropdown-divider"></div>#}
+                            {#{% endif %}#}
                             <a class="dropdown-item" href="{{ url('front_profile') }}">Profil</a>
                             <a class="dropdown-item" href="{{ url('security_logout') }}">Déconnexion</a>
                         </div>
@@ -56,7 +56,7 @@
             <div class="row align-items-center text-center text-capitalize">
                 <div class="col-lg-12 p-2">
                     <img width="100%" src="{{ asset('images/plasma-logo.png') }}" alt="logo plasma">
-                    <h2 class="text-white">Online tournament organizer</h2>
+                    <h2 class="text-white">Organisateur de tournois en ligne</h2>
                 </div>
             </div>
         </div>

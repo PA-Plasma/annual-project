@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Event{% endblock %}
+{% block title %}Plasma - Éditer l'événement{% endblock %}
 
 {% block body %}
-    <h1 class="m-3">Edit Event</h1>
+    <h1 class="m-3">Éditer l'événement</h1>
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': event})) }}
 
     {{ include('front/event/_form.html.twig', {'button_label': 'Update'}) }}

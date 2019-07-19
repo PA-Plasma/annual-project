@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Entrant{% endblock %}
+{% block title %}Plasma - Éditer les participants{% endblock %}
 
 {% block body %}
-    <h1 class="m-3">Edit Entrant</h1>
+    <h1 class="m-3">Éditer les participants</h1>
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': entrant})) }}
 
     {{ include('back/entrant/_form.html.twig', {'button_label': 'Update'}) }}

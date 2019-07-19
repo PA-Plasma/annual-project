@@ -6,7 +6,7 @@
             {% if isOwner(app.user, event) %}
 
                 <button class="btn btn-md btn-primary mt-1" id="edit-team" data-slugevent="{{ event.slug }}">
-                    Edit
+                    Éditer
                 </button>
                 <a href="{{ path('module_team_add_team', {'slug': event.slug}) }}">
                     <button class="btn btn-md btn-primary mt-1">Ajouter des équipes</button>

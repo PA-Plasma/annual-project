@@ -15,7 +15,7 @@ class AddressType extends AbstractType
     {
         $builder
             ->add('number', TextType::class, [
-                'label' => 'Number:',
+                'label' => 'Numéro:',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control mb-2',
@@ -23,7 +23,7 @@ class AddressType extends AbstractType
                 ],
             ])
             ->add('road', TextType::class, [
-                'label' => 'Street:',
+                'label' => 'Rue:',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control mb-2',
@@ -31,7 +31,7 @@ class AddressType extends AbstractType
                 ],
             ])
             ->add('city', TextType::class, [
-                'label' => 'City:',
+                'label' => 'Ville:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
@@ -39,7 +39,7 @@ class AddressType extends AbstractType
                 ],
             ])
             ->add('city_code', TextType::class,[
-                'label' => 'Zipcode:',
+                'label' => 'Code postal:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
@@ -47,7 +47,7 @@ class AddressType extends AbstractType
                 ],
             ])
             ->add('country', TextType::class,[
-                'label' => 'Country:',
+                'label' => 'Pays:',
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control mb-2',
@@ -55,7 +55,7 @@ class AddressType extends AbstractType
                 ],
             ])
             ->add('complement', TextareaType::class, [
-                'label' => 'Address supplement:',
+                'label' => 'Suplément d\'adresse:',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control mb-4',
