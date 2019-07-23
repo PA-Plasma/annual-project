@@ -24,5 +24,4 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 /public/images/event/
-
-
+/public/images/user/

@@ -2,11 +2,12 @@
 {# TODO::Remettre ce formulaire sur la page des evenements#}
 {% block body %}
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 m-3">
         {{ form_start(formTeam) }}
-        <ul class="teams" data-prototype="{{ form_widget(formTeam.teams.vars.prototype)|e }}">
+        <ul class="teams" data-prototype="{{ form_widget(formTeam.teams.vars.prototype)|e }}" style="list-style: none">
         </ul>
         <button type="submit" class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
+        <hr>
         {{ form_end(formTeam) }}
     </div>
 </div>

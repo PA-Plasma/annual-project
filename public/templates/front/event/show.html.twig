@@ -10,10 +10,10 @@
         <div class="col-md-4 d-flex align-items-center justify-content-end ">
             <div id="modalEntrant">
                 {% if event.registrationType == 1 %}
-                    {% if entrants is empty %}
+                    {% if entrantRegistered is empty %}
                         {% include 'page/modalRegisterEvent.html.twig' %}
                     {% else %}
-                        {% for entrant in entrants %}
+                        {% for entrant in entrantRegistered %}
                             {% if entrant.active %}
                                 {% include 'page/modalCancelRegisterEvent.html.twig' %}
                             {% endif %}
@@ -37,7 +37,7 @@
     </div>
     <hr>
 
-    <div class="card text-dark">
+    <div class="card text-dark custom-box">
         <div class="card-header">
             <div class="row">
                 {% if vich_uploader_asset(event, 'imageFile') %}
@@ -54,27 +54,27 @@
         <div class="card-body">
             <ul class="nav nav-tabs pull-right mb-4 " id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="informations-tab" data-toggle="tab" href="#informations-tab-content" role="tab" aria-controls="informations-tab" aria-selected="false">Informations</a>
+                    <a class="nav-link event-info-link" id="informations-tab" data-toggle="tab" href="#informations-tab-content" role="tab" aria-controls="informations-tab" aria-selected="false">Informations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="address-tab" data-toggle="tab" href="#address-tab-content" role="tab" aria-controls="address-tab" aria-selected="false">Adresse</a>
+                    <a class="nav-link event-info-link" id="address-tab" data-toggle="tab" href="#address-tab-content" role="tab" aria-controls="address-tab" aria-selected="false">Adresse</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="entrants-tab" data-toggle="tab" href="#entrants-tab-content" role="tab" aria-controls="entrants-tab" aria-selected="false">Participants</a>
+                    <a class="nav-link event-info-link" id="entrants-tab" data-toggle="tab" href="#entrants-tab-content" role="tab" aria-controls="entrants-tab" aria-selected="false">Participants</a>
                 </li>
                 {% if event.createdby %}
                 <li class="nav-item">
-                    <a class="nav-link" id="promoter-tab" data-toggle="tab" href="#promoter-tab-content" role="tab" aria-controls="promoter-tab" aria-selected="false">Organisateur</a>
+                    <a class="nav-link event-info-link" id="promoter-tab" data-toggle="tab" href="#promoter-tab-content" role="tab" aria-controls="promoter-tab" aria-selected="false">Organisateur</a>
                 </li>
                 {% endif %}
                 {% for module in modules %}
                     <li class="nav-item">
-                        <a class="nav-link" {% if loop.first %}aria-selected="true"{% endif %} id="{{ module.moduleName|lower }}-tab" data-toggle="tab" href="#{{ module.moduleName|lower}}" role="tab" aria-controls="{{ module.moduleName|lower }}" aria-selected="false">{{ module.moduleName }} Module</a>
+                        <a class="nav-link event-info-link" {% if loop.first %}aria-selected="true"{% endif %} id="{{ module.moduleName|lower }}-tab" data-toggle="tab" href="#{{ module.moduleName|lower}}-tab-content" role="tab" aria-controls="{{ module.moduleName|lower }}" aria-selected="false">{{ module.moduleName }} Module</a>
                     </li>
                 {% endfor %}
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade active show" id="informations-tab-content" role="tabpanel" aria-labelledby="informations-tab">
+                <div class="tab-pane fade event-info-body" id="informations-tab-content" role="tabpanel" aria-labelledby="informations-tab">
                     <div class="row">
                         <div class="col-md-4">
                             <h5>Horaires</h5>
@@ -105,26 +105,44 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="address-tab-content" role="tabpanel" aria-labelledby="address-tab">
-                    {{ event.address.number }}
-                    {{ event.address.road }}
-                    <br>
-                    {{ event.address.city }}
-                    {{ event.address.citycode }}
-                    {{ event.address.country }}
-                    <br>
-                    {{ event.address.complement }}
+                <div class="tab-pane fade event-info-body" id="address-tab-content" role="tabpanel" aria-labelledby="address-tab">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Addresse de l'événement</h5>
+                            {{ event.address.number }}
+                            {{ event.address.road }}
+                            <br>
+                            {{ event.address.city }}
+                            {{ event.address.citycode }}
+                            {{ event.address.country }}
+                            <br>
+                            {{ event.address.complement }}
+                        </div>
+                        <div class="col-md-6">
+                            <iframe width='650' height='350' frameborder='0' scrolling='no'  marginheight='0' marginwidth='0' src='https://maps.google.com/maps?&amp;q={{ event.address.number }} {{ event.address.road}} {{ event.address.citycode }} {{ event.address.city }}&amp;output=embed'></iframe>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="tab-pane fade" id="entrants-tab-content" role="tabpanel" aria-labelledby="entrants-tab">
-                    <p>entrants</p>
+                <div class="tab-pane fade event-info-body" id="entrants-tab-content" role="tabpanel" aria-labelledby="entrants-tab">
+                    <p>Participants : </p>
+                    <ul class="list-group list-group-flush mb-3">
+                        {% if entrants %}
+                            {% for entrant in entrants %}
+                                <li class="list-group-item">{{ entrant.pseudo }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <p class="card-text">Il n'y a pas encore de participants !</p>
+                        {% endif %}
+                    </ul>
                 </div>
                 {% if event.createdby %}
-                <div class="tab-pane fade" id="promoter-tab-content" role="tabpanel" aria-labelledby="promoter-tab">
+                <div class="tab-pane fade event-info-body" id="promoter-tab-content" role="tabpanel" aria-labelledby="promoter-tab">
                     <h5>{{ event.createdby.pseudo }}, {{ event.createdby.email }}</h5>
                 </div>
                 {% endif %}
                 {% for module in modules %}
-                    <div class="tab-pane fade" id="{{ module.moduleName|lower }}" role="tabpanel" aria-labelledby="{{ module.moduleName|lower }}-tab">
+                    <div class="tab-pane fade event-info-body" id="{{ module.moduleName|lower }}-tab-content" role="tabpanel" aria-labelledby="{{ module.moduleName|lower }}-tab">
                         {% if module.entity %}
                             {% if (not module.entity.isParameted()) %}
                                 {{ render(controller(module.controller~"::parameters", {'event': event})) }}

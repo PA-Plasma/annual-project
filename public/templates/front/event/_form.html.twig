@@ -2,9 +2,9 @@
 {% if step is same as(1) %}
     <div class="container event-form">
         <div id="event-informations">
-            <a data-toggle="collapse" href="#event-informations-body" role="button" aria-expanded="true" aria-controls="event-informations-body">
+            <a data-toggle="collapse" href="#event-informations-body" role="button" aria-expanded="true" aria-controls="event-informations-body" class="event-form-pannel">
                 <div class="card-header d-flex justify-content-center">
-                    <h3>1. What are the event information?</h3>
+                    <h3><i class="fas fa-info-circle"></i> Informations</h3>
                 </div>
             </a>
             <div class="card-body form-row collapse show" id="event-informations-body">
@@ -33,9 +33,9 @@
         </div>
 
         <div id="event-image">
-            <a data-toggle="collapse" href="#event-image-body" role="button" aria-expanded="true" aria-controls="event-image-body">
+            <a data-toggle="collapse" href="#event-image-body" role="button" aria-expanded="true" aria-controls="event-image-body" class="event-form-pannel">
                 <div class="card-header d-flex justify-content-center">
-                    <h3>2. Add a nice picture?</h3>
+                    <h3><i class="fas fa-image"></i> Image</h3>
                 </div>
             </a>
             <div class="card-body form-row collapse" id="event-image-body">
@@ -46,9 +46,9 @@
         </div>
 
         <div id="event-address">
-            <a data-toggle="collapse" href="#event-address-body" role="button" aria-expanded="true" aria-controls="event-address-body">
+            <a data-toggle="collapse" href="#event-address-body" role="button" aria-expanded="true" aria-controls="event-address-body" class="event-form-pannel">
                 <div class="card-header d-flex justify-content-center">
-                    <h3>3. Where does it take place?</h3>
+                    <h3><i class="fas fa-map-marked-alt"></i> Adresse</h3>
                 </div>
             </a>
             <div class="card-body form-row collapse" id="event-address-body">
@@ -78,9 +78,9 @@
         </div>
 
         <div id="event-module">
-            <a data-toggle="collapse" href="#event-module-body" role="button" aria-expanded="true" aria-controls="event-module-body">
+            <a data-toggle="collapse" href="#event-module-body" role="button" aria-expanded="true" aria-controls="event-module-body" class="event-form-pannel">
                 <div class="card-header d-flex justify-content-center">
-                    <h3>4. Which modules do you want to link?</h3>
+                    <h3><i class="fas fa-boxes"></i> Modules</h3>
                 </div>
             </a>
             <div class="card-body form-row collapse" id="event-module-body">
@@ -91,14 +91,25 @@
         </div>
     </div>
 {% else %}
-    <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}">
-    </ul>
-    {#<input list="pseudo" type="text">#}
-    <datalist id="pseudo">
-        {% for user in users %}
-            <option value="{{ user.pseudo }}"></option>
-        {% endfor %}
-    </datalist>
+    <div id="event-entrants">
+        <a data-toggle="collapse" href="#event-entrants-body" role="button" aria-expanded="true" aria-controls="event-entrants-body" class="event-form-pannel">
+            <div class="card-header d-flex justify-content-center">
+                <h3><i class="fas fa-users"></i> Participants</h3>
+            </div>
+        </a>
+        <div class="card-body form-row collapse show" id="event-entrants-body">
+            <div class="col-md-6">
+                <ul class="entrants" data-prototype="{{ form_widget(form.entrants.vars.prototype)|e }}" style="list-style: none;">
+                </ul>
+                {#<input list="pseudo" type="text">#}
+                <datalist id="pseudo">
+                    {% for user in users %}
+                        <option value="{{ user.pseudo }}"></option>
+                    {% endfor %}
+                </datalist>
+            </div>
+        </div>
+    </div>
 {% endif %}
     <button class="btn btn-md btn-success mt-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

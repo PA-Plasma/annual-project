@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -33,6 +34,18 @@ class UserRepository extends ServiceEntityRepository
 
         // returns an array of Product objects
         return $datas;
+    }
+
+
+    public function findAllEventsByEntrant($user)
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->select('e')
+            ->innerJoin('App:Entrant', 'e2', Join::WITH, 'u.id = e2.user_related')
+            ->innerJoin('App:Event', 'e', Join::WITH, 'e2.event = e.id')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $user);
+        return $queryBuilder;
     }
 
     // /**

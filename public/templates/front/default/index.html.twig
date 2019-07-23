@@ -1,23 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+{% block title %}Plasma - Accueil{% endblock %}
 
-{% block body %}
+{% block homebody %}
 <!-- Page Content -->
-<div class="container">
-
-    <div class="row mt-5">
+<div class="container-fluid">
+    <div class="row mt-5 p-5">
         <div class="col-md-8 mb-5">
-            <h2>What is Plasma?</h2>
+            <h2 class="title">C'est quoi ?</h2>
             <hr>
-            <p>Plasma is an application that permit you to <b>find</b>, <b>create</b>, <b>organize</b>, <b>participate</b> and <b>see</b> gaming events all around the world!</p>
-            <p>This is know easy to become event organizator and bring together gamers.</p>
-            <p>Click on the button to join the Plasma community and start to create or discover events.</p>
-            <a class="btn btn-md btn-primary" href="{{ url('front_event_index') }}">Discover &raquo;</a>
+            <p>Plasma est une application qui vous permet de <b>trouver</b>, <b>créer</b>, <b>organiser</b>, <b>participer</b> et <b>suivre</b> des événements gaming à travers le monde entier !</p>
+            <p>Rejoignez dès maintenant Plasma en créant votre premier événement esportif.</p>
+            <a class="btn btn-md btn-primary" href="{{ url('front_event_index') }}">GO &raquo;</a>
             <br/>
         </div>
         <div class="col-md-4 mb-5">
-            <h2>Contact Us</h2>
+            <h2 class="title">Une question ?</h2>
             <hr>
             <address>
                 <strong>Plasma</strong>
@@ -35,7 +33,49 @@
         </div>
     </div>
     <!-- /.row -->
-
-
+    <div class="row text-center mt-5 p-5" style="background-color: #eee">
+        <div class="col-md-5">
+            <img width="750px" src="{{ asset('images/gaming.svg') }}" alt="Best place">
+        </div>
+        <div class="col-md-6 offset-1 my-auto">
+            <h2 class="title">Jouer</h2>
+            <p class="text-left">
+                Avant tout, Plasma vous permet de toujours plus jouer ! En effet, vous pouvez maintenant pratiquer l'esport sans pour autant avoir une équipe professionnelle.
+            </p>
+        </div>
+    </div>
+    <div class="row text-center p-5">
+        <div class="col-md-6  my-auto">
+            <h2 class="title">Organiser</h2>
+            <p class="text-left">
+                Oubliez les paper board, les cahier ou les excel. Plasma est maintenant là pour vous faciliter la vie et vous permettre de perdre le moins de temps possible.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <img width="750px" src=" {{ asset('images/planner.svg') }}" alt="Best place">
+        </div>
+    </div>
+    <div class="row text-center mt-2 p-5" style="background-color: #eee">
+        <div class="col-md-5">
+            <img width="750px" src=" {{ asset('images/people-search.svg') }}" alt="Best place">
+        </div>
+        <div class="col-md-6 offset-1 my-auto">
+            <h2 class="title">Rencontrer</h2>
+            <p class="text-left">
+                Vous pouvez maintenant rencontrer des joueurs motivés qui ont le même niveau que vous. Ainsi vous pourrez former une équipe de personne partageant les mêmes valeurs.
+            </p>
+        </div>
+    </div>
+    <div class="row text-center p-5">
+        <div class="col-md-6  my-auto">
+            <h2 class="title">Trouver</h2>
+            <p class="text-left">
+                Il vous serra aussi possible de rechercher l'ensemble des événements disponible pour y participer et progresser lors de LAN ou de tournois.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <img width="750px" src=" {{ asset('images/best-place.svg') }}" alt="Best place">
+        </div>
+    </div>
 </div>
 {% endblock %}

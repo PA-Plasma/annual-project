@@ -1,70 +1,109 @@
-{% if event.moduleTournament.matches is empty %}
-    {% if isOwner(app.user, event) %}
-        <button class="btn btn-primary" id="init-matches">Create matches</button>
+<div class="container">
+    {% if event.moduleTournament.matches is empty %}
+    <div class="row">
+        {% if isOwner(app.user, event) %}
+            <div class="col-md-6 offset-4">
+                <button class="btn btn-primary text-center" id="init-matches">Générer les matchs du tournoi</button>
+            </div>
+        {% else %}
+            <div class="col-md-12">
+                <p>Module en cours de paramètrage</p>
+            </div>
+        {% endif %}
+    </div>
     {% else %}
-        <p>Module en cours de paramètrage</p>
-    {% endif %}
-{% else %}
     {% if winner is not null %}
         <div class="card winner">
-            <h5 class="card-header">Winner</h5>
-            <div class="card-body">
-                <div class="card">
-                    <h5 class="card-header">{{ winner.pseudo }}</h5>
-                </div>
+            <div class="card-header black-bck text-center">
+                <h1 class="title text-primary"><i class="fas fa-trophy"></i> Winner <i class="fas fa-trophy"></i></h1>
             </div>
-        </div>
+            <div class="card-body text-center">
+               <h2>{{ winner.pseudo }}</h2>
+            </div>
+        </div><br>
     {% endif %}
     <div style="color:black">
-    {% for key, round in rounds %}
+        {% for key, round in rounds %}
         <div class="card round">
-            <h5 class="card-header">ROUND {{ key }}</h5>
-            <div class="card-body">
+            <a data-toggle="collapse" href="#event-image-body-{{ key }}" role="button" aria-expanded="true" aria-controls="event-image-body" class="round-btn black-bck toto">
+                <div class="card-header d-flex justify-content-center tournament-round-link  {{ (key == 1) ? 'first-tournament-round-link' : '' }} ">
+                    <h3 class="title text-primary">ROUND {{ key }}</h3>
+                </div>
+            </a>
+            <div class="card-body form-row collapse tournament-round-body {{ (key == 1) ? 'first-tournament-round-body' : '' }}" id="event-image-body-{{ key }}">
                 {% for match in round %}
-                    <div class="card match" data-match-id="{{ match.id }}">
-                        <h5 class="card-header">MATCH {{ match.number }}</h5>
-                        <div class="card-body">
-                            <h5 class="card-title">{% for player in match.players %}
-                                    {{ player.pseudo }}
-                                    {% if not loop.last %} VS {% endif %}{% endfor %}
-                            </h5>
-                            {% if match.scores is empty %}
-                                {% for player in match.players %}
-                                    {% if isOwner(app.user, event) %}
-                                        <div class="form-group">
-                                            <label for="score_{{ loop.index }}">score de {{ player.pseudo }}</label>
-                                            <input type="number" class="form-control score"
-                                                   id="score_{{ loop.index }}" name="name"
-                                                   placeholder="Score du joueur {{ player.pseudo }}"
-                                                   data-player-id="{{ player.id }}">
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                {% for score in match.scores %}
-                                    {% if isOwner(app.user, event) %}
-                                        <div class="form-group">
-                                            <label for="score_{{ loop.index }}">Score
-                                                de {{ score.player.pseudo }}</label>
-                                            <input type="number" class="form-control score"
-                                                   id="score_{{ loop.index }}" name="name"
-                                                   placeholder="Score du joueur {{ score.player.pseudo }}"
-                                                   data-player-id="{{ score.player.id }}" value="{{ score.score }}"
-                                                   data-score-id="{{ score.id }}">
-                                        </div>
-                                    {% else %}
-                                        <p>score de {{ score.player.pseudo }} : {{ score.score }}</p>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                            {% if isOwner(app.user, event) %}
-                                <a class="btn btn-primary add-score">Add score</a>
-                            {% endif %}
+                {% if round|length == 1 %}
+                <div class="col-md-12">
+                    {% else %}
+                    <div class="col-md-6">
+                        {% endif %}
+                        <div class="card match tournament-round-body" data-match-id="{{ match.id }}">
+                            <div class="card-header">
+                                <h5 class="title text-secondary">MATCH {{ match.number }}</h5>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title text-center">
+                                    {% for player in match.players %}
+                                        {{ player.pseudo }}
+                                        {% if not loop.last %} <span class="title text-primary">VS</span> {% endif %}
+                                    {% endfor %}
+                                </h4>
+                                {% if match.scores is empty %}
+                                    <div class="row text-center" style="margin: 10px 0 10px 0">
+                                        {% for player in match.players %}
+                                            {% if isOwner(app.user, event) %}
+                                                <div class="form-group col-md-6 text-center">
+                                                    {#<label for="score_{{ loop.index }}">score J{{ loop.index }}</label>#}
+                                                    <div class="">
+                                                        <input type="number" class="form-control score"
+                                                               id="score_{{ loop.index }}" name="name"
+                                                               placeholder="score J{{ loop.index }}"
+                                                               data-player-id="{{ player.id }}">
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not isOwner(app.user, event) %}
+                                            <p><i>Le match n'est pas terminé.</i></p>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <div class="row" style="margin: 10px 0 10px 0;">
+                                        {% if not isOwner(app.user, event) %}
+                                            <div class="col-md-12 text-center">
+                                        {% endif %}
+                                        {% for score in match.scores %}
+                                            {% if isOwner(app.user, event) %}
+                                                <div class="form-group col-md-6 text-center">
+                                                    {#<label for="score_{{ loop.index }}">Score#}
+                                                    {#de {{ score.player.pseudo }}</label>#}
+                                                    <input type="number" class="form-control score"
+                                                           id="score_{{ loop.index }}" name="name"
+                                                           placeholder="score_{{ loop.index }}"
+                                                           data-player-id="{{ score.player.id }}"
+                                                           value="{{ score.score }}"
+                                                           data-score-id="{{ score.id }}">
+                                                </div>
+                                            {% else %}
+                                                <h5 style="display: inline-block; text-align: center;">&nbsp;{{ score.score }} {% if not loop.last %} : {% endif %}</h5>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if not isOwner(app.user, event) %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                {% if isOwner(app.user, event) %}
+                                    <a class="btn btn-primary add-score">Sauvegarder le score</a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+        {% endif %}
     </div>
-{% endif %}
+</div>

@@ -50,10 +50,10 @@ export default class Search {
         let classSearch = $(this.id_search).attr('class');
         if (classSearch === 'd-none') {
             $(list.id_search).attr('class', '');
-            $(list.id_display_search).html('<i class="fa fa-times"></i> Cancel research');
+            $(list.id_display_search).html('<i class="fa fa-times"></i> Abandonner la recherche');
         } else {
             $(list.id_search).attr('class', 'd-none');
-            $(list.id_display_search).html('<i class="fa fa-search"></i> Search');
+            $(list.id_display_search).html('<i class="fa fa-search"></i> Rechercher');
             $(list.class_filtre_input).each(function () {
                 $(this).val('');
             });

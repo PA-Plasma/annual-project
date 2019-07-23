@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Repository\EntrantRepository;
 use App\Repository\EventRepository;
 use App\Repository\UserRepository;
 use App\Entity\Entrant;
@@ -147,19 +148,21 @@ class EventController extends AbstractController
     /**
      * @Route("/{slug}", name="show", methods={"GET","POST"})
      */
-    public function show(Event $event, ModulesHelper $modulesHelper, EventRepository $eventRepository): Response
+    public function show(Event $event, ModulesHelper $modulesHelper, EntrantRepository $entrantRepository): Response
     {
         // check for "edit" access
         $this->denyAccessUnlessGranted('show', $event);
 
         $user = $this->getUser()->getId();
-        $entrants = $eventRepository->findUserRegistered($event, $user);
+        $entrantRegistered = $entrantRepository->findEntrantRegisteredByEvent($event, $user)->getQuery()->getResult();
+        $entrants = $entrantRepository->findAllEntrantsRegisteredByEvent($event)->getQuery()->getResult();
         $modules = $modulesHelper->FactoryModule($event);
 
         return $this->render('front/event/show.html.twig', [
             'event' => $event,
             'user' => $user,
             'entrants' => $entrants,
+            'entrantRegistered' => $entrantRegistered,
             'modules' => $modules
         ]);
     }
@@ -190,7 +193,7 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $event->getSlug(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $event->setDeleted(1);
             $entityManager->flush();

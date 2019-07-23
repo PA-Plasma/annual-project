@@ -26,7 +26,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/", name="profile")
      */
-    public function index(EventRepository $eventRepository, EntrantRepository $entrantRepository)
+    public function index(EventRepository $eventRepository, EntrantRepository $entrantRepository, UserRepository $userRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
@@ -39,6 +39,8 @@ class ProfileController extends AbstractController
             ]
         );
 
+        $eventEntrant = $userRepository->findAllEventsByEntrant($user)->getQuery()->getResult();
+
         /*$eventEntrant = $entrantRepository->findBy(
             [
                 'user_related' => $user_id
@@ -49,6 +51,7 @@ class ProfileController extends AbstractController
             'controller_name' => 'ProfileController',
             'user' => $user,
             'events_owned' => $eventOwner,
+           'events_entrant' => $eventEntrant
            // 'events_participated' => $eventEntrant,
         ]);
     }
@@ -90,8 +93,6 @@ class ProfileController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->render('front/default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        return $this->redirectToRoute('logout');
     }
 }

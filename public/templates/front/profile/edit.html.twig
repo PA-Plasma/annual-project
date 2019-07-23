@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Plasma, Éditer l'utilisateur{% endblock %}
 
 {% block body %}
-    <h1 class="m-3">Edit User</h1>
+    <h1 class="m-3">Éditer l'utilisateur</h1>
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': user})) }}
 
     {{ include('back/user/_form.html.twig', {'button_label': 'Update'}) }}

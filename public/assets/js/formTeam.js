@@ -25,7 +25,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
 function teamsType() {
     var $collectionHolder;
-    var $addTagButton = $('<button type="button" class="add_team_link">Ajouter une team</button>');
+    var $addTagButton = $('<button type="button" class="add_team_link btn btn-primary mt-2" style="float: right">Ajouter une équipe</button>');
     var $newLinkLi = $('<li></li>').append($addTagButton);
 
     $(document).ready(function () {

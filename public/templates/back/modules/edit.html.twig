@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Modules{% endblock %}
+{% block title %}Plasma - Éditer les modules{% endblock %}
 
 {% block body %}
-    <h1 class="m-3">Edit Modules</h1>
+    <h1 class="m-3">Éditer les modules</h1>
     {{ render(controller('App\\Controller\\Front\\DefaultController::getOperationsAction',{'route': app.request.attributes.get('_route'), 'entity': module})) }}
 
     {{ include('back/entrant/_form.html.twig', {'button_label': 'Update'}) }}

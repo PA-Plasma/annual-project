@@ -39,7 +39,7 @@ class EventType extends AbstractType
         if (!$options['entrants'] && !$options['back']) {
             $builder
                 ->add('name', TextType::class, [
-                    'label' => 'Event name:',
+                    'label' => 'Nom:',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control mb-2',
@@ -47,7 +47,7 @@ class EventType extends AbstractType
                     ],
                 ])
                 ->add('description', TextareaType::class, [
-                    'label' => 'Description:',
+                    'label' => 'Déscription:',
                     'required' => false,
                     'attr' => [
                         'class' => 'form-control mb-2',
@@ -56,7 +56,7 @@ class EventType extends AbstractType
                 ])
                 ->add('beginnig_date', DateTimeType::class, [
                     'widget' => 'single_text',
-                    'label' => 'Start date:',
+                    'label' => 'Date de début:',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control mb-2',
@@ -64,7 +64,7 @@ class EventType extends AbstractType
                 ])
                 ->add('end_date', DateTimeType::class, [
                     'widget' => 'single_text',
-                    'label' => 'End date:',
+                    'label' => 'Date de fin:',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control mb-2',
@@ -76,14 +76,14 @@ class EventType extends AbstractType
                         'Payant' => Event::REGISTRATION_TYPE_PAYING,
                     ],
                     'required' => true,
-                    'label' => 'Registration type:',
+                    'label' => 'Type d\'inscription:',
                     'attr' => [
                         'class' => 'form-control mb-2',
                     ],
                 ])
                 ->add('price', MoneyType::class, [
                     'required' => false,
-                    'label' => 'Price ',
+                    'label' => 'Prix:',
                     'attr' => [
                         'class' => 'form-control mb-2',
                         'placeholder' => '12'
@@ -91,18 +91,18 @@ class EventType extends AbstractType
                 ])
                 ->add('cashprice_type', ChoiceType::class, [
                     'choices' => [
-                        'Without' => Event::CASHPRICE_TYPE_WITHOUT,
-                        'For the 3 first places' => Event::CASHPRICE_TYPE_WITH,
+                        'Sans' => Event::CASHPRICE_TYPE_WITHOUT,
+                        'Pour les 3 premières places' => Event::CASHPRICE_TYPE_WITH,
                     ],
                     'required' => true,
-                    'label' => 'Cashprice type',
+                    'label' => 'Type de récompenses:',
                     'attr' => [
                         'class' => 'form-control mb-2',
                     ],
                 ])
                 ->add('cashprice1', MoneyType::class, [
                     'required' => false,
-                    'label' => 'Winner',
+                    'label' => 'Gagnant',
                     'attr' => [
                         'class' => 'form-control mb-2',
                         'placeholder' => '1000'
@@ -110,7 +110,7 @@ class EventType extends AbstractType
                 ])
                 ->add('cashprice2', MoneyType::class, [
                     'required' => false,
-                    'label' => 'Second place',
+                    'label' => 'Deuxième place',
                     'attr' => [
                         'class' => 'form-control mb-2',
                         'placeholder' => '800'
@@ -118,7 +118,7 @@ class EventType extends AbstractType
                 ])
                 ->add('cashprice3', MoneyType::class, [
                     'required' => false,
-                    'label' => 'Third place',
+                    'label' => 'Troisième place',
                     'attr' => [
                         'class' => 'form-control mb-2',
                         'placeholder' => '500'
@@ -139,7 +139,7 @@ class EventType extends AbstractType
                 ->add('modules', EntityType::class, [
                     'class' => Modules::class,
                     'query_builder' => $this->activeModules,
-                    'label'    => 'Select which modules you want to enable: ',
+                    'label'    => 'Sélectionner les modules à activer:',
                     'choice_label' => 'name',
                     'multiple' => true,
                     'required' => false,
@@ -149,9 +149,9 @@ class EventType extends AbstractType
                 ])
                 ->add('imageFile', VichImageType::class, [
                     'required' => false,
-                    'label'             => 'Picture (.jpg or .png)',
+                    'label'             => 'Image (.jpg, .png ou .gif)',
                     'download_link'     => false,
-                    'delete_label'          => 'Delete image ?'
+                    'delete_label'          => 'Supprimer l\'image ?'
                 ]);
 
         } elseif (!$options['back']) {
@@ -167,7 +167,7 @@ class EventType extends AbstractType
             //back form
             $builder
                 ->add('name', TextType::class, [
-                    'label' => 'Event name:',
+                    'label' => 'Nom:',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control mb-2',
@@ -176,7 +176,7 @@ class EventType extends AbstractType
                 ])
                 ->add('beginnig_date', DateTimeType::class, [
                     'widget' => 'single_text',
-                    'label' => 'Start date:',
+                    'label' => 'Date de début:',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control mb-2',
@@ -184,7 +184,7 @@ class EventType extends AbstractType
                 ])
                 ->add('end_date', DateTimeType::class, [
                     'widget' => 'single_text',
-                    'label' => 'End date:',
+                    'label' => 'Date de fin:',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control mb-2',
@@ -196,7 +196,7 @@ class EventType extends AbstractType
                         'Payant' => Event::REGISTRATION_TYPE_PAYING,
                     ],
                     'required' => true,
-                    'label' => 'Registration type:',
+                    'label' => 'Type d\'inscription:',
                     'attr' => [
                         'class' => 'form-control mb-2',
                     ],
